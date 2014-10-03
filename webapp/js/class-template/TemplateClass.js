@@ -1,8 +1,4 @@
 /**
- * Created by Macs on 26/09/14.
- */
-
-/**
  * @class: TemplateClass
  * @description template class
  *
@@ -12,6 +8,9 @@
  * @constructor description of constructor
  */
 function TemplateClass(arg1, arg2, arg3) {
+    // Call the base class constructor
+    BaseClass.call();
+
     // PRIVATE ATTRIBUTES
     var self = this;
 
@@ -43,4 +42,14 @@ function TemplateClass(arg1, arg2, arg3) {
     var thisIsAPrivateMethod = function() {
 
     };
+
+    /**
+     * Initialization stuffs
+     */
+    var init = function() {
+
+    } ();
 }
+
+// States that TemplateClass inherits from BaseClass
+TemplateClass.extend(BaseClass);

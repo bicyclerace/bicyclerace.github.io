@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Massimo's experiments</title>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="fonts/icons.css"/>
+    <link rel="stylesheet" href="styles/generics.css"/>
+    <script src="js/external-libraries/jquery-2.1.1.js"></script>
+    <script src="js/main.js"></script>
+</head>
+<body>
+
+<div id="wrapper">
+    <div class="map-tool">
+        <div class="push-bottom">
+            <div class="tool-window" id="time-window">
+                <div>
+                    <div class="time-bar">
+                        <div class="current-time-bar"></div>
+                    </div>
+                    <div class="day-categories">
+                        <span class="night"></span>
+                        <span class="sunrise"></span>
+                        <span class="morning"></span>
+                        <span class="afternoon"></span>
+                        <span class="sunset"></span>
+                        <span class="evening"></span>
+                    </div>
+                    <div class="play-controls">
+                        <span id="play-button" class="icon-play2"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="tool-window" id="calendar-window">
+                <div>
+                <div class="tile">
+
+                        <h1>From</h1>
+                        <div class="datepicker">
+                            <div class="month">
+                                <span>-</span>
+                                <span>Jan</span>
+                                <span>+</span>
+                            </div>
+                            <div class="day">
+                                <span>-</span>
+                                <span>30</span>
+                                <span>+</span>
+                            </div>
+                        </div>
+
+                </div>
+                <div class="tile">
+
+                        <h1>To</h1>
+                        <div class="datepicker">
+                            <div class="month">
+                                <span>-</span>
+                                <span>Feb</span>
+                                <span>+</span>
+                            </div>
+                            <div class="day">
+                                <span>-</span>
+                                <span>14</span>
+                                <span>+</span>
+                            </div>
+                        </div>
+
+                </div>
+                </div>
+            </div>
+            <div class="tool-window" id="map-window">
+                <div>
+                    <h1>Map settings</h1>
+                    <p>Community grid <span class="icon-checkbox-checked"></span></p>
+                </div>
+            </div>
+
+            <div class="bottom-toolbar">
+                <button id="calendar" class="icon-calendar2"></button>
+                <button id="time" class="icon-clock"></button>
+                <button id="map-settings" class="icon-map2"></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--<span class="icon-arrow-down"></span>-->
+</body>
+</html>

@@ -1,0 +1,203 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+}
+
+button {
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background-color: rgba(0,0,0,0);
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    font-weight: 300;
+    font-size: 25px;
+}
+
+#wrapper {
+    width: 1400px;
+    height: 500px;
+    margin: 10px auto;
+    background-color: #ecf0f1;
+}
+
+.map-tool {
+    width: 35%;
+    height: 100%;
+    background-color: #7fbf7b;
+    position: relative;
+}
+
+.push-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
+.bottom-toolbar {
+    width: 100%;
+    height: 50px;
+    background-color: #292421;
+}
+
+.bottom-toolbar > * {
+    display: inline-block;
+}
+
+.tool-window {
+    width: 100%;
+    /*height: 100px;*/
+    background-color: #F6F6F6;
+    position: relative;
+    display: none;
+
+}
+
+.tool-window > * {
+    padding: 10px;
+}
+
+.tool-window .push-bottom {
+    background-color: #F6F6F6;
+}
+
+.bottom-toolbar button {
+    height: 50px;
+    width: 50px;
+    font-size: 20px;
+
+    color: #F6F6F6;/*#ecf0f1;*/
+}
+
+.bottom-toolbar button.selected {
+    color: #292421;
+    background-color: #F6F6F6;
+}
+
+.icon-clock.selected:before {
+    content: "\e607";
+}
+
+.icon-map2.selected:before {
+    content: "\e604";
+}
+
+
+/*TIME PLAY*/
+.time-bar {
+    width: 100%;
+    height: 7px;
+    background-color: #bdc3c7;
+    position: relative;
+    margin-left: -10px;
+    padding-right: 20px;
+    margin-top: -10px;
+}
+
+.current-time-bar {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 100%;
+    width: 67%;
+    background-color: #34495e;/*#379F7A;*/
+}
+
+.day-categories {
+    width: 100%;
+    font-size: 12px;
+    height: 15px;
+}
+
+.day-categories > span {
+    color: #292421;
+    height: 15px;
+    float: left;
+}
+
+.day-categories .sunrise {
+    background-color: #F1F0C1;
+    width: 4%;
+
+}
+
+.day-categories .morning {
+    background-color: #D9E7EB;
+    width: 20%;
+}
+
+.day-categories .afternoon {
+    background-color: #C2D4F3;
+    width: 30%;
+}
+
+.day-categories .sunset {
+    background-color: #F7D7B0;
+    width: 4%;
+}
+
+.day-categories .evening {
+    background-color: #7797A8;/*#2A5978;*/
+    width: 17%;
+}
+
+.day-categories .night {
+    background-color: #2A5978;/*#13385C;*/
+    width: 25%;
+}
+
+.hours-labels {
+    font-size: 10px;
+    width: 100%;
+    float: left;
+}
+
+.hours-labels > span {
+    float: left;
+    width: 4.15%;
+}
+
+.play-controls {
+    text-align: center;
+}
+
+
+#play-button {
+    font-size: 30px;
+}
+
+
+.tile {
+    width: 49%;
+    display: inline-block;
+    text-align: center;
+}
+
+.datepicker {
+    text-align: center;
+}
+
+.datepicker > * {
+    display: inline-block;
+    padding-right: 20px;
+}
+
+
+
+
+
+
+
+
+
