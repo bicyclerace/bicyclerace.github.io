@@ -4,15 +4,17 @@
  */
 
 // Data structure which holds shared data between different model instances
-var sharedDataModel = sharedDataModel || {};
+var sharedModel = sharedModel || {};
 
 // Shared DBModel
-var dbModel = dbModel || new DBModel();
+var databaseModel = databaseModel || new DBModel();
+
+var modelsIdCounter = 0;
 
 function Model() {
     // PRIVATE ATTRIBUTES
     var self = this;
-
+    var _id = modelsIdCounter++;
     var _notificationCenter;
 
     // PUBLIC METHODS
@@ -29,7 +31,14 @@ function Model() {
      */
     this.getDBModel = function() {
         return dbModel;
-    }
+    };
+
+    /**
+     * @returns an id identifying this model (and then the map container) inside the App
+     */
+    this.getId = function() {
+        return _id;
+    };
 
     /* EXAMPLE
     this.setStation = function(id) {

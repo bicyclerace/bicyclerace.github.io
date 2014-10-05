@@ -7,9 +7,18 @@ body {
 }
 
 .map-controller-container {
-
     min-height: 100vh;
     background: #C2D4F3;
+    -webkit-flex: 1;
+    flex: 1;
+    -webkit-order: 1;
+    order: 1;
+}
+
+.overview-map-controller-container {
+    min-height: 100vh;
+    max-width: 50vh;
+    background: #7797A8;
     -webkit-flex: 1;
     flex: 1;
     -webkit-order: 1;

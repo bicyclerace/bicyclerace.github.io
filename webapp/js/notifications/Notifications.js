@@ -14,6 +14,11 @@ Notifications.mapController = {
     STATION_HAS_BEEN_SELECTED : "com.divvy.mapController.stationSelected"
 };
 
+Notifications.mapContainerController = {
+    //Whenever a new map is open/closed or changed the viewed area
+    MAP_CONFIGURATION_CHANGED : "com.divvy.mapContainerController.mapConfigurationChanged"
+};
+
 Notifications.newGroupOfNotifications = {
     SOMETHINGS_HAS_HAPPENED : "com.divvy.whatever"
 };

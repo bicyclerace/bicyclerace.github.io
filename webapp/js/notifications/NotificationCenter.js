@@ -44,4 +44,4 @@ function NotificationCenter () {
     } ();
 }
 
-var notificationCenter = notificationCenter || new NotificationCenter();
+var sharedNotificationCenter = sharedNotificationCenter || new NotificationCenter();
