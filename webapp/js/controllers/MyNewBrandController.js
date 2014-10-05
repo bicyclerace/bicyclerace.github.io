@@ -32,4 +32,4 @@ function BrandNew (parent, htmlContainer) {
 
 }
 
-BrandNew.extend(ViewController);
+Utils.extend(BrandNew, ViewController);

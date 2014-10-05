@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>jQuery.getJSON demo</title>
+    <style>
+        img {
+            height: 100px;
+            float: left;
+        }
+    </style>
+    <script src="//code.jquery.com/jquery-2.1.1.js"></script>
+</head>
+<body>
+
+<div id="images"></div>
+
+<script>
+    (function() {
+        var flickerAPI = "http://fpadua2.people.uic.edu/divvy_api/get_all_stations";
+        $.getJSON( flickerAPI)
+                .done(function( data ) {
+                   console.log(data);
+                });
+    })();
+</script>
+
+</body>
+</html>

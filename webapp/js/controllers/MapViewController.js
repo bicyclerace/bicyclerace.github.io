@@ -33,4 +33,4 @@ function MapViewController(parentController, htmlContainer) {
 }
 
 // Inheritance
-MapViewController.extend(ViewController);
+Utils.extend(MapViewController, ViewController);

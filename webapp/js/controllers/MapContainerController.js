@@ -68,7 +68,7 @@ function MapContainerController(htmlContainer) {
 }
 
 
-MapContainerController.extend(ViewController);
+Utils.extend(MapContainerController, ViewController);
 
 
 

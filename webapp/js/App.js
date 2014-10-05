@@ -19,9 +19,16 @@ function App() {
      * Initialization stuffs
      */
     var init = function() {
-        var body = d3.select("body");
-        _mainWindowController = new WindowController(body);
 
-        _mainWindowController.addMap();
+        //Before doing anything, load the base resources
+        dbModel.loadBasicResources(function() {
+            //Then init the window controller
+            var body = d3.select("body");
+            _mainWindowController = new WindowController(body);
+
+            _mainWindowController.addMap();
+        });
+
+
     } ();
 }
