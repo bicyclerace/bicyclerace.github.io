@@ -17,7 +17,9 @@ function VisualizationModuleController(htmlContainer) {
 
     var _htmlContainer = htmlContainer;
 
+    // Children controllers
     var _mapViewController;
+    var _mapOverlayController;
 
 
     // PUBLIC METHODS
@@ -55,7 +57,8 @@ function VisualizationModuleController(htmlContainer) {
         var mapViewDiv = _htmlContainer.append("div").classed("map-view-controller", true);
         _mapViewController = new MapViewController(self, mapViewDiv);
 
-        var svg = _htmlContainer.append("svg").classed("map-tools-container", true);
+        var svg = _htmlContainer.append("svg").classed("map-overlay-controller", true);
+        _mapOverlayController = new MapOverlayController(self, svg);
     };
 
     var init = function() {

@@ -5,7 +5,7 @@
     z-index: 2;
 }
 
-.map-tools-container {
+.map-overlay-controller {
     position: absolute;
     width: 100%;
     height: 100%;
