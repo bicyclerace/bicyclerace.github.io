@@ -71,7 +71,7 @@ function MapOverlayController(parentController, svgContainer) {
 
         //Draw Top Line
         _topLineRect = _svgContainer.append("rect")
-            .attr("width", "100%")
+            .attr("width", _viewBoxWidth)
             .attr("height", _topLineHeight)
             .attr("fill", self.getModel().getColorModel().getIdentificationColor())
             .classed("top-line-rect", true);
