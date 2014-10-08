@@ -1,12 +1,12 @@
 
 /**
- * @class: MapContainerController
+ * @class: VisualizationModuleController
  * @description template class
  *
  * @param htmlContainer = a d3 selection of the html container inside which the MapContainerController should
  * render its view.
  */
-function MapContainerController(htmlContainer) {
+function VisualizationModuleController(htmlContainer) {
     // Call the base class constructor
     ViewController.call(this, null);
 
@@ -51,9 +51,11 @@ function MapContainerController(htmlContainer) {
 
     // PRIVATE METHODS
     var draw = function() {
-        _htmlContainer.append("p").text("I am a the map container module!");
-        var mapViewDiv = _htmlContainer.append("div").classed("map-view-container", true);
+        // Draw map view container
+        var mapViewDiv = _htmlContainer.append("div").classed("map-view-controller", true);
         _mapViewController = new MapViewController(self, mapViewDiv);
+
+        var svg = _htmlContainer.append("svg").classed("map-tools-container", true);
     };
 
     var init = function() {
@@ -68,7 +70,7 @@ function MapContainerController(htmlContainer) {
 }
 
 
-Utils.extend(MapContainerController, ViewController);
+Utils.extend(VisualizationModuleController, ViewController);
 
 
 

@@ -30,7 +30,7 @@ function Model() {
      * @returns The DBModel object, which contains all the interfaces to the database{dbModel|*|DBModel}
      */
     this.getDBModel = function() {
-        return dbModel;
+        return databaseModel;
     };
 
     /**

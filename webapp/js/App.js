@@ -29,8 +29,8 @@ function App() {
             _mainWindowController = new WindowController(body);
             _mainWindowController.addOverviewMap();
             _mainWindowController.addMap();
-            _mainWindowController.addMap();
-            _mainWindowController.addMap();
+            //_mainWindowController.addMap();
+            //_mainWindowController.addMap();
         });
 
 

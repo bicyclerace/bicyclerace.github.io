@@ -24,11 +24,16 @@ function DBModel() {
             .await(callback);
     };
 
+    /**
+     *
+     * @param trip_id
+     * @param callback
+     */
     self.getTripById = function(trip_id, callback) {
         logUrl(url);
         $.getJSON( _dbServer + "get_trip_by_id?trip_id=" + trip_id )
             .done(callback)
-            .fail(_failCallback());
+            .fail(_failCallback);
     };
 
     /**
@@ -52,6 +57,12 @@ function DBModel() {
             .fail(_failCallback);
     };
 
+    /**
+     *
+     * @param startDate
+     * @param endDate
+     * @param callback
+     */
     self.getStationsInflow = function(startDate, endDate, callback) {
         var start = (startDate).getTime()/1000;
         var end = (endDate).getTime()/1000;
@@ -62,6 +73,12 @@ function DBModel() {
             .fail(_failCallback);
     };
 
+    /**
+     *
+     * @param startDate
+     * @param endDate
+     * @param callback
+     */
     self.getStationsOutflow = function(startDate, endDate, callback) {
         var start = (startDate).getTime()/1000;
         var end = (endDate).getTime()/1000;

@@ -6,7 +6,7 @@ body {
     flex-flow: row;
 }
 
-.map-controller-container {
+.visualization-module-controller {
     min-height: 100vh;
     background: #C2D4F3;
     -webkit-flex: 1;

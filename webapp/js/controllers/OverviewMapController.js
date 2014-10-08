@@ -49,7 +49,7 @@ function OverviewMapController(htmlContainer) {
         _htmlContainer.append("p").text("Map configuration changed");
 
         //access all the maps open
-        divvyApp.getMainWindowController().getMapsControllers().forEach(
+        divvyApp.getMainWindowController().getVisualizationModulesControllers().forEach(
             function(map){
                 var mapModel = map.getModel();
                 // mapModel.getId() returns an handy and nice id to identify a map

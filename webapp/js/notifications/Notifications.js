@@ -8,7 +8,7 @@ var Notifications = Notifications || {};//function() {};
 
 
 /**
- * MapContainerController notifications sub-namespace
+ * VisualizationModuleController notifications sub-namespace
  */
 Notifications.mapController = {
     STATION_HAS_BEEN_SELECTED : "com.divvy.mapController.stationSelected"

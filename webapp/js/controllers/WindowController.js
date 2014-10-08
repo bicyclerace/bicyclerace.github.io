@@ -10,7 +10,7 @@ function WindowController(htmlContainer) {
 
     var _htmlContainer = htmlContainer;
 
-    var _mapsControllers = [];
+    var _visualizationModulesControllers = [];
     var _overviewMap;
 
 
@@ -22,16 +22,16 @@ function WindowController(htmlContainer) {
     };
 
     this.addMap = function() {
-        var mapContainer = _htmlContainer.append("div").classed("map-controller-container", true);
-        var mapController = new MapContainerController(mapContainer);
-        _mapsControllers.push(mapController);
+        var mapContainer = _htmlContainer.append("div").classed("visualization-module-controller", true);
+        var mapController = new VisualizationModuleController(mapContainer);
+        _visualizationModulesControllers.push(mapController);
 
         //dispatch an event that something has changed in the map configuration
         sharedNotificationCenter.dispatch(Notifications.mapContainerController.MAP_CONFIGURATION_CHANGED);
     };
 
-    this.getMapsControllers = function() {
-        return _mapsControllers.slice(0);
+    this.getVisualizationModulesControllers = function() {
+        return _visualizationModulesControllers.slice(0);
     };
 
 
