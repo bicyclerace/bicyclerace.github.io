@@ -8,17 +8,18 @@ body {
 
 .visualization-module-controller {
     min-height: 100vh;
-    background: #C2D4F3;
+    background: white;
     -webkit-flex: 1;
     flex: 1;
     -webkit-order: 1;
     order: 1;
 }
 
-.overview-map-controller-container {
+.overview-map-controller {
     min-height: 100vh;
     max-width: 50vh;
-    background: #7797A8;
+    background: #292421;
+    color: #eee;
     -webkit-flex: 1;
     flex: 1;
     -webkit-order: 1;
