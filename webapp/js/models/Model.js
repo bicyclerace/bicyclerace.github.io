@@ -16,6 +16,7 @@ function Model() {
     var self = this;
     var _id = modelsIdCounter++;
     var _notificationCenter;
+    var _colorsModel;
 
     // PUBLIC METHODS
     /**
@@ -24,6 +25,13 @@ function Model() {
      */
     this.getNotificationCenter = function() {
         return _notificationCenter;
+    };
+
+    /**
+     * @returns the color model
+     */
+    this.getColorModel = function() {
+        return _colorsModel;
     };
 
     /**
@@ -52,5 +60,6 @@ function Model() {
      */
     var init = function() {
         _notificationCenter = new NotificationCenter();
+        _colorsModel = new ColorsModel(_id);
     } ();
 }

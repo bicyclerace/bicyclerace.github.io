@@ -25,6 +25,12 @@ function MapOverlayController(parentController, svgContainer) {
     var _chartsContainerController;
     var _bottomBarController;
 
+    //svg elements
+    var _topLineRect;
+
+    //svg elements dimensions
+    var _topLineHeight = 20;
+
 
     // PUBLIC METHODS
 
@@ -43,6 +49,7 @@ function MapOverlayController(parentController, svgContainer) {
         var toolsSvg = _svgContainer.append("svg")
             .attr("width", _toolsWidth)
             .attr("height", _viewBoxHeight - _bottomBarHeight)
+            .attr("fill","F00")
             .classed("tools-container-controller", true);
 
         var chartsSvg = _svgContainer.append("svg")
@@ -60,11 +67,20 @@ function MapOverlayController(parentController, svgContainer) {
         _toolContainerController = new ToolsContainerController(self, toolsSvg);
         _chartsContainerController = new ChartsContainerController(self, chartsSvg);
         _bottomBarController = new BottomBarController(self, barSvg);
+
+
+        //Draw Top Line
+        _topLineRect = _svgContainer.append("rect")
+            .attr("width", "100%")
+            .attr("height", _topLineHeight)
+            .attr("fill", self.getModel().getColorModel().getIdentificationColor())
+            .classed("top-line-rect", true);
     };
 
     var init = function() {
         _svgContainer
-            .attr("viewBox", "0 0 " + _viewBoxWidth + " " + _viewBoxHeight);
+            .attr("viewBox", "0 0 " + _viewBoxWidth + " " + _viewBoxHeight)
+            .attr("preserveAspectRatio", "xMidYMin meet");
         draw();
     } ();
 }
