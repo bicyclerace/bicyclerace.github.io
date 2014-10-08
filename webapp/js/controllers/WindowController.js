@@ -17,7 +17,7 @@ function WindowController(htmlContainer) {
     // PUBLIC METHODS
 
     this.addOverviewMap = function() {
-        var overviewMapContainer = _htmlContainer.append("div").classed("overview-map-controller-container", true);
+        var overviewMapContainer = _htmlContainer.append("div").classed("overview-map-controller", true);
         _overviewMap = new OverviewMapController(overviewMapContainer);
     };
 
