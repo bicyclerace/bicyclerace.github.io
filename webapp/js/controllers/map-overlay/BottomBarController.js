@@ -14,7 +14,7 @@ function BottomBarController(parentController, svgContainer) {
 
     var _svgContainer = svgContainer;
     var _viewBoxWidth = 3200;
-    var _viewBoxHeight = 1000;
+    var _viewBoxHeight = 100;
 
 
     // PUBLIC METHODS
