@@ -25,6 +25,9 @@ function BottomBarController(parentController, svgContainer) {
 
 
     // PUBLIC METHODS
+    /**
+     * Handler for the visualization type changed notification
+     */
     this.visualizationTypeChanged = function() {
         _svgContainer.select(".selected").classed("selected", false);
         var selectedItem = self.getModel().getVisualizationTypeModel().getCurrentVisualizationType();
