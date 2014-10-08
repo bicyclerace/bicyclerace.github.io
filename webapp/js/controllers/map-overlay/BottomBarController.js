@@ -37,7 +37,6 @@ function BottomBarController(parentController, svgContainer) {
 
     // PRIVATE METHODS
     var draw = function() {
-        dio = _svgContainer;
         var gBarContainer = _svgContainer.append("g").classed("bar-container", true);
 
         var barBackgroundRect = gBarContainer.append("rect")
@@ -51,14 +50,15 @@ function BottomBarController(parentController, svgContainer) {
         gBarButtons.enter()
             .append("g")
                 .classed("bar-button-item", true)
+                .classed("selected", function(d) {
+                    return d.value == self.getModel().getVisualizationTypeModel().getCurrentVisualizationType();
+                })
                 .attr("transform", function(d, i) {
                     var x = i * _buttonWidth;
                     var y = 0;
                     return "translate(" + x + "," + y + ")";
                 })
                 .on("click", function(d) {
-                    //_svgContainer.select(".selected").classed("selected", false);
-                    //d3.select(this).classed("selected", true);
                     self.getModel().getVisualizationTypeModel().setVisualizationType(d.value);
                 });
 
