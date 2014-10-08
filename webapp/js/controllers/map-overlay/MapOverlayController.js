@@ -80,7 +80,7 @@ function MapOverlayController(parentController, svgContainer) {
     var init = function() {
         _svgContainer
             .attr("viewBox", "0 0 " + _viewBoxWidth + " " + _viewBoxHeight)
-            .attr("preserveAspectRatio", "xMidYMin meet");
+            .attr("preserveAspectRatio", "xMinYMin meet");
         draw();
     } ();
 }

@@ -1,0 +1,22 @@
+.map-overlay-controller .background {
+    fill: rgba(41,36,33,0.9);
+}
+
+.map-overlay-controller .bar-container .bar-button-item text {
+    fill: white;
+    pointer-events: none;
+    font-size: 26px;
+}
+
+.map-overlay-controller .bar-container .bar-button-item .background {
+    fill: rgba(0,0,0,0); /* transparent */
+}
+
+/* Bar button item selected */
+.map-overlay-controller .bar-container .bar-button-item.selected .background {
+    fill: rgba(246, 246, 246, 1);
+}
+
+.map-overlay-controller .bar-container .bar-button-item.selected text {
+    fill: rgba(41,36,33,1);
+}
