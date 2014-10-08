@@ -22,3 +22,7 @@ Notifications.mapContainerController = {
 Notifications.newGroupOfNotifications = {
     SOMETHINGS_HAS_HAPPENED : "com.divvy.whatever"
 };
+
+Notifications.visualizationTypeStatus = {
+    VISUALIZATION_TYPE_CHANGED : "com.divvy.visualizationTypeStatus.typeChanged"
+};

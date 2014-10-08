@@ -18,6 +18,9 @@ function Model() {
     var _notificationCenter;
     var _colorsModel;
 
+    // Hold the status of the current visualization context
+    var _visualizationTypeModel;
+
     // PUBLIC METHODS
     /**
      * get notification center associated to this model
@@ -42,6 +45,14 @@ function Model() {
     };
 
     /**
+     *
+     * @returns {*}
+     */
+    this.getVisualizationTypeModel = function() {
+        return _visualizationTypeModel;
+    };
+
+    /**
      * @returns an id identifying this model (and then the map container) inside the App
      */
     this.getId = function() {
@@ -61,5 +72,6 @@ function Model() {
     var init = function() {
         _notificationCenter = new NotificationCenter();
         _colorsModel = new ColorsModel(_id);
+        _visualizationTypeModel = new VisualizationTypeModel(self);
     } ();
 }

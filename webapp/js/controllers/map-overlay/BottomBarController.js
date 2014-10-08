@@ -18,10 +18,18 @@ function BottomBarController(parentController, svgContainer) {
 
     // UI dimensions
     var _buttonWidth = 250;
-    var _buttonHeight = _viewBoxHeight
+    var _buttonHeight = _viewBoxHeight;
+
+    // Data structures
+    var _buttonsBindings = {};
 
 
     // PUBLIC METHODS
+    this.visualizationTypeChanged = function() {
+        _svgContainer.select(".selected").classed("selected", false);
+        var selectedItem = self.getModel().getVisualizationTypeModel().getCurrentVisualizationType();
+        _buttonsBindings[selectedItem].classed("selected", true);
+    };
 
 
     // PRIVATE METHODS
@@ -46,8 +54,9 @@ function BottomBarController(parentController, svgContainer) {
                     return "translate(" + x + "," + y + ")";
                 })
                 .on("click", function(d) {
-                    _svgContainer.select(".selected").classed("selected", false);
-                    d3.select(this).classed("selected", true);
+                    //_svgContainer.select(".selected").classed("selected", false);
+                    //d3.select(this).classed("selected", true);
+                    self.getModel().getVisualizationTypeModel().setVisualizationType(d.value);
                 });
 
         gBarButtons.append("rect")
@@ -66,12 +75,16 @@ function BottomBarController(parentController, svgContainer) {
             .text(function(d) {
                 return d.value;
             });
+
+        gBarButtons.each(function(d) {
+            _buttonsBindings[d.value] = d3.select(this);
+        });
     };
 
     var getVisualizationTypes = function() {
         var data = [];
 
-        for(var key in VisualizationType) {
+        for(var key in self.getModel().getVisualizationTypeModel().getAvailableVisualizationTypes()) {
             data.push({
                 name: key,
                 value: VisualizationType[key]
@@ -84,6 +97,9 @@ function BottomBarController(parentController, svgContainer) {
     var init = function() {
         _svgContainer
             .attr("viewBox", "0 0 " + _viewBoxWidth + " " + _viewBoxHeight);
+
+        self.getNotificationCenter()
+            .subscribe(self, self.visualizationTypeChanged, Notifications.visualizationTypeStatus.VISUALIZATION_TYPE_CHANGED);
         draw();
     } ();
 }

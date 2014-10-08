@@ -2,6 +2,11 @@
 var avilableIdentificationColors = ["#F33","#FF9000"];
 var identificationColorsBindings = {};
 
+/**
+ *
+ * @param modelId
+ * @constructor
+ */
 function ColorsModel(modelId) {
     var self = this;
     var _modelId = modelId;
