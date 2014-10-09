@@ -22,6 +22,25 @@ function ToolTileViewController(parentController, svgContainer) {
     var _padding = {top: 10, left: 10, bottom: 10, right: 10};
 
     // PUBLIC METHODS
+
+    /**
+     *
+     * @returns {*}
+     */
+    this.getSvgContainer = function() {
+        return _svgContainer;
+    };
+
+
+    /**
+     *
+     * @returns {number}
+     */
+    this.getAspectRatio = function() {
+        return _viewBox.width / _viewBox.height;
+    };
+
+
     /**
      *
      * @param top
@@ -35,6 +54,13 @@ function ToolTileViewController(parentController, svgContainer) {
         _padding.left = left;
         _padding.right = right;
         update();
+    };
+
+    /**
+     * @returns {{top: number, left: number, bottom: number, right: number}}
+     */
+    this.getPadding = function() {
+        return _padding;
     };
 
     /**

@@ -16,9 +16,6 @@ function PlayDayToolController(parentController, svgContainer) {
     var _viewBoxHeight = 100;
 
     // PUBLIC METHODS
-    this.getAspectRatio = function() {
-        return _viewBoxWidth / _viewBoxHeight;
-    };
 
     // PRIVATE METHODS
     var draw = function() {

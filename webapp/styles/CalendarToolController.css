@@ -1,0 +1,18 @@
+.calendar-tool-controller-day-text {
+    fill: #FFFFFF;
+    font-size: 10;
+}
+
+
+.calendar-tool-controller-calendar-button {
+    fill: #FFFFFF;
+}
+
+.calendar-tool-controller-calendar-button .selected  {
+    fill: #292421;
+}
+
+
+.calendar-tool-controller-calendar-button-background{
+    fill: #FFFFFF;
+}

@@ -1,0 +1,7 @@
+.calendar-picker-controller-background {
+    fill: #FFFFFF;
+}
+
+.map-overlay-controller .tools-container-controller .tool-tile-view-controller.calendar-picker-controller .background {
+    opacity: 0;
+}
