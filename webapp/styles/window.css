@@ -19,8 +19,7 @@ body {
 
 .overview-map-controller {
     min-height: 100%;
-    max-width: 50vh;
-    background: #292421;
+    max-width: 18%;
     color: #eee;
     -webkit-flex: 1;
     flex: 1;

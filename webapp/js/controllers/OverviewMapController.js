@@ -16,10 +16,17 @@ function OverviewMapController(htmlContainer) {
     var _model;
 
     var _htmlContainer = htmlContainer;
-
+    var _svgContainer;
 
     var _mapViewController;
 
+    //sizes
+    var _viewBoxWidth = 702;
+    var _viewBoxHeight = 1000;
+    var _logoWith   = 120,
+        _logoHeight = 50;
+
+    var _padding = {left: 20, top: 30, right: 20, bottom: 20};
 
     // PUBLIC METHODS
 
@@ -60,7 +67,27 @@ function OverviewMapController(htmlContainer) {
 
     // PRIVATE METHODS
     var draw = function() {
-        _htmlContainer.append("p").text("Overview Map");
+        //add svg main container
+        _svgContainer = _htmlContainer.append("svg")
+            .classed("overview-map-controller-svg", true)
+            .attr("viewBox","0 0 " + _viewBoxWidth + " " + _viewBoxHeight)
+            .attr("preserveAspectRatio","xMinYMin meet");
+
+        //add background rect
+        _svgContainer.append("rect")
+            .classed("overview-map-controller-background", true)
+            .attr("width", "100%")
+            .attr("height", "100%");
+
+        //add logo
+        _svgContainer.append("image")
+            .classed("popup-controller-close-button", true)
+            .attr("xlink:href", "img/overview-map-controller-divvy-logo.png")
+            .attr("x", _viewBoxWidth - _padding.right - _logoWith)
+            .attr("y", _padding.top)
+            .attr("width", _logoWith)
+            .attr("height", _logoHeight)
+            .on("click", function(){parentController.closePopup(self)});
     };
 
     var init = function() {
