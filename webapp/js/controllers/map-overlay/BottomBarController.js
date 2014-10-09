@@ -110,7 +110,7 @@ function BottomBarController(parentController, svgContainer) {
 // Inheritance
 Utils.extend(BottomBarController, ViewController);
 
-
+/*
 var VisualizationType = {
     OVERALL_STATISTICS : "Overall",
     STATION_POPULARITY : "Popularity",
@@ -118,7 +118,7 @@ var VisualizationType = {
     COMPARE : "Compare",
     DAY_PATTERNS : "Patterns",
     STATION_FLOW_BALANCE : "Flow balance"
-};
+};*/
 
 
 

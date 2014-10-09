@@ -7,32 +7,33 @@
  * @constructor
  */
 function PlayDayToolController(parentController, svgContainer) {
-    ViewController.call(this, parentController);
+    ToolTileViewController.call(this, parentController, svgContainer);
     // PRIVATE ATTRIBUTES
     var self = this;
 
     // UI
-    var _svgContainer = svgContainer;
-    var _viewBoxWidth = 380;
-    var _viewBoxHeight = 180;
+    var _viewBoxWidth = 200;
+    var _viewBoxHeight = 100;
 
     // PUBLIC METHODS
+    this.getAspectRatio = function() {
+        return _viewBoxWidth / _viewBoxHeight;
+    };
 
     // PRIVATE METHODS
     var draw = function() {
-        _svgContainer.append("rect")
-            .classed("background", true)
-            .attr("width", _viewBoxWidth)
-            .attr("height", _viewBoxHeight);
+        self.getContentBox()
+            .append("rect")
+                .classed("background", true)
+                .attr("width", "100%")
+                .attr("height", "100%");
     };
 
     var init = function() {
-        _svgContainer
-            .attr("viewBox", "0 0 " + _viewBoxWidth + " " + _viewBoxHeight)
-            .attr("preserveAspectRatio", "xMidYMid meet");
+        self.setViewBox(_viewBoxWidth, _viewBoxHeight);
         draw();
     } ();
 }
 
 // Inheritance
-Utils.extend(PlayDayToolController, ViewController);
+Utils.extend(PlayDayToolController, ToolTileViewController);
