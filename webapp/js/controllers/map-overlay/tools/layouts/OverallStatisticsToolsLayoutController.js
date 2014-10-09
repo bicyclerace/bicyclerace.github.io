@@ -1,12 +1,12 @@
 /**
- * @class OverallStatisticsToolLayoutController
+ * @class OverallStatisticsToolsLayoutController
  * @description
  *
  * @param parentController
  * @param svgContainer
  * @constructor
  */
-function OverallStatisticsToolLayoutController(parentController, svgContainer) {
+function OverallStatisticsToolsLayoutController(parentController, svgContainer) {
     ViewController.call(this, parentController);
     // PRIVATE ATTRIBUTES
     var self = this;
@@ -19,14 +19,17 @@ function OverallStatisticsToolLayoutController(parentController, svgContainer) {
 
     // PRIVATE METHODS
     var draw = function() {
-        _svgContainer.append("text").text("I am OVERALL!!");
+        _svgContainer.append("rect").attr("width", "100%").attr("height", "100%");
+
     };
 
     var init = function() {
         _svgContainer
+            .classed("overall-statistics-tool-layout-controller", true)
             .attr("viewBox", "0 0 " + _viewBox.width + " " + _viewBox.height)
             .attr("preserveAspectRatio", "xMinYMin meet");
+        draw();
     } ();
 }
 
-Utils.extend(OverallStatisticsToolLayoutController, ViewController);
+Utils.extend(OverallStatisticsToolsLayoutController, ViewController);

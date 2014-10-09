@@ -16,11 +16,13 @@ function LayoutFactory() {
     this.getLayoutClass = function(visualizationType) {
         switch(visualizationType) {
             case VisualizationType.OVERALL_STATISTICS:
-                _layoutClass = OverallStatisticsToolLayoutController;
+                _layoutClass = OverallStatisticsToolsLayoutController;
                 break;
+            case VisualizationType.PLAY_A_DAY:
+                _layoutClass = PlayADayToolsLayoutController;
         }
 
-        return new _layoutClass;
+        return _layoutClass;
     };
 
     // PRIVATE METHODS

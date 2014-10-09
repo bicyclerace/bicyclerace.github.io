@@ -47,14 +47,16 @@ function ToolsContainerController(parentController, svgContainer) {
 
     var draw = function() {
         _svgLayoutContainer =
-            _svgContainer.append("svg")
-                .attr("x", _padding.left)
-                .attr("y", _padding.top)
-                .attr("width", _viewBoxWidth - _padding.left - _padding.right)
-                .attr("height", _viewBoxHeight - _padding.top - _padding.bottom);
+            _svgContainer.append("svg");
+
         var currentVisualizationType = self.getModel().getVisualizationTypeModel().getCurrentVisualizationType();
         var layoutClass = _layoutFactory.getLayoutClass(currentVisualizationType);
         _currentLayout = new layoutClass(parentController, _svgLayoutContainer);
+        _svgLayoutContainer
+            .attr("x", _padding.left)
+            .attr("y", _padding.top)
+            .attr("width", _viewBoxWidth - _padding.left - _padding.right)
+            .attr("height", _viewBoxHeight - _padding.top - _padding.bottom);
         /*
         var gToolsGroup = _svgContainer.append("g");
         gToolsGroup.attr("transform", function() {

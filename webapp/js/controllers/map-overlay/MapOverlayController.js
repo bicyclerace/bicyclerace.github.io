@@ -50,7 +50,10 @@ function MapOverlayController(parentController, svgContainer) {
             .classed("tools-container-controller", true)
             .attr("y", _topLineHeight)
             .attr("width", _toolsWidth)
-            .attr("height", _viewBoxHeight - _bottomBarHeight - _topLineHeight);
+            .attr("height", _viewBoxHeight - _bottomBarHeight - _topLineHeight
+
+
+        );
 
         var chartsSvg = _svgContainer.append("svg")
             .classed("charts-container-controller", true)
