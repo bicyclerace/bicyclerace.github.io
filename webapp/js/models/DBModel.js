@@ -8,7 +8,11 @@ function DBModel() {
     var self = this;
 
     var _dbServer = "http://fpadua2.people.uic.edu/divvy_api/";
+
+
+    //cached values
     var _stations = null;
+    var _stations_popularity = null;
 
 
 
@@ -87,6 +91,21 @@ function DBModel() {
         $.getJSON(url)
             .done(callback)
             .fail(_failCallback);
+    };
+
+
+    self.getStationsPopularity = function(callback) {
+        if(_stations_popularity)
+            callback(_stations_popularity);
+        else
+        {
+            var url = _dbServer + "get_stations_popularity.php";
+            logUrl(url);
+            $.getJSON(url)
+                .done(function(json){_stations_popularity = json; callback(json);})
+                .fail(_failCallback);
+        }
+
     };
 
     /**
