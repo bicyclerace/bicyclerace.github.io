@@ -18,8 +18,14 @@ function LayoutFactory() {
             case VisualizationType.OVERALL_STATISTICS:
                 _layoutClass = OverallStatisticsToolsLayoutController;
                 break;
+            case VisualizationType.STATION_POPULARITY:
+                _layoutClass = PopularityToolsLayoutController;
+                break;
             case VisualizationType.PLAY_A_DAY:
                 _layoutClass = PlayADayToolsLayoutController;
+                break;
+            case VisualizationType.DAY_PATTERNS:
+                _layoutClass = PatternsToolLayoutController;
         }
 
         return _layoutClass;

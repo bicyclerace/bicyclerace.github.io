@@ -10,8 +10,6 @@ function ViewController(parentController) {
 
     var _parentController = parentController;
 
-    console.log("ciao");
-
 
     // PUBLIC METHODS
     this.setParentController = function(viewController) {

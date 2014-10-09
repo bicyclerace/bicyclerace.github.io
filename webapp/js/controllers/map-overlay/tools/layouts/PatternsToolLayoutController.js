@@ -1,12 +1,12 @@
 /**
- * @class PlayADayToolsLayoutController
+ * @class PatternsToolLayoutController
  * @description
  *
  * @param parentController
  * @param svgContainer
  * @constructor
  */
-function PlayADayToolsLayoutController(parentController, svgContainer) {
+function PatternsToolLayoutController(parentController, svgContainer) {
     ViewController.call(this, parentController);
     // PRIVATE ATTRIBUTES
     var self = this;
@@ -39,11 +39,11 @@ function PlayADayToolsLayoutController(parentController, svgContainer) {
 
     var init = function() {
         _svgContainer
-            .classed("play-day-tool-layout-controller", true)
+            .classed("patterns-tool-layout-controller", true)
             .attr("viewBox", "0 0 " + _viewBox.width + " " + _viewBox.height)
             .attr("preserveAspectRatio", "xMinYMin meet");
         draw();
     } ();
 }
 
-Utils.extend(PlayADayToolsLayoutController, ViewController);
+Utils.extend(PatternsToolLayoutController, ViewController);

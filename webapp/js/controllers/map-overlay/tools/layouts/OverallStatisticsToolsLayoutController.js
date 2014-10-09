@@ -1,6 +1,6 @@
 /**
  * @class OverallStatisticsToolsLayoutController
- * @description
+ * @description implements
  *
  * @param parentController
  * @param svgContainer
