@@ -1,4 +1,6 @@
 /**
+ * @class LayoutFactory
+ * @description implements a factory that returns tools layout class based on the current visualization type context
  *
  * @constructor
  */
