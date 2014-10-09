@@ -47,22 +47,22 @@ function MapOverlayController(parentController, svgContainer) {
             });*/
 
         var toolsSvg = _svgContainer.append("svg")
+            .classed("tools-container-controller", true)
+            .attr("y", _topLineHeight)
             .attr("width", _toolsWidth)
-            .attr("height", _viewBoxHeight - _bottomBarHeight)
-            .attr("fill","F00")
-            .classed("tools-container-controller", true);
+            .attr("height", _viewBoxHeight - _bottomBarHeight - _topLineHeight);
 
         var chartsSvg = _svgContainer.append("svg")
+            .classed("charts-container-controller", true)
             .attr("x", _toolsWidth)
             .attr("width", _viewBoxWidth - _toolsWidth)
-            .attr("height", _viewBoxHeight - _bottomBarHeight)
-            .classed("charts-container-controller", true);
+            .attr("height", _viewBoxHeight - _bottomBarHeight);
 
         var barSvg = _svgContainer.append("svg")
+            .classed("bottom-bar-controller", true)
             .attr("y", _viewBoxHeight - _bottomBarHeight)
             .attr("width", _viewBoxWidth)
-            .attr("height", _bottomBarHeight)
-            .classed("bottom-bar-controller", true);
+            .attr("height", _bottomBarHeight);
 
         _toolContainerController = new ToolsContainerController(self, toolsSvg);
         _chartsContainerController = new ChartsContainerController(self, chartsSvg);

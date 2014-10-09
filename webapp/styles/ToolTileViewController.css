@@ -1,0 +1,7 @@
+.map-overlay-controller .tools-container-controller .tool-tile-view-controller .background {
+    fill: rgba(41,36,33,1);
+}
+
+.map-overlay-controller .tools-container-controller .tool-tile-view-controller .content .background {
+    fill: rgba(255,0,0,1);
+}
