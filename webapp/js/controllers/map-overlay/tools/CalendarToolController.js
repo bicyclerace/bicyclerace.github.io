@@ -18,7 +18,7 @@ function CalendarToolController(parentController, svgContainer, calendarPickerCo
     var _viewBoxWidth = 300;
     var _viewBoxHeight = 100;
 
-    var _padding = {top: 10, left: 10, bottom: 10, right: 10};
+    var _padding = {top: 20, left: 25, bottom: 20, right: 30};
 
     // PUBLIC METHODS
 
@@ -30,8 +30,9 @@ function CalendarToolController(parentController, svgContainer, calendarPickerCo
             self.getContentBox()
             .append("text")
             .classed("calendar-tool-controller-day-text", true)
-            .attr("x",0)
-            .attr("y",0)
+            .attr("x",_viewBoxWidth - _padding.right)
+            .attr("y",47 + _padding.top)
+            .attr("text-anchor","end")
             .text("Jan 21");
 
 
@@ -40,7 +41,7 @@ function CalendarToolController(parentController, svgContainer, calendarPickerCo
                 .append("rect")
                 .classed("calendar-tool-controller-calendar-button-background", true)
                 .classed("selected", false)
-                .attr("width", _viewBoxHeight + _padding.left*2)
+                .attr("width", _viewBoxHeight + _padding.left)
                 .attr("height", "100%")
                 .attr("opacity", 0)
                 .attr("x",-15)
@@ -51,7 +52,7 @@ function CalendarToolController(parentController, svgContainer, calendarPickerCo
                 .append("image")
                 .classed("calendar-tool-controller-calendar-button", true)
                 .attr("xlink:href", "img/calendar-tool-controller-calendar-button.svg")
-                .attr("width", _viewBoxHeight - _padding.left - _padding.right)
+                .attr("width", _viewBoxHeight - _padding.top - _padding.bottom)
                 .attr("height", _viewBoxHeight - _padding.top - _padding.bottom)
                 .attr("x", _padding.left)
                 .attr("y", _padding.top)
