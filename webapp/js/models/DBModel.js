@@ -63,6 +63,23 @@ function DBModel() {
 
     /**
      *
+     * @param day
+     */
+    self.getTripsForPlayADay = function(day, callback) {
+        var start = (day).getTime()/1000;
+        var endDate = new Date(day.valueOf());
+        endDate.setDate(endDate.getDate() + 1);
+        var end = (endDate).getTime()/1000;
+        var url = _dbServer + "get_trips_for_play_a_day.php?start_date=" + start + "&end_date=" + end;
+
+        logUrl(url);
+        $.getJSON(url)
+            .done(callback)
+            .fail(_failCallback);
+    };
+
+    /**
+     *
      * @param startDate
      * @param endDate
      * @param callback
@@ -124,7 +141,12 @@ function DBModel() {
         logUrl(url);
         $.getJSON( url )
             .done(function( json ) {
-                _stations = json;
+                _stations = d3.nest()
+                              .key(function(d){return d.station_id;})
+                              .rollup(function(d){
+                                    return d[0];})
+                              .map(json);
+
                 callback(null, null);
             })
             .fail(_failCallback);

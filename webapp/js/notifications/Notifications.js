@@ -26,3 +26,9 @@ Notifications.newGroupOfNotifications = {
 Notifications.visualizationTypeStatus = {
     VISUALIZATION_TYPE_CHANGED : "com.divvy.visualizationTypeStatus.typeChanged"
 };
+
+Notifications.time = {
+    DATE_CHANGED : "com.divvy.time.dateChanged",
+    PLAY_STATE_CHANGED  : "com.divvy.time.playStateChanged",
+    TIME_OF_THE_DAY_CHANGED  : "com.divvy.time.timeOfTheDayChanged"
+};
