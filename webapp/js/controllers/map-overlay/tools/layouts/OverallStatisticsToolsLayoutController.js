@@ -19,7 +19,7 @@ function OverallStatisticsToolsLayoutController(parentController, svgContainer) 
 
     // PRIVATE METHODS
     var draw = function() {
-        _svgContainer.append("rect").attr("width", "100%").attr("height", "100%");
+        //_svgContainer.append("rect").attr("width", "100%").attr("height", "100%");
 
     };
 

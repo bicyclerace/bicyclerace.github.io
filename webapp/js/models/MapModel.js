@@ -1,3 +1,8 @@
+/**
+ *
+ * @param parentModel
+ * @constructor
+ */
 function MapModel(parentModel) {
   // PRIVATE ATTRIBUTES
   var self = this;
@@ -13,24 +18,21 @@ function MapModel(parentModel) {
   
   /**
    * 
-   * @returns [lat, lon]
+   * @returns {Array} [latitude, longitude]
    */ 
   this.getFocusPoint = function() {
     return [
       _focusPoint.latitude, 
       _focusPoint.longitude
-    ]
-    
+    ];
   };
   
   
   
+  // PRIVATE METHODS
   
-  
-  // PRIVATE METHODS 
-  
-  
-  var init = function() { }();
+  var init = function() {
+  } ();
   
   
 }
