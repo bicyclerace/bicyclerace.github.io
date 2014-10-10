@@ -23,7 +23,8 @@ function PlayDayToolController(parentController, svgContainer) {
             .append("rect")
                 .classed("background", true)
                 .attr("width", "100%")
-                .attr("height", "100%");
+                .attr("height", "100%")
+            .on("click", function(){self.getModel().getTimeModel().setPlayState(AnimationState.PLAY);});
     };
 
     var init = function() {

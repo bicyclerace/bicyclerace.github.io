@@ -3,27 +3,63 @@
 <head>
     <meta charset="utf-8">
     <title>jQuery.getJSON demo</title>
-    <style>
-        img {
-            height: 100px;
-            float: left;
-        }
-    </style>
-    <script src="//code.jquery.com/jquery-2.1.1.js"></script>
-</head>
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles/theme.css"/>
+    <link rel="stylesheet" href="styles/window.css"/>
 <body>
 
-<div id="images"></div>
+<!-- FIRST WINDOW -->
 
-<script>
-    (function() {
-        var flickerAPI = "http://fpadua2.people.uic.edu/divvy_api/get_all_stations";
-        $.getJSON( flickerAPI)
-                .done(function( data ) {
-                   console.log(data);
-                });
-    })();
-</script>
+<div class="map-controller-container">
+
+    <svg viewBox="0 0 50 30" style="background:red">
+
+        <svg x="80%" y="20%">
+            <g >
+                <rect x="0" y="5" height="10" width="10"/>
+            </g>
+        </svg>
+
+        <g >
+            <rect x="0" y="0" height="10" width="10"/>
+        </g>
+
+        <!-- bottom bar -->
+        <g transform="translate(0,30)">
+            <rect x="0" y="-4" width="100%" height="4"></rect>
+        </g>
+    </svg>
+
+
+</div>
+
+<!-- SECOND WINDOW -->
+
+<div class="map-controller-container">
+
+    <svg viewBox="0 0 50 30" style="background:red">
+
+        <svg x="80%" y="20%">
+            <g >
+                <rect x="0" y="5" height="10" width="10"/>
+            </g>
+        </svg>
+
+
+        <g >
+            <rect x="0" y="0" height="10" width="10"/>
+        </g>
+
+        <!-- bottom bar -->
+        <g transform="translate(0,30)">
+            <rect x="0" y="-4" width="100%" height="4"></rect>
+        </g>
+    </svg>
+
+
+</div>
 
 </body>
+
+<!-- chapter 1 to 9 first midterm
 </html>

@@ -45,6 +45,9 @@ function TimeModel(parentModel) {
 
     // PRIVATE METHODS
     var init = function () {
+        //TODO initial date
+        _date = new Date("10-10-2013");
+
     } ();
 }
 

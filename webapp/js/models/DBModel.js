@@ -133,6 +133,16 @@ function DBModel() {
     };
 
 
+    //HELPERS
+
+    /**
+     * Returns an array [lat,long] given the station id
+     */
+    self.getStationCoordinates = function(station_id) {
+        //return getStat
+    }
+
+
     // PRIVATE FUNCTIONS
 
     var loadStations = function(callback){
@@ -160,6 +170,7 @@ function DBModel() {
         var err = textStatus + ", " + error;
         console.log("Request Failed: " + err);
     };
+
 
 
     /**

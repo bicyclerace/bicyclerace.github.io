@@ -24,6 +24,7 @@ function MapLayerViewControllersFactory() {
                 layersControllers.push(StationsPopularityLayerViewController);
                 break;
             case VisualizationType.PLAY_A_DAY:
+                layersControllers.push(PlayADayLayerViewController);
 
                 break;
             case VisualizationType.DAY_PATTERNS:
