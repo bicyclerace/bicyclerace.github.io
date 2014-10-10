@@ -144,11 +144,7 @@ function ChartsContainerController(parentController, svgContainer) {
     // PRIVATE METHODS
     var draw = function() {
 
-        //TODO TEMP Background
-        _svgContainer.append("rect")
-            .attr("width", "100%")
-            .attr("height", "100%")
-            .attr("fill","#CCCCEE");
+
 
         self.addPopup("single");
         self.addPopup("single");
