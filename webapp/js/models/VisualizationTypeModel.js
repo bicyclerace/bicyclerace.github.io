@@ -31,6 +31,10 @@ function VisualizationTypeModel(parentModel) {
         return _visualizationType;
     };
 
+    /**
+     *
+     * @returns {{OVERALL_STATISTICS: string, STATION_POPULARITY: string, PLAY_A_DAY: string, COMPARE: string, DAY_PATTERNS: string, STATION_FLOW_BALANCE: string}}
+     */
     this.getAvailableVisualizationTypes = function() {
         return VisualizationType;
     };

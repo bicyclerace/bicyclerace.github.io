@@ -1,3 +1,7 @@
+/**
+ *
+ * @type {Utils|*|{}}
+ */
 var Utils = Utils || {} ;
  Utils.extend = function (superclass, base) {
     // Avoid instantiating the base class just to setup inheritance
