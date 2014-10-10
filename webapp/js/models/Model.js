@@ -22,6 +22,10 @@ function Model() {
     // Hold the status of the current visualization context
     var _visualizationTypeModel;
 
+    // Holds the status of the current map context
+    var _mapModel;
+    
+
     // PUBLIC METHODS
     /**
      * get notification center associated to this model
@@ -60,6 +64,15 @@ function Model() {
         return _visualizationTypeModel;
     };
 
+
+    /**
+     * @returns a mapModel object
+     */
+    this.getMapModel = function() {
+        return _mapModel;
+    }
+    
+    
     /**
      * @returns an id identifying this model (and then the map container) inside the App
      */
@@ -82,5 +95,6 @@ function Model() {
         _colorsModel = new ColorsModel(_id);
         _visualizationTypeModel = new VisualizationTypeModel(self);
         _timeModel = new TimeModel(self);
+        _mapModel = new MapModel(self);
     } ();
 }
