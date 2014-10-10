@@ -52,8 +52,8 @@ function MapViewController(parentController, htmlContainer) {
         // to the map
         layersViewControllers.forEach(function(Controller) {
             var layerGroup = L.layerGroup();
-            _layersControllers.push(new Controller(self, layerGroup));
             _mapContainer.addLayer(layerGroup);
+            _layersControllers.push(new Controller(self, layerGroup));
         });
     };
     
