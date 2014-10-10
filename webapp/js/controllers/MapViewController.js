@@ -35,10 +35,13 @@ function MapViewController(parentController, htmlContainer) {
     var draw = function() {
         // Create our Map-container object, this is what will go into the div of the same id.   htmlContainer
         _mapContainer = L.map(_htmlContainer.node(), {
-            center: ,  // Pretty sure these two calls are 
-            zoom: 11,        // the same as .setView(latlon 13)
-        });          
-        _mapContainer.addTo(_mapTilesLayer);
+            center: self.getModel().getMapModel().getFocusPoint(),  // Pretty sure these two calls are
+            zoom: 11,
+            layers: [_mapTilesLayer]
+        });
+
+        //_mapContainer.addTo(_mapTilesLayer);
+        //_mapContainer.addTo
         // L.control.layers(baseMap, extraLayers).addTo(mapContainer);
     };
 

@@ -17,6 +17,7 @@ function Model() {
     var _id = modelsIdCounter++;
     var _notificationCenter;
     var _colorsModel;
+    var _timeModel;
 
     // Hold the status of the current visualization context
     var _visualizationTypeModel;
@@ -46,6 +47,13 @@ function Model() {
      */
     this.getDBModel = function() {
         return databaseModel;
+    };
+
+    /**
+     * @returns the time model
+     */
+    this.getTimeModel = function() {
+        return _timeModel;
     };
 
     /**
@@ -86,6 +94,7 @@ function Model() {
         _notificationCenter = new NotificationCenter();
         _colorsModel = new ColorsModel(_id);
         _visualizationTypeModel = new VisualizationTypeModel(self);
+        _timeModel = new TimeModel(self);
         _mapModel = new MapModel(self);
     } ();
 }

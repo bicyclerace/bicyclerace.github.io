@@ -38,22 +38,6 @@ function MapOverlayController(parentController, svgContainer) {
     // PRIVATE METHODS
     var draw = function() {
 
-        //TODO TEMP Background
-        _svgContainer.append("rect")
-            .attr("width", "100%")
-            .attr("height", "100%")
-            .attr("fill","#CCCCEE");
-
-
-        /*
-        _svgContainer
-            .append("button")
-            .text("I am a station")
-            .on('click', function() {
-                // This dispatch has to be in the model
-                self.getNotificationCenter().dispatch(Notifications.mapController.STATION_HAS_BEEN_SELECTED);
-            });*/
-
         var toolsSvg = _svgContainer.append("svg")
             .classed("tools-container-controller", true)
             .attr("y", _topLineHeight)

@@ -2,6 +2,28 @@
     fill: #FFFFFF;
 }
 
-.map-overlay-controller .tools-container-controller .tool-tile-view-controller.calendar-picker-controller .background {
+.calendar-picker-controller .background {
     opacity: 0;
+}
+
+.calendar-picker-controller-text {
+    fill: #292421;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.calendar-picker-controller-text-background {
+    fill: #FFFFFF
+}
+
+.calendar-picker-controller-text-background.selected {
+    fill: #292421;
+}
+
+
+
+.calendar-picker-controller-text.selected{
+    fill: #FFFFFF;
+    cursor: pointer;
+    font-size: 16px;
 }
