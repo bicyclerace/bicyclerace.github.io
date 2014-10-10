@@ -28,8 +28,14 @@ function StationsPopularityLayerViewController(parentController, layerGroup) {
 
     /////////////////////////// PRIVATE METHODS ////////////////////////////
     var draw = function() {
-        var markerLayer = L.marker(self.getModel().getMapModel().getFocusPoint());
-        _layerGroup.addLayer(markerLayer);
+        //var markerLayer = L.marker(self.getModel().getMapModel().getFocusPoint());
+        var stations = self.getModel().getDBModel().getStations();
+        for(var stationId in stations) {
+            var latitude = stations[stationId].station_latitude;
+            var longitude = stations[stationId].station_longitude;
+            _layerGroup.addLayer(L.marker([latitude, longitude]));
+        }
+        //_layerGroup.addLayer(markerLayer);
 
     };
 
