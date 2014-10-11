@@ -28,10 +28,6 @@ function StationsPopularityLayerViewController(parentController, layerGroup) {
 
     /////////////////////////// PRIVATE METHODS ////////////////////////////
     var draw = function() {
-        var mapPin = L.divIcon({
-            className: "fa fa-map-marker fa-3x popularity"
-        });
-
         var stations = self.getModel().getDBModel().getStations();
         self.getModel().getDBModel().getStationsPopularity(function(popularities) {
             //
@@ -55,10 +51,14 @@ function StationsPopularityLayerViewController(parentController, layerGroup) {
                 var bikesPerDay = popularity["popularity"];
                 _layerGroup.addLayer(L.marker([latitude, longitude], {
                     icon: L.divIcon({
-                        className: "fa fa-map-marker fa-2x popularity" + id
+                        className: "icon-location popularity" + id
+                        //className: "fa fa-map-marker fa-2x popularity" + id
                     })
                 }).bindPopup(name));
-                d3.select(".popularity" + id).data([bikesPerDay]).style("color", popularityColor).style("opacity", 0.75);
+                d3.select(".popularity" + id)
+                    .data([bikesPerDay])
+                    .style("color", popularityColor)
+                    .style("font-size", "30px");
             });
         });
 
