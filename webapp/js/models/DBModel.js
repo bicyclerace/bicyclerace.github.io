@@ -7,7 +7,7 @@ function DBModel() {
     // PRIVATE ATTRIBUTES
     var self = this;
 
-    var _dbServer = "http://fpadua2.people.uic.edu/divvy_api/";
+    var _dbServer = "//fpadua2.people.uic.edu/divvy_api/";
 
 
     //cached values
