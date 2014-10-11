@@ -68,6 +68,15 @@ ul li {
 	font-weight: 400;
 }
 
+.updates ul {
+    list-style: disc;
+}
+
+.updates ul li {
+    display: list-item;
+    margin-left: 20px;
+}
+
 
 
 
