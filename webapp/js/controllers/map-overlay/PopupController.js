@@ -19,10 +19,18 @@ function PopupController(parentController, svgContainer, popupSize) {
     var _viewBoxHeight;
     var _popupSize = popupSize;
     var _closeButtonSize = 30;
+    
+    var _chartController;
 
     var _padding = {left: 14, top: 14, right: 14, bottom:14};
 
     // PUBLIC METHODS
+    
+    this.setChartController = function(value) {
+        _chartController = value;
+        return self;
+    };
+    
     /**
      * @returns the svg where to draw the chart
      */

@@ -35,7 +35,7 @@ function ChartsContainerController(parentController, svgContainer) {
      * @param   size  string which specify the size of the popup "single" or "double"
      * @returns {PopupController} PopupChartController instance
      */
-    this.addPopup = function(size) {
+    this.addPopup = function(size, popup) {
 
         var x, y;
         var popupPosition;
@@ -143,9 +143,8 @@ function ChartsContainerController(parentController, svgContainer) {
 
     // PRIVATE METHODS
     var draw = function() {
-
-
-
+        // var fooChart = new ChartController(this, )
+        
         self.addPopup("single");
         self.addPopup("single");
         self.addPopup("double");
@@ -153,7 +152,6 @@ function ChartsContainerController(parentController, svgContainer) {
     };
 
     var init = function() {
-
         _svgContainer
             .attr("viewBox","0 0 " + _viewBoxWidth + " " + _viewBoxHeight)
             .attr("preserveAspectRatio","xMaxYMin meet");
