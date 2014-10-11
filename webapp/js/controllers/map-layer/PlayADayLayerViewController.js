@@ -11,7 +11,7 @@ function PlayADayLayerViewController(parentController, layerGroup) {
     // PRIVATE ATTRIBUTES
     var self = this;
     var _layerGroup = layerGroup;
-    var _animationSpeed = 100;
+    var _animationSpeed = 50;
     var _svg,_g;
     var _map;
 
@@ -223,8 +223,8 @@ function PlayADayLayerViewController(parentController, layerGroup) {
     var draw = function() {
         _svg = d3.select("#test-lay");
         //TODO SIZES
-        _svg.attr("width",1000);
-        _svg.attr("height",1000);
+        _svg.attr("width",3000);
+        _svg.attr("height",3000);
         _g = _svg.append("g").attr("class", "leaflet-zoom-hide");
         //var svg = d3.select(_layerGroup.getPanes().overlayPane).append("svg");
     };
