@@ -10,7 +10,9 @@ function MapModel(parentModel) {
   var _parentModel = parentModel;
   
   // This is the default latitude and longitude of the Map center.
-  var  _focusPoint = { latitude:41.869912359714654, longitude:-87.64772415161133 };
+
+//    latitude:41.869912359714654, longitude:-87.64772415161133
+  var  _focusPoint = { latitude:41.876320, longitude:-87.572841 };
   
   
   // PUBLIC METHODS
