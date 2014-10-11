@@ -16,7 +16,7 @@ function MapViewController(parentController, htmlContainer) {
     var _htmlContainer = htmlContainer;
 
     var _mapContainer;
-    var _defaultZoom = 11;
+    var _defaultZoom = 10;
     
     var _mapID = 'krbalmryde.jk1dm68f';
     var _mapURL = 'https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png';
@@ -82,7 +82,7 @@ function MapViewController(parentController, htmlContainer) {
         // Initializing the _mapTilesLayer
         _mapTilesLayer = L.tileLayer(_mapURL, {
             id: _mapID, 
-            maxZoom: 18,
+            maxZoom: 20,
             attribution: _mapAttribution
         });
     

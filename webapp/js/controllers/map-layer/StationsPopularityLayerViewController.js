@@ -29,7 +29,7 @@ function StationsPopularityLayerViewController(parentController, layerGroup) {
     /////////////////////////// PRIVATE METHODS ////////////////////////////
     var draw = function() {
         var mapPin = L.divIcon({
-            className: "fa fa-map-marker fa-2x popularity"
+            className: "fa fa-map-marker fa-3x popularity"
         });
 
         var stations = self.getModel().getDBModel().getStations();
@@ -49,6 +49,7 @@ function StationsPopularityLayerViewController(parentController, layerGroup) {
 
             popularities.forEach(function(popularity) {
                 var id = popularity["station_id"];
+                var name = stations[id]["station_name"]
                 var latitude = stations[id]["station_latitude"];
                 var longitude = stations[id]["station_longitude"];
                 var bikesPerDay = popularity["popularity"];
@@ -56,8 +57,8 @@ function StationsPopularityLayerViewController(parentController, layerGroup) {
                     icon: L.divIcon({
                         className: "fa fa-map-marker fa-2x popularity" + id
                     })
-                }));
-                d3.select(".popularity" + id).data([bikesPerDay]).style("color", popularityColor);
+                }).bindPopup(name));
+                d3.select(".popularity" + id).data([bikesPerDay]).style("color", popularityColor).style("opacity", 0.75);
             });
         });
 
