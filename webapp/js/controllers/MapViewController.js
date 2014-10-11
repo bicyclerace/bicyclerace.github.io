@@ -56,7 +56,15 @@ function MapViewController(parentController, htmlContainer) {
             _mapContainer.addLayer(layerGroup);
         });
     };
-    
+
+    /**
+     *
+     * @returns {*}
+     */
+    this.getMapContainer = function() {
+        return _mapContainer;
+    };
+
     /////////////////////////// PRIVATE METHODS ///////////////////////////
     var cleanMap = function() {
         _layersControllers.forEach(function(controller) {
@@ -85,8 +93,12 @@ function MapViewController(parentController, htmlContainer) {
             maxZoom: 18,
             attribution: _mapAttribution
         });
-    
+
+
         draw();
+        //TODO DEBUG
+        var svg = d3.select(_mapContainer.getPanes().overlayPane).append("svg").attr("id", "test-lay");
+
 
         self.getNotificationCenter()
             .subscribe(self, self.visualizationTypeChanged, Notifications.visualizationTypeStatus.VISUALIZATION_TYPE_CHANGED);

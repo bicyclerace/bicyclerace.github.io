@@ -139,8 +139,9 @@ function DBModel() {
      * Returns an array [lat,long] given the station id
      */
     self.getStationCoordinates = function(station_id) {
-        //return getStat
-    }
+        var station = self.getStations()[station_id];
+        return [parseFloat(station.station_latitude), parseFloat(station.station_longitude)];
+    };
 
 
     // PRIVATE FUNCTIONS
