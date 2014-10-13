@@ -13,19 +13,15 @@ function ToolsContainerController(parentController, svgContainer) {
     var self = this;
 
     var _svgContainer = svgContainer;
-    var _viewBoxWidth = 3200;
-    var _viewBoxHeight = 1000;
+    var _viewBoxWidth = 2000;
+    var _viewBoxHeight = 880;
 
-    var _padding = {top: 10, left: 10, bottom: 10, right: 10};
+    var _padding = {top: 5, left: 5, bottom: 5, right: 5};
 
     // Layout
     var _currentLayout;
     var _layoutFactory;
     var _svgLayoutContainer;
-
-    // Tools
-    //var _playDayTool;
-    //var _playDayToolHeight = 200;
 
 
     // PUBLIC METHODS
@@ -33,16 +29,26 @@ function ToolsContainerController(parentController, svgContainer) {
      *
      */
     this.visualizationTypeChanged = function() {
-        clearLayout();
+        cleanLayout();
         var currentVisualizationType = self.getModel().getVisualizationTypeModel().getCurrentVisualizationType();
         var layoutClass = _layoutFactory.getLayoutClass(currentVisualizationType);
+
         _currentLayout = new layoutClass(parentController, _svgLayoutContainer);
+
+        // Setup frame
+        var layoutWidth = _viewBoxWidth - _padding.left - _padding.right;
+        var layoutHeight = _viewBoxHeight - _padding.top - _padding.bottom;
+        _currentLayout.getView().setFrame(_padding.left, _padding.top, layoutWidth, layoutHeight);
+        _currentLayout.getView().setViewBox(0, 0, layoutWidth, layoutHeight);
+        _currentLayout.getView().appendTo(_svgContainer);
+        _currentLayout.updateView();
     };
 
 
     // PRIVATE METHODS
-    var clearLayout = function() {
-        _svgLayoutContainer.html("");
+    var cleanLayout = function() {
+        //_svgLayoutContainer.html("");
+        _svgContainer.html("");
     };
 
     var draw = function() {
@@ -57,22 +63,6 @@ function ToolsContainerController(parentController, svgContainer) {
             .attr("y", _padding.top)
             .attr("width", _viewBoxWidth - _padding.left - _padding.right)
             .attr("height", _viewBoxHeight - _padding.top - _padding.bottom);
-        /*
-        var gToolsGroup = _svgContainer.append("g");
-        gToolsGroup.attr("transform", function() {
-            var x = _padding.left;
-            var y = _padding.top;
-            return "translate(" + x + "," + y + ")";
-        });
-
-        var playDaySvg =
-            gToolsGroup.append("svg")
-                .classed("play-day-tool-controller", true);
-
-        _playDayTool = new PlayDayToolController(self, playDaySvg);
-        playDaySvg
-            .attr("width", _playDayTool.getAspectRatio() * _playDayToolHeight)
-            .attr("height", _playDayToolHeight);*/
     };
 
     var init = function() {

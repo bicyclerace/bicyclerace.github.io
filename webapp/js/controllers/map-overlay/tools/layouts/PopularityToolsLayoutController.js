@@ -13,35 +13,35 @@ function PopularityToolsLayoutController(parentController, svgContainer) {
 
     // UI
     var _svgContainer = svgContainer;
-    var _viewBox = {width: 3200, height: 1000};
+    //var _viewBox = {width: 3200, height: 1000};
 
-    // Tools
-    var _playDayBox = {x: 10, y: 10, height: 200};
-    var _playToolController;
+
+
 
     // PUBLIC METHODS
+    /**
+     * @override
+     */
+    var _superUpdateView = this.updateView;
+    this.updateView = function() {
+        // Put your code here..
+
+        // Call super
+        _superUpdateView.call(self);
+    };
 
     // PRIVATE METHODS
     var draw = function() {
-        // Adding play a day tool
-        var playDaySvg =
-            _svgContainer.append("svg")
-                .classed("play-day-tool-controller", true);
-
-        _playToolController = new PlayDayToolController(self, playDaySvg);
-        playDaySvg
-
-            .attr("width", _playToolController.getAspectRatio() * _playDayBox.height)
-            .attr("height", _playDayBox.height);
-
-        // Add calendar
     };
 
     var init = function() {
+        self.getView().addClass("popularity-tool-layout-controller");
+        // Old
+        /*
         _svgContainer
-            .classed("overall-statistics-tool-layout-controller", true)
+            .classed("popularity-tool-layout-controller", true)
             .attr("viewBox", "0 0 " + _viewBox.width + " " + _viewBox.height)
-            .attr("preserveAspectRatio", "xMinYMin meet");
+            .attr("preserveAspectRatio", "xMinYMin meet");*/
         draw();
     } ();
 }

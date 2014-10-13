@@ -13,6 +13,6 @@
     pointer-events: none;
 }
 
-.map-overlay-controller * {
+.map-overlay-controller > * {
     pointer-events: visiblePainted;
 }
