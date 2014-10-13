@@ -1,6 +1,6 @@
 /**
  * @class: ViewController
- * @description template class
+ * @description ViewController class implements an MVC controller. It contains also the UIView that it manages.
  *
  * @param parentController
  */
@@ -18,18 +18,18 @@ function ViewController(/**ViewController=*/parentController) {
 
     // PUBLIC METHODS
     /**
-     *
-     * @param subviewController
+     * Add a child controller to the View Controller children list and calls updateView of the child
+     * @param childController
      */
-    this.add = function(subviewController) {
-        _children.push(subviewController);
-        subviewController.setParentController(self);
-        self.getView().add(subviewController.getView());
-        subviewController.updateView();
+    this.add = function(childController) {
+        _children.push(childController);
+        childController.setParentController(self);
+        self.getView().add(childController.getView());
+        childController.updateView();
     };
 
     /**
-     *
+     * Add itself to a parent view controller
      * @param parentViewController
      */
     this.addTo = function(parentViewController) {
@@ -37,7 +37,9 @@ function ViewController(/**ViewController=*/parentController) {
     };
 
     /**
-     * Subclasses should override this method
+     * This methods handles views updates.
+     * It is first called when the ViewController is added to a parent view controller.
+     * @override Subclasses should override this method
      */
     this.updateView = function() {
         _children.forEach(function(child) {

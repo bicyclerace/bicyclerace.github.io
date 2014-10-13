@@ -1,6 +1,7 @@
 /**
  * @class UIView
- * @description
+ * @description Implements an abstraction of an underline svg element, with methods to manipulate dimensions
+ * and styles.
  *
  * @constructor
  */
@@ -70,7 +71,7 @@ function UIView() {
     };
 
     /**
-     *
+     * Return a viewBox object
      * @returns {{x: number, y: number, width: number, height: number}}
      */
     this.getViewBox = function() {
@@ -119,7 +120,7 @@ function UIView() {
     };
 
     /**
-     *
+     * Return a frame object
      * @returns {{x: number, y: number, width: number, height: number}}
      */
     this.getFrame = function() {
@@ -172,7 +173,7 @@ function UIView() {
     };
 
     /**
-     *
+     * Set the view viewBox
      * @param x
      * @param y
      * @param width
@@ -183,7 +184,7 @@ function UIView() {
     };
 
     /**
-     *
+     * Set the view position and size in parent coordinates
      * @param x
      * @param y
      * @param width
@@ -201,7 +202,7 @@ function UIView() {
 
     // Event handling
     /**
-     *
+     * Shorthand to set a call back function to the view click event
      * @param callBack
      */
     this.onClick = function(callBack) {
