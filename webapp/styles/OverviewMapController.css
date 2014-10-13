@@ -1,3 +1,14 @@
 .overview-map-controller-background {
     fill: #292421;
 }
+
+.overview-map-controller-community {
+    fill: #EEEEEE;
+    stroke-width: 3;
+    stroke: #EEEEEE;
+}
+
+.overview-map-controller-bound-rect {
+    stroke-width: 12;
+    fill: none;
+}

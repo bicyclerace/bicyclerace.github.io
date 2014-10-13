@@ -11,12 +11,15 @@ var Notifications = Notifications || {};//function() {};
  * VisualizationModuleController notifications sub-namespace
  */
 Notifications.mapController = {
-    STATION_HAS_BEEN_SELECTED : "com.divvy.mapController.stationSelected"
+    STATION_HAS_BEEN_SELECTED : "com.divvy.mapController.stationSelected",
+    //whenever a map change its position / zoom
+    MAP_POSITION_OR_ZOOM_CHANGED : "com.divvy.mapContainerController.mapPositionOrZoomChanged"
 };
 
 Notifications.mapContainerController = {
-    //Whenever a new map is open/closed or changed the viewed area
+    //Whenever a new map is open/closed
     MAP_CONFIGURATION_CHANGED : "com.divvy.mapContainerController.mapConfigurationChanged"
+
 };
 
 Notifications.newGroupOfNotifications = {

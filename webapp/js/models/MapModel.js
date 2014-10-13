@@ -8,6 +8,7 @@ function MapModel(parentModel) {
   var self = this;
   
   var _parentModel = parentModel;
+  var _map;
   
   // This is the default latitude and longitude of the Map center.
 
@@ -22,16 +23,50 @@ function MapModel(parentModel) {
    * 
    * @returns {Array} [latitude, longitude]
    */ 
-  this.getFocusPoint = function() {
-    return [
-      _focusPoint.latitude, 
-      _focusPoint.longitude
-    ];
+  this.getMapBounds = function() {
+       return _map.getBounds();
   };
-  
-  
-  
-  // PRIVATE METHODS
+
+
+  /**
+  *
+  * @returns {*[]}
+  */
+  this.getDefaultFocusPoint = function() {
+      return [
+          _focusPoint.latitude,
+          _focusPoint.longitude
+      ];
+  };
+
+    /**
+     * Set the current leaflet map object to be used with this model
+     * @param map
+     */
+  this.setMap = function(map) {
+      _map = map;
+      _map.on("move", function(){
+          _parentModel.getNotificationCenter().dispatch(Notifications.mapController.MAP_POSITION_OR_ZOOM_CHANGED)
+      });
+  };
+
+
+    /**
+     *
+     * @param lat
+     * @param long
+     * @returns {*}
+     */
+  this.fromLatLngToLayerPoint = function(lat,long){
+      return _map.latLngToLayerPoint(new L.LatLng(lat, long));
+  } ;
+
+
+   this.layerPointToLatLng = function(x,y){
+      return _map.layerPointToLatLng(new L.Point(x, y));
+   } ;
+
+    // PRIVATE METHODS
   
   var init = function() {
   } ();

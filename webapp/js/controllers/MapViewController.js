@@ -77,7 +77,7 @@ function MapViewController(parentController, htmlContainer) {
     var draw = function() {
         // Draw the map container box
         _mapContainer = L.map(_htmlContainer.node());
-        _mapContainer.setView(self.getModel().getMapModel().getFocusPoint(), _defaultZoom);
+        _mapContainer.setView(self.getModel().getMapModel().getDefaultFocusPoint(), _defaultZoom);
 
         // Add the base map layer to the map container box
         _mapContainer.addLayer(_mapTilesLayer);
@@ -97,6 +97,7 @@ function MapViewController(parentController, htmlContainer) {
 
         draw();
         //TODO DEBUG
+        self.getModel().getMapModel().setMap(_mapContainer);
         var svg = d3.select(_mapContainer.getPanes().overlayPane).append("svg").attr("id", "test-lay");
 
 
