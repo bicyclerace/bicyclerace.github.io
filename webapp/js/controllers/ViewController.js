@@ -16,7 +16,7 @@ function ViewController(/**ViewController=*/parentController) {
     var _children = [];
 
 
-    // PUBLIC METHODS
+    /////////////////////////////// PUBLIC METHODS ///////////////////////////////
     /**
      * Add a child controller to the View Controller children list and calls updateView of the child
      * @param childController
@@ -89,7 +89,7 @@ function ViewController(/**ViewController=*/parentController) {
 
 
 
-    // PRIVATE METHODS
+    /////////////////////////////// PRIVATE METHODS ///////////////////////////////
     var init = function() {
         _view = new UIView();
         _view.addClass("view-controller");
