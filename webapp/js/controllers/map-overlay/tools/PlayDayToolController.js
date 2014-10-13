@@ -29,6 +29,7 @@ function PlayDayToolController(parentController, svgContainer) {
 
     var init = function() {
         self.setViewBox(_viewBoxWidth, _viewBoxHeight);
+        svgContainer.classed("play-day-tool-controller", true);
         draw();
     } ();
 }
