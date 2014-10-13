@@ -13,9 +13,11 @@ function PlayADayLayerViewController(parentController, layerGroup) {
     var _layerGroup = layerGroup;
     var _animationSpeed = 50;
     var _svg,_g;
+    var _animatedBikes = [];//{o
     var _map;
+    var bikeIconScale = 0.7;
 
-
+    var _currentTime = null;
 
     //////////////////////////// PUBLIC METHODS ////////////////////////////
     /**
@@ -43,9 +45,12 @@ function PlayADayLayerViewController(parentController, layerGroup) {
     this.onPlayStateChanged = function() {
         var playState = self.getModel().getTimeModel().getPlayState();
         if(playState == AnimationState.PLAY) {
+
+
+
             console.log("play");
-            var day = self.getModel().getTimeModel().getDate();
-            databaseModel.getTripsForPlayADay(day, startAnimation);
+            var now = self.getModel().getTimeModel().getDate();
+            self.playDay(now);
 
 
         } else if(playState == AnimationState.PAUSE) {
@@ -54,95 +59,110 @@ function PlayADayLayerViewController(parentController, layerGroup) {
     };
 
 
-    this.onDateChanged = function() {
+    this.playDay = function(date) {
+        _currentTime = date;
+        databaseModel.getTripsForPlayADay(date, startAnimation);
+    };
+
+
+    this.resetAnimation = function () {
+        //reset bikes
+        for(var i in _animatedBikes){
+
+            try{
+                _animatedBikes[i].remove();
+            }catch(err){
+                console.log("error removing a bike");
+            }
+
+        }
+        _animatedBikes = [];
+    };
+
+
+    var _oldCoords = [];
+    var _zoom;
+    this.onBeforeMapReset = function() {
+
+        _zoom = _map.getZoom()
+        for(var i in _animatedBikes){
+            var translation = getTranslationFromAttr(_animatedBikes[i].attr("transform"));
+            var point = new L.point(translation[0], translation[1]);
+            var coord = _map.layerPointToLatLng(point);
+            _animatedBikes[i]._animationsInfo.oldCoords = coord;
+        }//unproject
+    };
+
+
+    this.onMapReset = function() {
+
+        _svg.attr("width", 3000)
+            .attr("height", 3000)
+            .style("left","0px")
+            .style("top", "0px");
+
+
+        var now = new Date();
+        //Update zoom accordingly
+        for(var i in _animatedBikes){
+
+            var newDuration = _animatedBikes[i]._animationsInfo.endTime - now;
+            var newPoint = _map.latLngToLayerPoint(_animatedBikes[i]._animationsInfo.oldCoords);
+            var destinationPoint = _map.latLngToLayerPoint(_animatedBikes[i]._animationsInfo.destination);
+            var angle = getAngle(newPoint,destinationPoint);
+            _animatedBikes[i].interrupt() //stop previous
+                             .attr("transform",getTranslateAttr(newPoint,angle,bikeIconScale))
+                             .transition()
+                             .duration(newDuration)
+                             .attr("transform",getTranslateAttr(destinationPoint,angle,bikeIconScale))
+                             .each("end",function(){
+                                _animatedBikes = _.without(_animatedBikes, this);
+                                this.remove()});
+        }
+
+
 
     };
 
-    // PRIVATE METHODS
 
-    /*map.on("viewreset", reset);
+    this.onDateChanged = function() {
+        var timeModel = self.getModel().getTimeModel();
 
-     // this puts stuff on the map!
-     reset();
-     transition();
+        //if it is a different time
 
-     // Reposition the SVG to cover the features.
-     function reset() {
-     var bounds = d3path.bounds(collection),
-     topLeft = bounds[0],
-     bottomRight = bounds[1];
+        //if it is a different day
+        if(daysBetween(_currentTime,timeModel.getDate()) != 0) {
+            console.log("dateChanged");
+            self.resetAnimation();
+            self.playDay(timeModel.getDate());
 
-
-     // here you're setting some styles, width, heigh etc
-     // to the SVG. Note that we're adding a little height and
-     // width because otherwise the bounding box would perfectly
-     // cover our features BUT... since you might be using a big
-     // circle to represent a 1 dimensional point, the circle
-     // might get cut off.
-
-     text.attr("transform",
-     function(d) {
-     return "translate(" +
-     applyLatLngToLayer(d).x + "," +
-     applyLatLngToLayer(d).y + ")";
-     });
+        }
 
 
-     // for the points we need to convert from latlong
-     // to map units
-     begend.attr("transform",
-     function(d) {
-     return "translate(" +
-     applyLatLngToLayer(d).x + "," +
-     applyLatLngToLayer(d).y + ")";
-     });
+    };
 
-     ptFeatures.attr("transform",
-     function(d) {
-     return "translate(" +
-     applyLatLngToLayer(d).x + "," +
-     applyLatLngToLayer(d).y + ")";
-     });
+    ////////////// PRIVATE METHODS
 
-     // again, not best practice, but I'm harding coding
-     // the starting point
+    var daysBetween = function(first, second) {
 
-     marker.attr("transform",
-     function() {
-     var y = featuresdata[0].geometry.coordinates[1]
-     var x = featuresdata[0].geometry.coordinates[0]
-     return "translate(" +
-     map.latLngToLayerPoint(new L.LatLng(y, x)).x + "," +
-     map.latLngToLayerPoint(new L.LatLng(y, x)).y + ")";
-     });
+        // Copy date parts of the timestamps, discarding the time parts.
+        var one = new Date(first.getFullYear(), first.getMonth(), first.getDate());
+        var two = new Date(second.getFullYear(), second.getMonth(), second.getDate());
 
+        // Do the math.
+        var millisecondsPerDay = 1000 * 60 * 60 * 24;
+        var millisBetween = two.getTime() - one.getTime();
+        var days = millisBetween / millisecondsPerDay;
 
-     // Setting the size and location of the overall SVG container
-     svg.attr("width", bottomRight[0] - topLeft[0] + 120)
-     .attr("height", bottomRight[1] - topLeft[1] + 120)
-     .style("left", topLeft[0] - 50 + "px")
-     .style("top", topLeft[1] - 50 + "px");
+        // Round down.
+        return Math.floor(days);
+    };
 
-
-     // linePath.attr("d", d3path);
-     linePath.attr("d", toLine)
-     // ptPath.attr("d", d3path);
-     g.attr("transform", "translate(" + (-topLeft[0] + 50) + "," + (-topLeft[1] + 50) + ")");
-
-     } // end reset
-*/
-
-
-     var transform = d3.geo.transform({
-        point: projectPoint
-    });
-    var d3path = d3.geo.path().projection(transform);
-
-    function projectPoint(x, y) {
+    var projectPoint = function(x, y) {
             var map = parentController.getMapContainer();
             var point = map.latLngToLayerPoint(new L.LatLng(y, x));
             this.stream.point(point.x, point.y);
-     }
+    };
 
 
 
@@ -156,6 +176,7 @@ function PlayADayLayerViewController(parentController, layerGroup) {
 
         //discard all the trips before time
         var now = timeModel.getDate();
+
         for(var i = currentTripId; i < trips.length; i++) {
             var trip = trips[i];
             currentTripId = i;
@@ -164,7 +185,15 @@ function PlayADayLayerViewController(parentController, layerGroup) {
             }
         }
 
+        //skip some bikes if they are so many
         var skip = 1;
+
+        var start = databaseModel.getStationCoordinates(trips[0].from_station_id);
+
+        var end = databaseModel.getStationCoordinates(trips[0].to_station_id);
+        var duration = parseInt((trips[0].seconds*100000) / _animationSpeed);
+
+        animateBike(start,end,duration);
 
         window.setInterval(function() {
             var now = timeModel.getDate();
@@ -185,38 +214,61 @@ function PlayADayLayerViewController(parentController, layerGroup) {
                 }
             }
 
-            now = new Date(now.getTime() + _animationSpeed*updateInterval);
-            timeModel.setDate(now);
+            _currentTime = new Date(now.getTime() + _animationSpeed*updateInterval);
+            timeModel.setDate(_currentTime);
         }, updateInterval);
-/*
-        var trip = trips[10];
-        var start = databaseModel.getStationCoordinates(trip.from_station_id);
-        var end = databaseModel.getStationCoordinates(trip.to_station_id);
-        var duration = parseInt((trip.seconds*1000) / _animationSpeed);
-        animateBike(start,end,duration)*/
 
     };
 
 
+    var getAngle = function(startPoint,endPoint) {
+        return Math.atan2(endPoint.y - startPoint.y,
+                          endPoint.x - startPoint.x)*180/Math.PI - 90;
+    };
+
+
+    var getTranslateAttr = function (coord,angle,scale) {
+       return "translate("+coord.x+","+coord.y+")"
+           + "rotate(" + angle  + ")"
+           + "scale(" + scale + ")";
+    };
+
+
+    function getTranslationFromAttr(attr) {
+        var match = (/translate\(([+|-]?[\d|\.]*),([+|-]?[\d|\.]*)\)/).exec(attr);
+        if(match == null){
+            return [0,0];
+        }
+        else return [parseFloat(match[1]),parseFloat(match[2])];
+
+    }
+
+
     var animateBike = function(from, to, duration) {
-
-
 
         var fromCoord = _map.latLngToLayerPoint(new L.LatLng(from[0], from[1]));
         var toCoord = _map.latLngToLayerPoint(new L.LatLng(to[0], to[1]));
 
-        _g.append("circle")
-            .attr("fill","#EE9999")
-            .attr("opacity",0.5)
-            .attr("cx",fromCoord.x)
-            .attr("cy",fromCoord.y)
-            .attr("r",5)
+        var bike = _g.append("g")
+                     .classed("play-a-day-layer-bike",true);
+
+        var angle = getAngle(fromCoord,toCoord);
+        bike.append("polygon").attr("points","-5,0 5,0 0,20");
+
+        bike
+            .attr("transform",getTranslateAttr(fromCoord,angle,bikeIconScale))
             .transition()
             .duration(duration)
-            .attr("cx",toCoord.x)
-            .attr("cy",toCoord.y)
-            .each("end",function(){this.remove()});
-        //
+            .attr("transform",getTranslateAttr(toCoord,angle,bikeIconScale))
+            .each("end",function(){
+                _animatedBikes = _.without(_animatedBikes, this);
+                this.remove()});
+
+        var endTime = new Date();
+        endTime.setMilliseconds(endTime.getMilliseconds() + duration);
+        bike._animationsInfo = {destination:new L.LatLng(to[0],to[1]),endTime: endTime};
+        _animatedBikes.push(bike);
+
     };
 
 
@@ -240,7 +292,8 @@ function PlayADayLayerViewController(parentController, layerGroup) {
 
     var init = function() {
         _map = parentController.getMapContainer();
-
+        _map.on("beforeviewreset", self.onBeforeMapReset);
+        _map.on("viewreset", self.onMapReset);
         draw();
         registerToNotifications();
     } ();

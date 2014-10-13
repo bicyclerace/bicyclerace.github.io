@@ -8701,6 +8701,9 @@ L.Map.include({
 
 	setView: function (center, zoom, options) {
 
+        this.fire('beforeviewreset');
+        console.log("fire");
+
 		zoom = zoom === undefined ? this._zoom : this._limitZoom(zoom);
 		center = this._limitCenter(L.latLng(center), zoom, this.options.maxBounds);
 		options = options || {};
