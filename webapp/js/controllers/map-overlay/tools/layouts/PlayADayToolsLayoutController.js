@@ -7,17 +7,16 @@
  * @constructor
  */
 function PlayADayToolsLayoutController(parentController, svgContainer) {
-    ViewController.call(this, parentController);
+    ViewController.call(this, parentController || undefined);
     // PRIVATE ATTRIBUTES
     var self = this;
 
     // UI
     var _svgContainer = svgContainer;
-    var _viewBox = {width: 3200, height: 1000};
+    var _viewBox = {width: 2000, height: 880};
 
     // Tools
-    var _playDayBox = {x: 10, y: 10, height: 200};
-    var _playToolController;
+    var _playTimeViewController;
 
     var _calendarPickerBox = {x: 10, y: 450, height: 600};
     var _calendarPickerController;
@@ -26,21 +25,24 @@ function PlayADayToolsLayoutController(parentController, svgContainer) {
     var _calendarToolController;
 
     // PUBLIC METHODS
+    /**
+     * Subclasses should override this method
+     */
+    var superUpdateView = this.updateView;
+    this.updateView = function() {
+        var width = 300;//_playTimeViewController.getView().getViewBoxWidth();
+        var height = 150;//_playTimeViewController.getView().getViewBoxHeight();
+        _playTimeViewController.getView().setFrame(0, self.getView().getViewBoxHeight() - height, width, height);
+
+        // Call super method (updates children)
+        superUpdateView.call(self);
+    };
 
     // PRIVATE METHODS
     var draw = function() {
-        // Adding play a day tool
-        var playDaySvg =
-            _svgContainer.append("svg")
-                .classed("play-day-tool-controller", true);
-
-        _playToolController = new PlayDayToolController(self, playDaySvg);
-        playDaySvg
-            .attr("width", _playToolController.getAspectRatio() * _playDayBox.height)
-            .attr("height", _playDayBox.height);
-
-
         // Add calendar
+
+        /*
         var calendarPickerSvg = _svgContainer.append("svg");
         var calendarToolSvg = _svgContainer.append("svg");
 
@@ -60,17 +62,25 @@ function PlayADayToolsLayoutController(parentController, svgContainer) {
             .attr("width", _calendarPickerController.getAspectRatio() * _calendarPickerBox.height)
             .attr("height", _calendarPickerBox.height);
 
-        _calendarPickerController.hideCalendarPickerWithoutAnimation();
+        _calendarPickerController.hideCalendarPickerWithoutAnimation();*/
 
 
     };
 
     var init = function() {
+        self.getView().addClass("play-day-tools-layout-view-controller");
+
+        // Play time view controller
+        _playTimeViewController = new UIPlayTimeViewController(self);
+        self.add(_playTimeViewController);
+
+        // Old
         _svgContainer
             .classed("play-day-tool-layout-controller", true)
             .attr("viewBox", "0 0 " + _viewBox.width + " " + _viewBox.height)
             .attr("preserveAspectRatio", "xMinYMin meet");
         draw();
+
     } ();
 }
 
