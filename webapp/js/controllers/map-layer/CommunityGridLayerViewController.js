@@ -47,14 +47,11 @@ function CommunityGridLayerViewController(parentController, layerGroup) {
                 style: function (feature) {
                     '<p>Hello world!<br />This is a nice popup.</p>'
                     districtName = "<p><strong>District:</strong> " + feature.properties.district.name + "</p>";
-                    communityName = "<p>&#13;&#10;<strong>Community:</strong> " + feature.properties.community.name + "</p>";
+                    communityName = "<p>&#10;<strong>Community:</strong> " + feature.properties.community.name + "</p>";
 //                console.log(feature.properties.community.name + " " + feature.properties.district.name + "\n")
                     return {
                         color: communityColors(feature.properties.district.name),
-                        fillOpacity: 0.25,
-                        stroke: "#777",
-                        strokeLinejoin: "round",
-                        strokeOpacity: .5
+                        fillOpacity: 0.25
                     }
                 }
             }).bindPopup(districtName + communityName);
