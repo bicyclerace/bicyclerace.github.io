@@ -45,7 +45,7 @@ function StationsPopularityLayerViewController(parentController, layerGroup) {
 
             popularities.forEach(function(popularity) {
                 var id = popularity["station_id"];
-                var name = stations[id]["station_name"]
+                var name = stations[id]["station_name"];
                 var latitude = stations[id]["station_latitude"];
                 var longitude = stations[id]["station_longitude"];
                 var bikesPerDay = popularity["popularity"];
