@@ -6,10 +6,13 @@
  * @param svgContainer
  */
  
-var ViewController = window.ViewController,
-    Utils = window.Utils;
+/** DEV ONLY */
+// var ViewController = window.ViewController,
+//     Utils = window.Utils,
+//     Notifications = window.Notifications;
     
 function ChartController(parentController, svgContainer) {
+    // console.log("woop", parentController);
     // Call the base class constructor
     ViewController.call(this, parentController);
 
@@ -28,7 +31,15 @@ function ChartController(parentController, svgContainer) {
         var visType = self.getModel().getVisualizationTypeModel().getCurrentVisualizationType();
         console.log("ChartController visType %o", visType);
     };
-
+    
+    this.svgContainer = function(value) {
+        return (arguments.length) ? (_svgContainer = value, self) : _svgContainer;
+    };
+    
+    // this.init = function() {
+    //     self.getNotificationCenter()
+    //         .subscribe(self, self.visualizationTypeChanged, Notifications.visualizationTypeStatus.VISUALIZATION_TYPE_CHANGED);
+    // };
 
     // PRIVATE METHODS
     var draw = function() {
@@ -36,7 +47,7 @@ function ChartController(parentController, svgContainer) {
     };
 
     var init = function() {
-        console.log("new ChartController")
+        // console.log("new ChartController", self);
         // _svgContainer
         //     .attr("viewBox", "0 0 " + _viewBoxWidth + " " + _viewBoxHeight);
 

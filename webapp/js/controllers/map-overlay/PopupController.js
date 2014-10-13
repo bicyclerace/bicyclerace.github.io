@@ -26,11 +26,6 @@ function PopupController(parentController, svgContainer, popupSize) {
 
     // PUBLIC METHODS
     
-    this.setChartController = function(value) {
-        _chartController = value;
-        return self;
-    };
-    
     /**
      * @returns the svg where to draw the chart
      */
@@ -52,9 +47,51 @@ function PopupController(parentController, svgContainer, popupSize) {
     this.closePopup = function() {
 
     };
+    
+    this.svgContainer = function(value) {
+        return (arguments.length) ? (_svgContainer = value, self) : _svgContainer;
+    };
+    
+    // this.setPopupSize = function(value) {
+    //     _popupSize = value;
+    //     return self;
+    // };
+    
+    this.size = function(value) {
+        return (arguments.length) ? (_popupSize = value, self) : _popupSize;
+    };
+    
+    this.chartController = function(value) {
+        return (arguments.length) ? (_chartController = value, self) : _chartController;
+    };
+    
+    // this.init = function() {
+    //     _viewBoxHeight = _svgContainer.attr("height");
+    //     _viewBoxWidth = _svgContainer.attr("width");
+    //     /*if(_popupSize == "single"){
+    //         _viewBoxWidth = 100;
+    //     } else if(_popupSize == "double") {
+    //         _viewBoxWidth = 210;
+    //     }*/
+
+    //     _svgContainer
+    //         .attr("viewBox", "0 0 " + _viewBoxWidth + " " + _viewBoxHeight);
+
+    //     draw();
+    // };
 
     // PRIVATE METHODS
-    var draw = function() {
+    this.draw = function() {
+        _viewBoxHeight = _svgContainer.attr("height");
+        _viewBoxWidth = _svgContainer.attr("width");
+        /*if(_popupSize == "single"){
+            _viewBoxWidth = 100;
+        } else if(_popupSize == "double") {
+            _viewBoxWidth = 210;
+        }*/
+
+        _svgContainer
+            .attr("viewBox", "0 0 " + _viewBoxWidth + " " + _viewBoxHeight);
 
         //create background rect
         _svgContainer.append("rect")
@@ -83,18 +120,19 @@ function PopupController(parentController, svgContainer, popupSize) {
     };
 
     var init = function() {
-        _viewBoxHeight = _svgContainer.attr("height");
-        _viewBoxWidth = _svgContainer.attr("width");
-        /*if(_popupSize == "single"){
-            _viewBoxWidth = 100;
-        } else if(_popupSize == "double") {
-            _viewBoxWidth = 210;
-        }*/
+        console.log("popupController", self);
+        // _viewBoxHeight = _svgContainer.attr("height");
+        // _viewBoxWidth = _svgContainer.attr("width");
+        // /*if(_popupSize == "single"){
+        //     _viewBoxWidth = 100;
+        // } else if(_popupSize == "double") {
+        //     _viewBoxWidth = 210;
+        // }*/
 
-        _svgContainer
-            .attr("viewBox", "0 0 " + _viewBoxWidth + " " + _viewBoxHeight);
+        // _svgContainer
+        //     .attr("viewBox", "0 0 " + _viewBoxWidth + " " + _viewBoxHeight);
 
-        draw();
+        // draw();
     } ();
 }
 
