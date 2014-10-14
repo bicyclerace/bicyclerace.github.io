@@ -135,8 +135,6 @@ function UIPlayTimeViewController(parentController) {
             , _defaultViewBox.height - _padding.top - _padding.bottom);
         _playButton.getView().setViewBox(0, 0, _playButton.getView().getFrameWidth(), _playButton.getView().getFrameHeight());
         _playButton.setTitle("PLAY");
-        //_playButton.onClick(self.playAnimation);
-        //self.getView().add(_playButton.getView());
     };
 
     var drawHours = function() {
@@ -155,7 +153,6 @@ function UIPlayTimeViewController(parentController) {
         );
         _hoursLabel.getView().setViewBox(0, 0, width, height * 2);
         _hoursLabel.setText(self.getModel().getTimeModel().getHours());
-        //self.getView().add(_hoursLabel.getView());
 
         // Setup hours buttons
         _hoursUpButton.getView().setFrame(
@@ -166,7 +163,6 @@ function UIPlayTimeViewController(parentController) {
         );
         _hoursUpButton.getView().setViewBox(0, 0, width, height);
         _hoursUpButton.setTitle("+");
-        //self.getView().add(_hoursUpButton.getView());
 
 
         _hoursDownButton.getView().setFrame(
@@ -177,7 +173,6 @@ function UIPlayTimeViewController(parentController) {
         );
         _hoursDownButton.getView().setViewBox(0, 0, width, height);
         _hoursDownButton.setTitle("-");
-        //self.getView().add(_hoursDownButton.getView());
     };
 
     var drawMinutes = function() {

@@ -149,19 +149,19 @@ function ChartsContainerController(parentController, svgContainer) {
     var draw = function() {
         // var fooChart = new ChartController(this, )
         
-        var popupOne = new PopupController(self).size("single"),
-            popupTwo = new PopupController(self).size("single"),
-            popupThree = new PopupController(self).size("double");
+        var popupOne = new PopupController(self).size("double");
+            // popupTwo = new PopupController(self).size("single"),
+            // popupThree = new PopupController(self).size("double");
             
         var chartOne = new ChartController();
         
         popupOne.chartController(chartOne);
-        popupTwo.chartController(chartOne);
-        popupThree.chartController(chartOne);
+        // popupTwo.chartController(chartOne);
+        // popupThree.chartController(chartOne);
         
         self.addPopup(popupOne);
-        self.addPopup(popupTwo);
-        self.addPopup(popupThree);
+        // self.addPopup(popupTwo);
+        // self.addPopup(popupThree);
 
     };
 

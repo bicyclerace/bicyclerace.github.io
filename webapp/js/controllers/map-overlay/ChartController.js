@@ -30,19 +30,19 @@ function ChartController(parentController, svgContainer) {
      */
     this.visualizationTypeChanged = function() {
         var visType = self.getModel().getVisualizationTypeModel().getCurrentVisualizationType();
-        console.log("ChartController visType %o", visType);
+        // console.log("ChartController visType %o", visType);
         self.getModel().getDBModel().getStationsPopularity(function(d) {
             console.log(d);
         });
     };
     
     this.svgContainer = function(value) {
-        console.log("svg is ", value);
+        // console.log("svg is ", value);
         return (arguments.length) ? (_svgContainer = value, self) : _svgContainer;
     };
     
     this.parentController = function(value) {
-        console.log("parent is ", value);
+        // console.log("parent is ", value);
         if (arguments.length) {
             _parentController = arguments[0];
             ViewController.call(self, _parentController);
@@ -58,7 +58,20 @@ function ChartController(parentController, svgContainer) {
 
     // PRIVATE METHODS
     var draw = function() {
-       
+       if ( _svgContainer.select(".axis").empty() ) {
+            _svgContainer.append("g").attr("class", "x axis")
+                .attr("transform", translate(0, _viewBoxHeight));
+            _svgContainer.append("g").attr("class", "y axis");
+            _svgContainer.append("g").attr("class", "title")
+                .append("text");
+        }
+        
+            var a = new Date("8-1-2013 01:00");
+        var b = new Date("8-3-2013 22:59");
+            
+        self.getModel().getDBModel().getTripsStartedInTimeRange(a, b, null, function(d) {
+            console.log(d[0]);
+        });
     };
 
     this.init = function() {
@@ -68,8 +81,13 @@ function ChartController(parentController, svgContainer) {
 
         self.getNotificationCenter()
             .subscribe(self, self.visualizationTypeChanged, Notifications.visualizationTypeStatus.VISUALIZATION_TYPE_CHANGED);
-        // draw();
+            
+        draw();
     };
+    
+    function translate(x, y) {
+        return "translate(" + x + "," + y + ")";
+    }
 }
 
 // Inheritance

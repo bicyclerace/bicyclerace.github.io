@@ -70,7 +70,7 @@ function Model() {
      */
     this.getMapModel = function() {
         return _mapModel;
-    }
+    };
     
     
     /**
