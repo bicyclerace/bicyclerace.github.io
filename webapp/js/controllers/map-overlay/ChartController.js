@@ -14,11 +14,12 @@
 function ChartController(parentController, svgContainer) {
     // console.log("woop", parentController);
     // Call the base class constructor
-    ViewController.call(this, parentController);
+    // ViewController.call(this, parentController);
 
     // PRIVATE ATTRIBUTES
     var self = this;
 
+    var _parentController;
     var _svgContainer = svgContainer;
     var _viewBoxWidth = 3200;
     var _viewBoxHeight = 100;
@@ -30,10 +31,24 @@ function ChartController(parentController, svgContainer) {
     this.visualizationTypeChanged = function() {
         var visType = self.getModel().getVisualizationTypeModel().getCurrentVisualizationType();
         console.log("ChartController visType %o", visType);
+        self.getModel().getDBModel().getStationsPopularity(function(d) {
+            console.log(d);
+        });
     };
     
     this.svgContainer = function(value) {
+        console.log("svg is ", value);
         return (arguments.length) ? (_svgContainer = value, self) : _svgContainer;
+    };
+    
+    this.parentController = function(value) {
+        console.log("parent is ", value);
+        if (arguments.length) {
+            _parentController = arguments[0];
+            ViewController.call(self, _parentController);
+            return self;
+        }
+        return _parentController;
     };
     
     // this.init = function() {
@@ -46,15 +61,15 @@ function ChartController(parentController, svgContainer) {
        
     };
 
-    var init = function() {
+    this.init = function() {
         // console.log("new ChartController", self);
-        // _svgContainer
-        //     .attr("viewBox", "0 0 " + _viewBoxWidth + " " + _viewBoxHeight);
+        _svgContainer
+            .attr("viewBox", "0 0 " + _viewBoxWidth + " " + _viewBoxHeight);
 
         self.getNotificationCenter()
             .subscribe(self, self.visualizationTypeChanged, Notifications.visualizationTypeStatus.VISUALIZATION_TYPE_CHANGED);
         // draw();
-    } ();
+    };
 }
 
 // Inheritance

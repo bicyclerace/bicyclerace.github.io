@@ -153,7 +153,11 @@ function ChartsContainerController(parentController, svgContainer) {
             popupTwo = new PopupController(self).size("single"),
             popupThree = new PopupController(self).size("double");
             
-        var chartOne = new ChartController(popupOne);
+        var chartOne = new ChartController();
+        
+        popupOne.chartController(chartOne);
+        popupTwo.chartController(chartOne);
+        popupThree.chartController(chartOne);
         
         self.addPopup(popupOne);
         self.addPopup(popupTwo);

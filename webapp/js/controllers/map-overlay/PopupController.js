@@ -62,7 +62,12 @@ function PopupController(parentController, svgContainer, popupSize) {
     };
     
     this.chartController = function(value) {
-        return (arguments.length) ? (_chartController = value, self) : _chartController;
+        if (arguments.length) {
+            _chartController = value;
+            _chartController.parentController(self);
+            return self;
+        }
+        return _chartController;
     };
     
     // this.init = function() {
@@ -117,10 +122,11 @@ function PopupController(parentController, svgContainer, popupSize) {
             .attr("height", _closeButtonSize)
             .on("click", function(){parentController.closePopup(self)});
 
+        _chartController.svgContainer(_svgChart).init();
     };
 
     var init = function() {
-        console.log("popupController", self);
+        // console.log("popupController", self);
         // _viewBoxHeight = _svgContainer.attr("height");
         // _viewBoxWidth = _svgContainer.attr("width");
         // /*if(_popupSize == "single"){
