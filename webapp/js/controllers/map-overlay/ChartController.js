@@ -30,21 +30,19 @@ function ChartController(parentController, svgContainer) {
      */
     this.visualizationTypeChanged = function() {
         var visType = self.getModel().getVisualizationTypeModel().getCurrentVisualizationType();
-        // console.log("ChartController visType %o", visType);
+        
         self.getModel().getDBModel().getStationsPopularity(function(d) {
             console.log(d);
         });
     };
     
     this.svgContainer = function(value) {
-        // console.log("svg is ", value);
         return (arguments.length) ? (_svgContainer = value, self) : _svgContainer;
     };
     
     this.parentController = function(value) {
-        // console.log("parent is ", value);
         if (arguments.length) {
-            _parentController = arguments[0];
+            _parentController = value;
             ViewController.call(self, _parentController);
             return self;
         }
@@ -66,16 +64,51 @@ function ChartController(parentController, svgContainer) {
                 .append("text");
         }
         
-            var a = new Date("8-1-2013 01:00");
-        var b = new Date("8-3-2013 22:59");
+        var a = new Date("8-1-2013 01:00");
+        var b = new Date("8-1-2013 22:59");
+        
+        var xAxis = d3.svg.axis().orient("bottom"),
+        yAxis = d3.svg.axis().orient("left");
+        
+        var x = d3.scale.linear().domain([0, 23]).range([0, _viewBoxWidth]),
+            y = d3.scale.linear().range([_viewBoxHeight, 0]);
             
         self.getModel().getDBModel().getTripsStartedInTimeRange(a, b, null, function(d) {
-            console.log(d[0]);
+            var nest = d3.nest()
+                .key(function(d) { return new Date(d.starttime).getHours(); }) //d3.time.hour(new Date(d.starttime)); })
+                .entries(d);
+                
+            var yMax = d3.max(nest, function(d) { return d.values.length; });
+            
+            y.domain([0, yMax]);
+            
+            xAxis.scale(x); yAxis.scale(y);
+            
+            var bar = _svgContainer.selectAll("g.bar").data(nest);
+            var pad = 2;
+            
+            bar.enter().append("g").attr("class", "bar")
+                .append("rect").attr("x", pad);
+                
+            bar.attr("transform", function(d) { return translate( x(d.key), y(d.values.length) ); })
+                .select("rect")
+                .attr({
+                    width: function(d) { return x(1) - pad; },
+                    height: function(d) { return _viewBoxHeight - y(d.values.length); }
+                });
+                
+            _svgContainer.select("g.x.axis").call(xAxis);
+            _svgContainer.select("g.y.axis").call(yAxis);
+            
+            _svgContainer.select("g.title text").text("Title");
+                
+            console.log(nest);
         });
     };
 
     this.init = function() {
-        // console.log("new ChartController", self);
+        var vb = _parentController.svgContainer().node().viewBox.baseVal;
+        _viewBoxHeight = vb.height; _viewBoxWidth = vb.width;
         _svgContainer
             .attr("viewBox", "0 0 " + _viewBoxWidth + " " + _viewBoxHeight);
 

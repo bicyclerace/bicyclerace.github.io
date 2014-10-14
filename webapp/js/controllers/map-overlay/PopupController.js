@@ -52,11 +52,6 @@ function PopupController(parentController, svgContainer, popupSize) {
         return (arguments.length) ? (_svgContainer = value, self) : _svgContainer;
     };
     
-    // this.setPopupSize = function(value) {
-    //     _popupSize = value;
-    //     return self;
-    // };
-    
     this.size = function(value) {
         return (arguments.length) ? (_popupSize = value, self) : _popupSize;
     };
@@ -69,21 +64,6 @@ function PopupController(parentController, svgContainer, popupSize) {
         }
         return _chartController;
     };
-    
-    // this.init = function() {
-    //     _viewBoxHeight = _svgContainer.attr("height");
-    //     _viewBoxWidth = _svgContainer.attr("width");
-    //     /*if(_popupSize == "single"){
-    //         _viewBoxWidth = 100;
-    //     } else if(_popupSize == "double") {
-    //         _viewBoxWidth = 210;
-    //     }*/
-
-    //     _svgContainer
-    //         .attr("viewBox", "0 0 " + _viewBoxWidth + " " + _viewBoxHeight);
-
-    //     draw();
-    // };
 
     // PRIVATE METHODS
     this.draw = function() {

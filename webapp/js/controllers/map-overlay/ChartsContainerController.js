@@ -30,7 +30,6 @@ function ChartsContainerController(parentController, svgContainer) {
 
     // PUBLIC METHODS
 
-
     /**
      * @param   size  string which specify the size of the popup "single" or "double"
      * @returns {PopupController} PopupChartController instance
@@ -147,7 +146,6 @@ function ChartsContainerController(parentController, svgContainer) {
 
     // PRIVATE METHODS
     var draw = function() {
-        // var fooChart = new ChartController(this, )
         
         var popupOne = new PopupController(self).size("double");
             // popupTwo = new PopupController(self).size("single"),
