@@ -30,15 +30,16 @@ function ChartsContainerController(parentController, svgContainer) {
 
     // PUBLIC METHODS
 
-
     /**
      * @param   size  string which specify the size of the popup "single" or "double"
      * @returns {PopupController} PopupChartController instance
      */
-    this.addPopup = function(size, popup) {
+    this.addPopup = function(popup) {
 
         var x, y;
         var popupPosition;
+        
+        var size = popup.size();
 
         //find an available position
         if(size == "single") {
@@ -98,8 +99,11 @@ function ChartsContainerController(parentController, svgContainer) {
             popupSvg.attr("width", _doublePopupWidth);
         }
 
-        var popup = new PopupController(this, popupSvg, size);
+        // var popup = new PopupController(this, popupSvg, size);
+        
+        popup.svgContainer(popupSvg);
         popup.positionInsideContainer = popupPosition;
+        popup.draw();
         _openedPopups.push(popup);
         return popup;
     };
@@ -140,14 +144,22 @@ function ChartsContainerController(parentController, svgContainer) {
         _openedPopups = []
     };
 
-
     // PRIVATE METHODS
     var draw = function() {
-        // var fooChart = new ChartController(this, )
         
-        self.addPopup("single");
-        self.addPopup("single");
-        self.addPopup("double");
+        var popupOne = new PopupController(self).size("double");
+            // popupTwo = new PopupController(self).size("single"),
+            // popupThree = new PopupController(self).size("double");
+            
+        var chartOne = new ChartController();
+        
+        popupOne.chartController(chartOne);
+        // popupTwo.chartController(chartOne);
+        // popupThree.chartController(chartOne);
+        
+        self.addPopup(popupOne);
+        // self.addPopup(popupTwo);
+        // self.addPopup(popupThree);
 
     };
 
