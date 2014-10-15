@@ -61,6 +61,55 @@ function DBModel() {
             .fail(_failCallback);
     };
 
+
+    /**
+     *
+     * @param startDate
+     * @param endDate
+     */
+    self.getTripsCountByDayOfTheYear = function(startDate, endDate, callback) {
+        var start = (startDate).getTime()/1000;
+        var end = (endDate).getTime()/1000;
+        var url = _dbServer + "get_trips_count_by_day_of_the_year.php?start_date=" + start + "&end_date=" + end;
+        logUrl(url);
+        $.getJSON(url)
+            .done(callback)
+            .fail(_failCallback);
+    };
+
+    /**
+     *
+     * @param startDate
+     * @param endDate
+     */
+    self.getTripsCountByDayOfTheWeek = function(startDate, endDate, callback) {
+        var start = (startDate).getTime()/1000;
+        var end = (endDate).getTime()/1000;
+        var url = _dbServer + "get_trips_count_by_day_of_the_week.php?start_date=" + start + "&end_date=" + end;
+        logUrl(url);
+        $.getJSON(url)
+            .done(callback)
+            .fail(_failCallback);
+    };
+
+
+    /**
+     *
+     * @param startDate
+     * @param endDate
+     */
+    self.getTripsCountByHourOfTheDay = function(startDate, endDate, callback) {
+        var start = (startDate).getTime()/1000;
+        var end = (endDate).getTime()/1000;
+        var url = _dbServer + "get_trips_count_by_hour_of_the_day.php?start_date=" + start + "&end_date=" + end;
+        logUrl(url);
+        $.getJSON(url)
+            .done(callback)
+            .fail(_failCallback);
+    };
+
+
+
     /**
      *
      * @param day
