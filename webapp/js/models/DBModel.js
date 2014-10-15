@@ -7,11 +7,12 @@ function DBModel() {
     // PRIVATE ATTRIBUTES
     var self = this;
 
-    var _dbServer = "http://fpadua2.people.uic.edu/divvy_api/";
+    var _dbServer = "//fpadua2.people.uic.edu/divvy_api/";
 
 
     //cached values
     var _stations = null;
+    var _chicagoJson = null;
     var _stations_popularity = null;
 
 
@@ -25,6 +26,7 @@ function DBModel() {
         queue()
             //LOAD stations
             .defer(loadStations)
+            .defer(loadChicagoJson)
             .await(callback);
     };
 
@@ -181,6 +183,13 @@ function DBModel() {
         return _stations;
     };
 
+    /**
+     *
+     */
+    self.getChicagoJson = function() {
+        return _chicagoJson;
+    };
+
 
     //HELPERS
 
@@ -194,6 +203,14 @@ function DBModel() {
 
 
     // PRIVATE FUNCTIONS
+
+    var loadChicagoJson = function(callback) {
+        d3.json("resources/chi.json", function(error, json) {
+            console.log("Chicago json loaded");
+            _chicagoJson = json;
+            callback(null,null);
+        });
+    };
 
     var loadStations = function(callback){
 

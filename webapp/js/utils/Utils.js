@@ -13,7 +13,7 @@ var Utils = Utils || {} ;
     var origProto = superclass.prototype;
     superclass.prototype = Object.create(base.prototype);
     for (var key in origProto)  {
-        superclass.prototype[key] = origProto[key];
+         superclass.prototype[key] = origProto[key];
     }
     // Remember the constructor property was set wrong, let's fix it
     superclass.prototype.constructor = superclass;

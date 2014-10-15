@@ -19,10 +19,13 @@ function PopupController(parentController, svgContainer, popupSize) {
     var _viewBoxHeight;
     var _popupSize = popupSize;
     var _closeButtonSize = 30;
+    
+    var _chartController;
 
     var _padding = {left: 14, top: 14, right: 14, bottom:14};
 
     // PUBLIC METHODS
+    
     /**
      * @returns the svg where to draw the chart
      */
@@ -44,9 +47,36 @@ function PopupController(parentController, svgContainer, popupSize) {
     this.closePopup = function() {
 
     };
+    
+    this.svgContainer = function(value) {
+        return (arguments.length) ? (_svgContainer = value, self) : _svgContainer;
+    };
+    
+    this.size = function(value) {
+        return (arguments.length) ? (_popupSize = value, self) : _popupSize;
+    };
+    
+    this.chartController = function(value) {
+        if (arguments.length) {
+            _chartController = value;
+            _chartController.parentController(self);
+            return self;
+        }
+        return _chartController;
+    };
 
     // PRIVATE METHODS
-    var draw = function() {
+    this.draw = function() {
+        _viewBoxHeight = _svgContainer.attr("height");
+        _viewBoxWidth = _svgContainer.attr("width");
+        /*if(_popupSize == "single"){
+            _viewBoxWidth = 100;
+        } else if(_popupSize == "double") {
+            _viewBoxWidth = 210;
+        }*/
+
+        _svgContainer
+            .attr("viewBox", "0 0 " + _viewBoxWidth + " " + _viewBoxHeight);
 
         //create background rect
         _svgContainer.append("rect")
@@ -72,21 +102,23 @@ function PopupController(parentController, svgContainer, popupSize) {
             .attr("height", _closeButtonSize)
             .on("click", function(){parentController.closePopup(self)});
 
+        _chartController.svgContainer(_svgChart).init();
     };
 
     var init = function() {
-        _viewBoxHeight = _svgContainer.attr("height");
-        _viewBoxWidth = _svgContainer.attr("width");
-        /*if(_popupSize == "single"){
-            _viewBoxWidth = 100;
-        } else if(_popupSize == "double") {
-            _viewBoxWidth = 210;
-        }*/
+        // console.log("popupController", self);
+        // _viewBoxHeight = _svgContainer.attr("height");
+        // _viewBoxWidth = _svgContainer.attr("width");
+        // /*if(_popupSize == "single"){
+        //     _viewBoxWidth = 100;
+        // } else if(_popupSize == "double") {
+        //     _viewBoxWidth = 210;
+        // }*/
 
-        _svgContainer
-            .attr("viewBox", "0 0 " + _viewBoxWidth + " " + _viewBoxHeight);
+        // _svgContainer
+        //     .attr("viewBox", "0 0 " + _viewBoxWidth + " " + _viewBoxHeight);
 
-        draw();
+        // draw();
     } ();
 }
 

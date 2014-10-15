@@ -16,6 +16,7 @@ function PlayADayLayerViewController(parentController, layerGroup) {
     var _animatedBikes = [];//{o
     var _map;
     var bikeIconScale = 0.7;
+    var _minZoomLevelToEnlargeBikes = 12;
 
     var _currentTime = null;
 
@@ -101,23 +102,38 @@ function PlayADayLayerViewController(parentController, layerGroup) {
             .style("left","0px")
             .style("top", "0px");
 
+        var mapZoom = _map.getZoom();
+
+        var fact = 1;
+
+        if(mapZoom > _minZoomLevelToEnlargeBikes) {
+            fact = (mapZoom - _minZoomLevelToEnlargeBikes);
+        }
+
+        console.log(mapZoom);
+
 
         var now = new Date();
         //Update zoom accordingly
         for(var i in _animatedBikes){
+            try {
+                var newDuration = _animatedBikes[i]._animationsInfo.endTime - now;
 
-            var newDuration = _animatedBikes[i]._animationsInfo.endTime - now;
-            var newPoint = _map.latLngToLayerPoint(_animatedBikes[i]._animationsInfo.oldCoords);
-            var destinationPoint = _map.latLngToLayerPoint(_animatedBikes[i]._animationsInfo.destination);
-            var angle = getAngle(newPoint,destinationPoint);
-            _animatedBikes[i].interrupt() //stop previous
-                             .attr("transform",getTranslateAttr(newPoint,angle,bikeIconScale))
-                             .transition()
-                             .duration(newDuration)
-                             .attr("transform",getTranslateAttr(destinationPoint,angle,bikeIconScale))
-                             .each("end",function(){
-                                _animatedBikes = _.without(_animatedBikes, this);
-                                this.remove()});
+                var newPoint = _map.latLngToLayerPoint(_animatedBikes[i]._animationsInfo.oldCoords);
+                var destinationPoint = _map.latLngToLayerPoint(_animatedBikes[i]._animationsInfo.destination);
+                var angle = getAngle(newPoint,destinationPoint);
+                _animatedBikes[i].interrupt() //stop previous
+                    .attr("transform",getTranslateAttr(newPoint,angle,bikeIconScale*fact))
+                    .transition()
+                    .duration(newDuration)
+                    .attr("transform",getTranslateAttr(destinationPoint,angle,bikeIconScale*fact))
+                    .each("end",function(){
+                        _animatedBikes = _.without(_animatedBikes, this);
+                        this.remove()});
+            } catch(exc) {
+                _animatedBikes[i].remove();
+            }
+
         }
 
 
@@ -129,6 +145,7 @@ function PlayADayLayerViewController(parentController, layerGroup) {
         var timeModel = self.getModel().getTimeModel();
 
         //if it is a different time
+        //switch to another moment of the animation
 
         //if it is a different day
         if(daysBetween(_currentTime,timeModel.getDate()) != 0) {
@@ -142,7 +159,7 @@ function PlayADayLayerViewController(parentController, layerGroup) {
     };
 
     ////////////// PRIVATE METHODS
-
+//moved in timeModel
     var daysBetween = function(first, second) {
 
         // Copy date parts of the timestamps, discarding the time parts.
@@ -215,6 +232,7 @@ function PlayADayLayerViewController(parentController, layerGroup) {
             }
 
             _currentTime = new Date(now.getTime() + _animationSpeed*updateInterval);
+            timeModel
             timeModel.setDate(_currentTime);
         }, updateInterval);
 
