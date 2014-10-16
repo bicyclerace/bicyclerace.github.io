@@ -37,7 +37,7 @@ function BoundRectViewController(parent, model ,overviewProjection) {
         var width = (position[0] - bottomLeftPoint[0])*2;
         var height = (bottomLeftPoint[1] - position[1])*2;
 
-        self.getView().setFrame(position[0] - width/2,position[0] - height/2, width, height);
+        self.getView().setFrame(position[0] - width/2,position[1] - height/2, width, height);
         self.getView().setViewBox(0,0, width, height);
 
         //add background rect
@@ -47,22 +47,7 @@ function BoundRectViewController(parent, model ,overviewProjection) {
 
     // PRIVATE METHODS
     var draw = function() {
-        //TODO DUPLICATE CODE
-        var focusPoint = _mapModel.getMapBounds().getCenter();
 
-        var position = _overviewProjection([focusPoint.lng,focusPoint.lat]);
-        var bottomLeftCoord = _mapModel.getMapBounds()._southWest;
-
-        var bottomLeftPoint = _overviewProjection([bottomLeftCoord.lng,bottomLeftCoord.lat]);
-        console.log(bottomLeftPoint);
-
-        var width = (position[0] - bottomLeftPoint[0])*2;
-        var height = (bottomLeftPoint[1] - position[1])*2;
-
-        console.log(width);
-
-        self.getView().setFrame(position[0] - width/2,position[0] - height/2, width, height);
-        self.getView().setViewBox(0,0, width, height);
 
         //add background rect
         self.getView().getSvg().append("rect")
@@ -70,7 +55,7 @@ function BoundRectViewController(parent, model ,overviewProjection) {
             .attr("width", "100%")
             .attr("height", "100%")
             .attr("stroke", _model.getColorModel().getIdentificationColor());
-
+        self.mapPositionOrZoomChanged();
 
     };
 

@@ -10,24 +10,15 @@
  * @constructor
  */
 function CommunityGridLayerViewController(parentController, layerGroup) {
-    ViewController.call(this, parentController);
+    MapLayerController.call(this, parentController);
 
     ////////////////////////// PRIVATE ATTRIBUTES //////////////////////////
     var self = this;
 
-    // Contains all the layers of the VC
-    var _layerGroup = layerGroup;
+
 
     //////////////////////////// PUBLIC METHODS ////////////////////////////
-    /**
-     * Getter for the layer group attribute
-     *
-     * Note: MapViewController needs this getter in order to remove layers from the map
-     * @returns {*}
-     */
-    this.getLayerGroup = function() {
-        return _layerGroup;
-    };
+
 
     /////////////////////////// PRIVATE METHODS ////////////////////////////
 
@@ -77,4 +68,4 @@ function CommunityGridLayerViewController(parentController, layerGroup) {
     } ();
 }
 
-Utils.extend(CommunityGridLayerViewController, ViewController);
+Utils.extend(CommunityGridLayerViewController, MapLayerController);

@@ -6,11 +6,11 @@
  */
 function PlayADayLayerViewController(parentController, layerGroup) {
     // Call the base class constructor
-    ViewController.call(this, parentController);
+    MapLayerController.call(this, parentController);
 
     // PRIVATE ATTRIBUTES
     var self = this;
-    var _layerGroup = layerGroup;
+
     var _animationSpeed = 50;
     var _svg,_g;
     var _animatedBikes = [];//{o
@@ -21,20 +21,6 @@ function PlayADayLayerViewController(parentController, layerGroup) {
     var _currentTime = null;
 
     //////////////////////////// PUBLIC METHODS ////////////////////////////
-    /**
-     * Getter for the layer group attribute
-     *
-     * Note: MapViewController needs this getter in order to remove layers from the map
-     * @returns {*}
-     */
-    this.getLayerGroup = function() {
-        return _layerGroup;
-    };
-
-
-    this.getLayer = function() {
-        //return _layer;
-    };
 
 
     this.setAnimationSpeed = function(animationSpeed) {
@@ -102,15 +88,9 @@ function PlayADayLayerViewController(parentController, layerGroup) {
             .style("left","0px")
             .style("top", "0px");
 
-        var mapZoom = _map.getZoom();
 
-        var fact = 1;
+       var fact = getBikeZoomFactor();
 
-        if(mapZoom > _minZoomLevelToEnlargeBikes) {
-            fact = (mapZoom - _minZoomLevelToEnlargeBikes);
-        }
-
-        console.log(mapZoom);
 
 
         var now = new Date();
@@ -267,6 +247,8 @@ function PlayADayLayerViewController(parentController, layerGroup) {
         var fromCoord = _map.latLngToLayerPoint(new L.LatLng(from[0], from[1]));
         var toCoord = _map.latLngToLayerPoint(new L.LatLng(to[0], to[1]));
 
+        var fact = getBikeZoomFactor();
+
         var bike = _g.append("g")
                      .classed("play-a-day-layer-bike",true);
 
@@ -274,10 +256,10 @@ function PlayADayLayerViewController(parentController, layerGroup) {
         bike.append("polygon").attr("points","-5,0 5,0 0,20");
 
         bike
-            .attr("transform",getTranslateAttr(fromCoord,angle,bikeIconScale))
+            .attr("transform",getTranslateAttr(fromCoord,angle,bikeIconScale*fact))
             .transition()
             .duration(duration)
-            .attr("transform",getTranslateAttr(toCoord,angle,bikeIconScale))
+            .attr("transform",getTranslateAttr(toCoord,angle,bikeIconScale*fact))
             .each("end",function(){
                 _animatedBikes = _.without(_animatedBikes, this);
                 this.remove()});
@@ -289,6 +271,15 @@ function PlayADayLayerViewController(parentController, layerGroup) {
 
     };
 
+    var getBikeZoomFactor = function() {
+        var fact = 1;
+        var mapZoom = _map.getZoom();
+        if(mapZoom > _minZoomLevelToEnlargeBikes) {
+            fact = (mapZoom - _minZoomLevelToEnlargeBikes);
+        }
+        return fact;
+    };
+
 
     var draw = function() {
         _svg = d3.select("#test-lay");
@@ -296,6 +287,7 @@ function PlayADayLayerViewController(parentController, layerGroup) {
         _svg.attr("width",3000);
         _svg.attr("height",3000);
         _g = _svg.append("g").attr("class", "leaflet-zoom-hide");
+
         //var svg = d3.select(_layerGroup.getPanes().overlayPane).append("svg");
     };
 
@@ -318,4 +310,4 @@ function PlayADayLayerViewController(parentController, layerGroup) {
 }
 
 // Inheritance
-Utils.extend(PlayADayLayerViewController, ViewController);
+Utils.extend(PlayADayLayerViewController, MapLayerController);

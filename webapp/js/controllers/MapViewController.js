@@ -93,6 +93,17 @@ function MapViewController(parentController, htmlContainer) {
         oldRemove.call(self, childController);
     };
 
+
+
+    this.onMapReset = function() {
+        //fixed points
+        var topLeft = _mapContainer.latLngToLayerPoint(new L.latLng(41.978353, -87.707857));
+        var bottomRight = _mapContainer.latLngToLayerPoint(new L.latLng(41.788746, -87.580715));
+
+
+    };
+
+
     /////////////////////////// PRIVATE METHODS ///////////////////////////
     var cleanMap = function() {
         /*_layersControllers.forEach(function(controller) {
@@ -146,6 +157,8 @@ function MapViewController(parentController, htmlContainer) {
 
 
         // Subscribe to notifications
+        _mapContainer.on("viewreset", self.onMapReset);
+
         self.getNotificationCenter()
             .subscribe(self, self.visualizationTypeChanged, Notifications.visualizationTypeStatus.VISUALIZATION_TYPE_CHANGED);
     } ();
