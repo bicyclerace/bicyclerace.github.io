@@ -51,9 +51,10 @@ function MapViewController(parentController, htmlContainer) {
         // For each new layer controller class, instantiate the controller with a new layer group, and add that group
         // to the map
         layersViewControllers.forEach(function(Controller) {
-            var layerGroup = L.layerGroup();
-            _mapContainer.addLayer(layerGroup);
-            _layersControllers.push(new Controller(self, layerGroup));
+            //var layerGroup = L.layerGroup();
+            //_mapContainer.addLayer(layerGroup);
+            //_layersControllers.push(new Controller(self, layerGroup));
+            self.add(new Controller);
         });
     };
 
@@ -65,13 +66,47 @@ function MapViewController(parentController, htmlContainer) {
         return _mapContainer;
     };
 
+
+    /**
+     * @override
+     * @param childController
+     */
+    var oldAdd = this.add;
+    this.add = function(childController) {
+        // Add layer group
+        _mapContainer.addLayer(childController.getLayerGroup());
+
+        // Call super
+        oldAdd.call(self, childController);
+    };
+
+
+    /**
+     * @override
+     * @param childController
+     */
+    var oldRemove = this.remove;
+    this.remove = function(childController) {
+        _mapContainer.removeLayer(childController.getLayerGroup());
+
+        // Call super
+        oldRemove.call(self, childController);
+    };
+
     /////////////////////////// PRIVATE METHODS ///////////////////////////
     var cleanMap = function() {
-        _layersControllers.forEach(function(controller) {
+        /*_layersControllers.forEach(function(controller) {
            _mapContainer.removeLayer(controller.getLayerGroup());
         });
 
-        _layersControllers = [];
+        _layersControllers = [];*/
+        self.getChildren().forEach(function(layerController) {
+
+        });
+
+        for(var i = 0; i < self.getChildren().length; i++) {
+            self.remove(self.getChildren()[i]);
+        }
     };
 
     var draw = function() {
@@ -94,13 +129,23 @@ function MapViewController(parentController, htmlContainer) {
             attribution: _mapAttribution
         });
 
-
         draw();
+
+
+
         //TODO DEBUG
+        /*
         self.getModel().getMapModel().setMap(_mapContainer);
-        var svg = d3.select(_mapContainer.getPanes().overlayPane).append("svg").attr("id", "test-lay");
+        var svg = d3.select(_mapContainer.getPanes().overlayPane).append("svg").attr("id", "test-lay");*/
+
+        // DEBUG MACS
+        // Bind MapViewController view to _mapContainer pane
+        d3.select(_mapContainer.getPanes().overlayPane).append(function() {
+            return self.getView().getSvg().node();
+        });
 
 
+        // Subscribe to notifications
         self.getNotificationCenter()
             .subscribe(self, self.visualizationTypeChanged, Notifications.visualizationTypeStatus.VISUALIZATION_TYPE_CHANGED);
     } ();

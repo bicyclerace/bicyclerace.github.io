@@ -30,6 +30,14 @@ function UIView() {
     };
 
     /**
+     * Remove subview
+     * @param subview
+     */
+    this.remove = function(subview) {
+        _svg.node().removeChild(subview.getSvg().node());
+    };
+
+    /**
      * Return the underline svg d3 selection
      * @returns {svg}
      */

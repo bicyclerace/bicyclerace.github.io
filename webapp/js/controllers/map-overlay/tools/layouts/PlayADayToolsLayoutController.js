@@ -34,6 +34,9 @@ function PlayADayToolsLayoutController(parentController, svgContainer) {
         var height = 150;//_playTimeViewController.getView().getViewBoxHeight();
         _playTimeViewController.getView().setFrame(0, self.getView().getViewBoxHeight() - height, width, height);
 
+        // Old
+        //self.getView().getSvg().append(_svgContainer);
+
         // Call super method (updates children)
         superUpdateView.call(self);
     };
@@ -42,7 +45,7 @@ function PlayADayToolsLayoutController(parentController, svgContainer) {
     var draw = function() {
         // Add calendar
 
-        /*
+
         var calendarPickerSvg = _svgContainer.append("svg");
         var calendarToolSvg = _svgContainer.append("svg");
 
@@ -62,8 +65,9 @@ function PlayADayToolsLayoutController(parentController, svgContainer) {
             .attr("width", _calendarPickerController.getAspectRatio() * _calendarPickerBox.height)
             .attr("height", _calendarPickerBox.height);
 
-        _calendarPickerController.hideCalendarPickerWithoutAnimation();*/
+        _calendarPickerController.hideCalendarPickerWithoutAnimation();
 
+        //self.getView().getSvg().append(_svgContainer);
 
     };
 
@@ -76,7 +80,7 @@ function PlayADayToolsLayoutController(parentController, svgContainer) {
 
         // Old
         _svgContainer
-            .classed("play-day-tool-layout-controller", true)
+            .classed("DEBUG-layout-controller", true)
             .attr("viewBox", "0 0 " + _viewBox.width + " " + _viewBox.height)
             .attr("preserveAspectRatio", "xMinYMin meet");
         draw();

@@ -29,6 +29,23 @@ function ViewController(/**ViewController=*/parentController) {
     };
 
     /**
+     * Returns all the children controllers
+     * @returns {Array}
+     */
+    this.getChildren = function() {
+        return _children;
+    };
+
+    /**
+     * Remove the given child from the children
+     * @param childController
+     */
+    this.remove = function(childController) {
+        self.getView().remove(childController.getView());
+        _children = _.without(_children, childController);
+    };
+
+    /**
      * Add itself to a parent view controller
      * @param parentViewController
      */

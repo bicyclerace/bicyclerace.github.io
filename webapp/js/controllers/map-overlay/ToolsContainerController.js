@@ -47,7 +47,7 @@ function ToolsContainerController(parentController, svgContainer) {
 
     // PRIVATE METHODS
     var cleanLayout = function() {
-        //_svgLayoutContainer.html("");
+        _svgLayoutContainer.html("");
         _svgContainer.html("");
     };
 
