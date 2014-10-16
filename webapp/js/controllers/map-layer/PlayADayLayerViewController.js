@@ -17,11 +17,15 @@ function PlayADayLayerViewController(parentController, layerGroup) {
     var _map;
     var bikeIconScale = 0.7;
     var _minZoomLevelToEnlargeBikes = 12;
+    var _animationIntervalObject;
 
     var _currentTime = null;
 
     //////////////////////////// PUBLIC METHODS ////////////////////////////
 
+    this.dispose = function() {
+        clearInterval(_animationIntervalObject);
+    };
 
     this.setAnimationSpeed = function(animationSpeed) {
         _animationSpeed = animationSpeed;
@@ -37,7 +41,8 @@ function PlayADayLayerViewController(parentController, layerGroup) {
 
 
         } else if(playState == AnimationState.PAUSE) {
-
+            //TODO PAUSE
+            clearInterval(_animationIntervalObject);
         }
     };
 
@@ -131,7 +136,7 @@ function PlayADayLayerViewController(parentController, layerGroup) {
 
         animateBike(start,end,duration);
 
-        window.setInterval(function() {
+        _animationIntervalObject = window.setInterval(function() {
             var now = timeModel.getDate();
 
             for(var i = currentTripId; i < trips.length; i+=skip) {

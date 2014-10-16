@@ -37,6 +37,15 @@ function MapLayerController(parentController) {
     };
 
 
+    /**
+     * Called when the view is detached
+     * Do clean-up stuff
+     */
+    this.dispose = function() {
+
+    };
+
+
     /////////////////////////// PRIVATE METHODS ////////////////////////////
     var init = function() {
         _layerGroup = L.layerGroup();

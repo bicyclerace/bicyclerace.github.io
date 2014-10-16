@@ -76,6 +76,7 @@ function MapViewController(parentController, htmlContainer) {
 
         // Call super MODIFIED
         self.getChildren().push(childController);
+        console.log(self.getChildren());
         childController.setParentController(self);
         _svgLayerGroup.append(function(){return childController.getView().getSvg().node();});
         childController.updateView();
@@ -91,9 +92,11 @@ function MapViewController(parentController, htmlContainer) {
     var oldRemove = this.remove;    // Save super
     this.remove = function(childController) {
         _mapContainer.removeLayer(childController.getLayerGroup());
-
+        childController.dispose();
         // Call super
         oldRemove.call(self, childController);
+
+        childController.getView().getSvg().remove();
     };
 
 
