@@ -14,8 +14,9 @@ function MapModel(parentModel) {
 
 //    latitude:41.869912359714654, longitude:-87.64772415161133
   var  _focusPoint = { latitude:41.876320, longitude:-87.572841 };
-  
-  
+  var _topLeftCoord = new L.latLng(41.978353, -87.707857);
+  var _bottomRightCoord = new L.latLng(41.788746, -87.580715);
+  var _defaultZoomForProjecting = 10;
   // PUBLIC METHODS
   
   
@@ -28,7 +29,32 @@ function MapModel(parentModel) {
   };
 
 
-  /**
+   /**
+   *
+   */
+   this.getTopLeftCoordOfInterest = function() {
+       return _topLeftCoord;
+   } ;
+
+   /**
+   *
+   */
+   this.getBottomRightCoordOfInterest = function() {
+        return _bottomRightCoord;
+   };
+
+
+   /**
+   *
+   */
+   this.projectAtDefaultZoom = function(lat,long) {
+        return _map.project(new L.LatLng(lat,long), _defaultZoomForProjecting);
+   };
+
+
+
+
+    /**
   *
   * @returns {*[]}
   */

@@ -103,21 +103,38 @@ function MapViewController(parentController, htmlContainer) {
 
 
     this.onMapReset = function() {
+
+        var topLeftCoord = self.getModel().getMapModel().getTopLeftCoordOfInterest();
+        var bottomRightCoord = self.getModel().getMapModel().getBottomRightCoordOfInterest();
+
         //fixed points
-        var topLeft = _mapContainer.latLngToLayerPoint(new L.latLng(41.978353, -87.707857));
-        var bottomRight = _mapContainer.latLngToLayerPoint(new L.latLng(41.788746, -87.580715));
+        var topLeft = _mapContainer.latLngToLayerPoint(topLeftCoord);
+        var bottomRight = _mapContainer.latLngToLayerPoint(bottomRightCoord);
         var width = bottomRight.x - topLeft.x;
         var height = bottomRight.y - topLeft.y;
 
+        //project at a fixed zoom level
+        var viewBoxTopLeft = self.getModel().getMapModel().projectAtDefaultZoom(topLeftCoord.lat,topLeftCoord.lng);
+        var viewBoxBottomRight =  self.getModel().getMapModel().projectAtDefaultZoom(bottomRightCoord.lat,bottomRightCoord.lng);
+        var viewBoxWidth = viewBoxBottomRight.x - viewBoxTopLeft.x;
+        var viewBoxHeight = viewBoxBottomRight.y - viewBoxTopLeft.y;
+
+
         self.getView().setFrame(0,0,width,height);
+        self.getView().setViewBox(0,0,viewBoxWidth,viewBoxHeight);
         self.getView().getSvg().style("top",topLeft.y + "px");
         self.getView().getSvg().style("left",topLeft.x + "px");
 
-        _svgLayerGroup = self.getView().getSvg().append("g");
-        _svgLayerGroup.attr("transform","translate(" + [-topLeft.x,-topLeft.y] + ")");
+        _svgLayerGroup.attr("transform","translate(" + [-viewBoxTopLeft.x,-viewBoxTopLeft.y] + ")");
+
+        //show again what's hidden in onZoomReset
+         _svgLayerGroup.attr("opacity",1);
+    };
 
 
-        console.log("MAP RESET");
+    this.onZoomStart = function() {
+      //when the zoom start hide everything
+        _svgLayerGroup.attr("opacity",0);
     };
 
 
@@ -140,6 +157,8 @@ function MapViewController(parentController, htmlContainer) {
 
         // Add the base map layer to the map container box
         _mapContainer.addLayer(_mapTilesLayer);
+
+        _svgLayerGroup = self.getView().getSvg().append("g");
     };
 
 
@@ -158,11 +177,6 @@ function MapViewController(parentController, htmlContainer) {
         self.getModel().getMapModel().setMap(_mapContainer);
 
 
-        //TODO DEBUG
-        /*
-
-        var svg = d3.select(_mapContainer.getPanes().overlayPane).append("svg").attr("id", "test-lay");*/
-
         // DEBUG MACS
         // Bind MapViewController view to _mapContainer pane
         d3.select(_mapContainer.getPanes().overlayPane).append(function() {
@@ -173,6 +187,7 @@ function MapViewController(parentController, htmlContainer) {
 
         // Subscribe to notifications
         _mapContainer.on("viewreset", self.onMapReset);
+        _mapContainer.on("zoomstart", self.onZoomStart);
 
         // call first map reset
         self.onMapReset();

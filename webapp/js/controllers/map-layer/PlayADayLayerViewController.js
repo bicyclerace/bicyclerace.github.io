@@ -32,10 +32,6 @@ function PlayADayLayerViewController(parentController, layerGroup) {
     this.onPlayStateChanged = function() {
         var playState = self.getModel().getTimeModel().getPlayState();
         if(playState == AnimationState.PLAY) {
-
-
-
-            console.log("play");
             var now = self.getModel().getTimeModel().getDate();
             self.playDay(now);
 
@@ -69,56 +65,6 @@ function PlayADayLayerViewController(parentController, layerGroup) {
 
     var _oldCoords = [];
     var _zoom;
-    this.onBeforeMapReset = function() {
-
-        _zoom = _map.getZoom()
-        for(var i in _animatedBikes){
-            var translation = getTranslationFromAttr(_animatedBikes[i].attr("transform"));
-            var point = new L.point(translation[0], translation[1]);
-            var coord = _map.layerPointToLatLng(point);
-            _animatedBikes[i]._animationsInfo.oldCoords = coord;
-        }//unproject
-    };
-
-
-    this.onMapReset = function() {
-
-        _svg.attr("width", 3000)
-            .attr("height", 3000)
-            .style("left","0px")
-            .style("top", "0px");
-
-
-       var fact = getBikeZoomFactor();
-
-
-
-        var now = new Date();
-        //Update zoom accordingly
-        for(var i in _animatedBikes){
-            try {
-                var newDuration = _animatedBikes[i]._animationsInfo.endTime - now;
-
-                var newPoint = _map.latLngToLayerPoint(_animatedBikes[i]._animationsInfo.oldCoords);
-                var destinationPoint = _map.latLngToLayerPoint(_animatedBikes[i]._animationsInfo.destination);
-                var angle = getAngle(newPoint,destinationPoint);
-                _animatedBikes[i].interrupt() //stop previous
-                    .attr("transform",getTranslateAttr(newPoint,angle,bikeIconScale*fact))
-                    .transition()
-                    .duration(newDuration)
-                    .attr("transform",getTranslateAttr(destinationPoint,angle,bikeIconScale*fact))
-                    .each("end",function(){
-                        _animatedBikes = _.without(_animatedBikes, this);
-                        this.remove()});
-            } catch(exc) {
-                _animatedBikes[i].remove();
-            }
-
-        }
-
-
-
-    };
 
 
     this.onDateChanged = function() {
@@ -154,13 +100,6 @@ function PlayADayLayerViewController(parentController, layerGroup) {
         // Round down.
         return Math.floor(days);
     };
-
-    var projectPoint = function(x, y) {
-            var map = parentController.getMapContainer();
-            var point = map.latLngToLayerPoint(new L.LatLng(y, x));
-            this.stream.point(point.x, point.y);
-    };
-
 
 
     var startAnimation = function(trips) {
@@ -244,12 +183,12 @@ function PlayADayLayerViewController(parentController, layerGroup) {
 
     var animateBike = function(from, to, duration) {
 
-        var fromCoord = _map.latLngToLayerPoint(new L.LatLng(from[0], from[1]));
-        var toCoord = _map.latLngToLayerPoint(new L.LatLng(to[0], to[1]));
+        var fromCoord = self.project(from[0], from[1]);//_map.latLngToLayerPoint(new L.LatLng(from[0], from[1]));
+        var toCoord = self.project(to[0], to[1]);//_map.latLngToLayerPoint(new L.LatLng(to[0], to[1]));
 
         var fact = getBikeZoomFactor();
 
-        var bike = _g.append("g")
+        var bike = self.getView().getSvg().append("g")
                      .classed("play-a-day-layer-bike",true);
 
         var angle = getAngle(fromCoord,toCoord);
@@ -272,11 +211,11 @@ function PlayADayLayerViewController(parentController, layerGroup) {
     };
 
     var getBikeZoomFactor = function() {
-        var fact = 1;
-        var mapZoom = _map.getZoom();
+        var fact = 0.2;
+        /*var mapZoom = _map.getZoom();
         if(mapZoom > _minZoomLevelToEnlargeBikes) {
             fact = (mapZoom - _minZoomLevelToEnlargeBikes);
-        }
+        }*/
         return fact;
     };
 
@@ -300,23 +239,17 @@ function PlayADayLayerViewController(parentController, layerGroup) {
             Notifications.time.DATE_CHANGED);
     };
 
+
+
+
+
     var init = function() {
         _map = parentController.getMapContainer();
-        _map.on("beforeviewreset", self.onBeforeMapReset);
-        _map.on("viewreset", self.onMapReset);
         draw();
         registerToNotifications();
 
 
 
-        var p = self.getModel().getMapModel().fromLatLngToLayerPoint(41.874337, -87.639566);
-        //DEBUG
-        self.getView().getSvg().append("circle")
-            .attr("id","dcircle")
-            .attr("cx", p.x)
-            .attr("cy", p.y)
-            .attr("fill","#FF0000")
-            .attr("r", 10);
     } ();
 }
 
