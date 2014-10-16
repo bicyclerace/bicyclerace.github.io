@@ -27,14 +27,13 @@ function UIImageViewController(parentController) {
 
         // Update
         _image = d3Svg.selectAll(".image").data([_imgPath]);
-        _image.attr("data", "img/weather-icons/cloud.svg");
+        _image.attr("xlink:href", "img/weather-icons/cloud.svg");
 
         // Enter
         _image.enter()
-            .append("object")
+            .append("image")
             .classed("image", true)
-            .attr("type", "image/svg+xml")
-            .attr("data", "img/weather-icons/cloud.svg")
+            .attr("xlink:href", "img/weather-icons/cloud.svg")
             .attr("width", "100%")
             .attr("height", "100%");
     };

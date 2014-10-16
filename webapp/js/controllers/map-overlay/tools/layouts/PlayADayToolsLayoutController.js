@@ -18,6 +18,7 @@ function PlayADayToolsLayoutController(parentController, svgContainer) {
     // Tools
     var _playTimeViewController;
 
+    // Calendar sizes
     var _calendarPickerBox = {x: 10, y: 450, height: 600};
     var _calendarPickerController;
 
@@ -30,12 +31,10 @@ function PlayADayToolsLayoutController(parentController, svgContainer) {
      */
     var superUpdateView = this.updateView;
     this.updateView = function() {
-        var width = 300;//_playTimeViewController.getView().getViewBoxWidth();
-        var height = 150;//_playTimeViewController.getView().getViewBoxHeight();
+        var width = 300;
+        var height = 150;
         _playTimeViewController.getView().setFrame(0, self.getView().getViewBoxHeight() - height, width, height);
 
-        // Old
-        //self.getView().getSvg().append(_svgContainer);
 
         // Call super method (updates children)
         superUpdateView.call(self);

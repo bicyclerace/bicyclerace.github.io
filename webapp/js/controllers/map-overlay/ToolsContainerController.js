@@ -47,13 +47,21 @@ function ToolsContainerController(parentController, svgContainer) {
 
     // PRIVATE METHODS
     var cleanLayout = function() {
+        // Old
         _svgLayoutContainer.html("");
+
+        // new
         _svgContainer.html("");
+
+        // Old
+        _svgContainer.append(function() {
+            return _svgLayoutContainer.node();
+        });
     };
 
     var draw = function() {
         _svgLayoutContainer =
-            _svgContainer.append("svg");
+            _svgContainer.append("svg").classed("DEBUG_layout", true);
 
         var currentVisualizationType = self.getModel().getVisualizationTypeModel().getCurrentVisualizationType();
         var layoutClass = _layoutFactory.getLayoutClass(currentVisualizationType);
