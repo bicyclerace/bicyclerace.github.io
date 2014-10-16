@@ -306,6 +306,17 @@ function PlayADayLayerViewController(parentController, layerGroup) {
         _map.on("viewreset", self.onMapReset);
         draw();
         registerToNotifications();
+
+
+
+        var p = self.getModel().getMapModel().fromLatLngToLayerPoint(41.874337, -87.639566);
+        //DEBUG
+        self.getView().getSvg().append("circle")
+            .attr("id","dcircle")
+            .attr("cx", p.x)
+            .attr("cy", p.y)
+            .attr("fill","#FF0000")
+            .attr("r", 10);
     } ();
 }
 

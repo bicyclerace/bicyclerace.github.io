@@ -32,7 +32,6 @@ function BoundRectViewController(parent, model ,overviewProjection) {
         var bottomLeftCoord = _mapModel.getMapBounds()._southWest;
 
         var bottomLeftPoint = _overviewProjection([bottomLeftCoord.lng,bottomLeftCoord.lat]);
-        console.log(bottomLeftPoint);
 
         var width = (position[0] - bottomLeftPoint[0])*2;
         var height = (bottomLeftPoint[1] - position[1])*2;

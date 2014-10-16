@@ -65,6 +65,7 @@ function StationsPopularityLayerViewController(parentController) {
 
     var init = function() {
         draw();
+
     } ();
 }
 

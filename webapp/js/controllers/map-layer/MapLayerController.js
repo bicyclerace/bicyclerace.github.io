@@ -33,7 +33,8 @@ function MapLayerController(parentController) {
     /////////////////////////// PRIVATE METHODS ////////////////////////////
     var init = function() {
         _layerGroup = L.layerGroup();
-
+        self.getView().getSvg().attr("width","100%");
+        self.getView().getSvg().attr("height","100%");
     } ();
 }
 
