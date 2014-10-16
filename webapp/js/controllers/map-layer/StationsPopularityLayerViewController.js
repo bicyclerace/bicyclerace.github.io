@@ -16,6 +16,17 @@ function StationsPopularityLayerViewController(parentController) {
 
     //////////////////////////// PUBLIC METHODS ////////////////////////////
 
+    /**
+     * @override
+     */
+    var super_updateView = this.updateView;
+    this.updateView = function() {
+        draw();
+
+        // Call super
+        super_updateView.call(self);
+    };
+
 
     /////////////////////////// PRIVATE METHODS ////////////////////////////
     var draw = function() {
@@ -64,7 +75,7 @@ function StationsPopularityLayerViewController(parentController) {
     };
 
     var init = function() {
-        draw();
+        //draw();
     } ();
 }
 

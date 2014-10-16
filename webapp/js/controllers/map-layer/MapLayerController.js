@@ -33,7 +33,6 @@ function MapLayerController(parentController) {
     /////////////////////////// PRIVATE METHODS ////////////////////////////
     var init = function() {
         _layerGroup = L.layerGroup();
-
     } ();
 }
 
