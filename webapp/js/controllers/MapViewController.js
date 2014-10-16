@@ -31,13 +31,8 @@ function MapViewController(parentController, htmlContainer) {
 
     // Layers factory
     var _layersControllersFactory;
-
-    // Layers
-    var _layersControllers = [];
-
     // svg elements
     var _svgLayerGroup;
-    
     
     /////////////////////////// PUBLIC METHODS ///////////////////////////
     /**
@@ -92,7 +87,7 @@ function MapViewController(parentController, htmlContainer) {
      * @override
      * @param childController
      */
-    var oldRemove = this.remove;
+    var oldRemove = this.remove;    // Save super
     this.remove = function(childController) {
         _mapContainer.removeLayer(childController.getLayerGroup());
 
@@ -141,10 +136,6 @@ function MapViewController(parentController, htmlContainer) {
     /////////////////////////// PRIVATE METHODS ///////////////////////////
     var cleanMap = function() {
         // Remove all children
-        /*
-        for(var i = self.getChildren().length -1; i >= 0; i--) {
-            self.remove(self.getChildren()[i]);
-        }*/
         while(self.getChildren().length > 0) {
             self.remove(self.getChildren()[0]);
         }
