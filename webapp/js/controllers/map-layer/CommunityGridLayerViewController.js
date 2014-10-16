@@ -9,7 +9,7 @@
  * @param layer
  * @constructor
  */
-function CommunityGridLayerViewController(parentController, layerGroup) {
+function CommunityGridLayerViewController(parentController) {
     MapLayerController.call(this, parentController);
 
     ////////////////////////// PRIVATE ATTRIBUTES //////////////////////////
@@ -31,7 +31,7 @@ function CommunityGridLayerViewController(parentController, layerGroup) {
             communityName;
         var chicagoGeoJson = topojson.feature(json, json.objects.chicago_health2);
 
-        console.log(chicagoGeoJson)
+        console.log(chicagoGeoJson);
         chicagoGeoJson.features.forEach(function(feature) {
             var geoJson = {type: "FeatureCollection", features: [feature]};
             var chicagoLayer = L.geoJson(geoJson, {
@@ -46,7 +46,7 @@ function CommunityGridLayerViewController(parentController, layerGroup) {
                     }
                 }
             }).bindPopup(districtName + communityName);
-            _layerGroup.addLayer(chicagoLayer);
+            self.getLayerGroup().addLayer(chicagoLayer);
         });
     };
 

@@ -6,7 +6,7 @@
  * @param layer
  * @constructor
  */
-function StationsPopularityLayerViewController(parentController, layerGroup) {
+function StationsPopularityLayerViewController(parentController) {
     MapLayerController.call(this, parentController);
 
     ////////////////////////// PRIVATE ATTRIBUTES //////////////////////////
@@ -40,7 +40,7 @@ function StationsPopularityLayerViewController(parentController, layerGroup) {
                 var latitude = stations[id]["station_latitude"];
                 var longitude = stations[id]["station_longitude"];
                 var bikesPerDay = popularity["popularity"];
-                _layerGroup.addLayer(L.marker([latitude, longitude], {
+                self.getLayerGroup().addLayer(L.marker([latitude, longitude], {
                     icon: L.divIcon({
                         className: "icon-location popularity" + id
                         //className: "fa fa-map-marker fa-2x popularity" + id

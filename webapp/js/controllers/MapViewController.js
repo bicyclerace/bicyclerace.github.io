@@ -54,7 +54,7 @@ function MapViewController(parentController, htmlContainer) {
             //var layerGroup = L.layerGroup();
             //_mapContainer.addLayer(layerGroup);
             //_layersControllers.push(new Controller(self, layerGroup));
-            self.add(new Controller);
+            self.add(new Controller(self));
         });
     };
 
@@ -106,17 +106,13 @@ function MapViewController(parentController, htmlContainer) {
 
     /////////////////////////// PRIVATE METHODS ///////////////////////////
     var cleanMap = function() {
-        /*_layersControllers.forEach(function(controller) {
-           _mapContainer.removeLayer(controller.getLayerGroup());
-        });
-
-        _layersControllers = [];*/
-        self.getChildren().forEach(function(layerController) {
-
-        });
-
-        for(var i = 0; i < self.getChildren().length; i++) {
+        // Remove all children
+        /*
+        for(var i = self.getChildren().length -1; i >= 0; i--) {
             self.remove(self.getChildren()[i]);
+        }*/
+        while(self.getChildren().length > 0) {
+            self.remove(self.getChildren()[0]);
         }
     };
 
