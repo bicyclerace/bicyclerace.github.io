@@ -75,7 +75,7 @@ function MapViewController(parentController, htmlContainer) {
         _mapContainer.addLayer(childController.getLayerGroup());
 
         // Call super MODIFIED
-        //TODO _children.push(childController);
+        self.getChildren().push(childController);
         childController.setParentController(self);
         _svgLayerGroup.append(function(){return childController.getView().getSvg().node();});
         childController.updateView();

@@ -40,6 +40,15 @@ function MapLayerController(parentController) {
     /////////////////////////// PRIVATE METHODS ////////////////////////////
     var init = function() {
         _layerGroup = L.layerGroup();
+        var topLeftCoord = self.getModel().getMapModel().getTopLeftCoordOfInterest();
+        var bottomRightCoord = self.getModel().getMapModel().getBottomRightCoordOfInterest();
+        var topLeft = self.getModel().getMapModel().projectAtDefaultZoom(topLeftCoord.lat,topLeftCoord.lng);
+        var bottomRight =  self.getModel().getMapModel().projectAtDefaultZoom(bottomRightCoord.lat,bottomRightCoord.lng);
+        var width = bottomRight.x - topLeft.x;
+        var height = bottomRight.y - topLeft.y;
+
+
+        self.getView().setFrame(0,0,bottomRight.x,bottomRight.y);
 
     } ();
 }
