@@ -13,7 +13,6 @@ function PopularityToolsLayoutController(parentController, svgContainer) {
 
     // UI
     var _svgContainer = svgContainer;
-    //var _viewBox = {width: 3200, height: 1000};
 
 
 

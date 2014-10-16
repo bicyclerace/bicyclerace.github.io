@@ -13,36 +13,31 @@ function PatternsToolLayoutController(parentController, svgContainer) {
 
     // UI
     var _svgContainer = svgContainer;
-    var _viewBox = {width: 3200, height: 1000};
-
-    // Tools
-    var _playDayBox = {x: 10, y: 10, height: 200};
-    var _playToolController;
+    var _imageVC;
 
     // PUBLIC METHODS
+    /**
+     * @override
+     */
+    var _superUpdateView = this.updateView;
+    this.updateView = function() {
+        // Put your code here..
+        draw();
+
+        // Call super
+        _superUpdateView.call(self);
+    };
 
     // PRIVATE METHODS
     var draw = function() {
-        // Adding play a day tool
-        var playDaySvg =
-            _svgContainer.append("svg")
-                .classed("play-day-tool-controller", true);
-
-        _playToolController = new PlayDayToolController(self, playDaySvg);
-        playDaySvg
-
-            .attr("width", _playToolController.getAspectRatio() * _playDayBox.height)
-            .attr("height", _playDayBox.height);
-
-        // Add calendar
+        _imageVC.getView().setFrame(100,100, 400, 400);
+        _imageVC.getView().setViewBox(0,0,400,400);
+        _imageVC.setImagePath("img/weather-icons/cloud.svg");
     };
-
     var init = function() {
-        _svgContainer
-            .classed("patterns-tool-layout-controller", true)
-            .attr("viewBox", "0 0 " + _viewBox.width + " " + _viewBox.height)
-            .attr("preserveAspectRatio", "xMinYMin meet");
-        draw();
+        self.getView().addClass("patterns-tool-layout-controller");
+        _imageVC = new UIImageViewController(self);
+        self.add(_imageVC);
     } ();
 }
 

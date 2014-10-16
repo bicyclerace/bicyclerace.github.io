@@ -34,7 +34,11 @@ function UIView() {
      * @param subview
      */
     this.remove = function(subview) {
-        _svg.node().removeChild(subview.getSvg().node());
+        try {
+            _svg.node().removeChild(subview.getSvg().node());
+        } catch (error) {
+            console.log("No such a child");
+        }
     };
 
     /**
