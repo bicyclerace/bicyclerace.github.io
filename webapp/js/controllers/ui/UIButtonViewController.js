@@ -51,10 +51,10 @@ function UIButtonViewController(parentController) {
     };
 
     /**
-     * @param className [css icon class name]
+     * @param path [css icon class name]
      */
     this.setImage = function(path) {
-        _title.classed(className, true);
+        _image.setImagePath(path);
     };
 
     /**

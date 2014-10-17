@@ -29,6 +29,26 @@ function ChartsContainerController(parentController, svgContainer) {
 
 
     // PUBLIC METHODS
+    /**
+     * Handler for "VISUALIZATION_TYPE_CHANGED" notification.
+     * Namely when the visualization type context changed, update map layers.
+     */
+    this.visualizationTypeChanged = function() {
+        var visualizationType = self.getModel().getVisualizationTypeModel().getCurrentVisualizationType();
+        var chartsControllersFactory = _layersControllersFactory.getLayersControllers(visualizationType);
+
+        // Remove all previous layers from the map
+        self.closeAllPopups();
+
+        // For each new layer controller class, instantiate the controller with a new layer group, and add that group
+        // to the map
+        layersViewControllers.forEach(function(Controller) {
+            //var layerGroup = L.layerGroup();
+            //_mapContainer.addLayer(layerGroup);
+            //_layersControllers.push(new Controller(self, layerGroup));
+            self.add(new Controller(self));
+        });
+    };
 
     /**
      * @param   size  string which specify the size of the popup "single" or "double"
