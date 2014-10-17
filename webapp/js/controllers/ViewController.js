@@ -41,6 +41,7 @@ function ViewController(/**ViewController=*/parentController) {
      * @param childController
      */
     this.remove = function(childController) {
+        childController.dispose();
         self.getView().remove(childController.getView());
         _children = _.without(_children, childController);
     };
@@ -104,6 +105,13 @@ function ViewController(/**ViewController=*/parentController) {
         return _view;
     };
 
+    /**
+     * Override if need to clean stuff before the controller gets destroyed
+     * @override
+     */
+    this.dispose = function() {
+
+    };
 
 
     /////////////////////////////// PRIVATE METHODS ///////////////////////////////

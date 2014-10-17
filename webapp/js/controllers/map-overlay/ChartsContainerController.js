@@ -28,6 +28,10 @@ function ChartsContainerController(parentController, svgContainer) {
     var _openedPopups = [];
 
 
+    // FACTORY
+    var _chartsFactory;
+
+
     // PUBLIC METHODS
     /**
      * Handler for "VISUALIZATION_TYPE_CHANGED" notification.
@@ -35,19 +39,56 @@ function ChartsContainerController(parentController, svgContainer) {
      */
     this.visualizationTypeChanged = function() {
         var visualizationType = self.getModel().getVisualizationTypeModel().getCurrentVisualizationType();
-        var chartsControllersFactory = _layersControllersFactory.getLayersControllers(visualizationType);
+        var chartsControllers = _chartsFactory.getLayersControllers(visualizationType);
 
         // Remove all previous layers from the map
         self.closeAllPopups();
 
         // For each new layer controller class, instantiate the controller with a new layer group, and add that group
         // to the map
-        layersViewControllers.forEach(function(Controller) {
-            //var layerGroup = L.layerGroup();
-            //_mapContainer.addLayer(layerGroup);
-            //_layersControllers.push(new Controller(self, layerGroup));
-            self.add(new Controller(self));
+        chartsControllers.forEach(function(Controller) {
+
+            // Change this addPopup
+            var chartController = new Controller(self);
+            var popup = new PopupController(self, chartController.getSize());
+            self.add(popup);
         });
+    };
+
+    /**
+     * @override
+     * @param childController
+     */
+    var oldAdd = this.add;
+    this.add = function(popupController) {
+        // Add layer group
+        //_mapContainer.addLayer(childController.getLayerGroup());
+
+        // Call super MODIFIED
+        self.getChildren().push(popupController);
+
+        popupController.setParentController(self);
+        //_svgLayerGroup.append(function(){return childController.getView().getSvg().node();});
+        self.addPopup(popupController);
+        popupController.updateView();
+
+        //oldAdd.call(self, childController);
+    };
+
+
+    /**
+     * @override
+     * @param childController
+     */
+    var oldRemove = this.remove;    // Save super
+    this.remove = function(childController) {
+        //_mapContainer.removeLayer(childController.getLayerGroup());
+
+        childController.dispose();
+        // Call super
+        oldRemove.call(self, childController);
+
+        childController.getView().getSvg().remove();
     };
 
     /**
@@ -189,10 +230,6 @@ function ChartsContainerController(parentController, svgContainer) {
             .attr("preserveAspectRatio","xMaxYMin meet");
 
 
-        //TODO REMOVE
-
-        self.addPopup(new PopupController(self,"single"));
-        self.addPopup(new PopupController(self,"single"));
 
 
         draw();
