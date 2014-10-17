@@ -117,8 +117,10 @@ function DBModel() {
      * @param day
      */
     self.getTripsForPlayADay = function(day, callback) {
-        var start = (day).getTime()/1000;
-        var endDate = new Date(day.valueOf());
+        var dayCleaned = new Date(day.value);
+        dayCleaned.setHours(0,0);
+        var start = (dayCleaned).getTime()/1000;
+        var endDate = new Date(dayCleaned.valueOf());
         endDate.setDate(endDate.getDate() + 1);
         var end = (endDate).getTime()/1000;
         var url = _dbServer + "get_trips_for_play_a_day.php?start_date=" + start + "&end_date=" + end;
@@ -155,6 +157,23 @@ function DBModel() {
         var start = (startDate).getTime()/1000;
         var end = (endDate).getTime()/1000;
         var url = _dbServer + "get_stations_outflow?start_date=" + start + "&end_date=" + end;
+        logUrl(url);
+        $.getJSON(url)
+            .done(callback)
+            .fail(_failCallback);
+    };
+
+
+    /**
+     * Already sorted by greatest difference
+     * @param startDate
+     * @param endDate
+     * @param callback
+     */
+    self.getStationsInflowAndOutflow = function(startDate, endDate, callback) {
+        var start = (startDate).getTime()/1000;
+        var end = (endDate).getTime()/1000;
+        var url = _dbServer + "get_stations_inflow_and_outflow.php?start_date=" + start + "&end_date=" + end;
         logUrl(url);
         $.getJSON(url)
             .done(callback)

@@ -1,8 +1,8 @@
 /**
  * Class for the calendar tool
  */
-function CalendarToolController(parentController, svgContainer, calendarPickerController) {
-    ToolTileViewController.call(this, parentController, svgContainer);
+function CalendarToolController(parentController, calendarPickerController) {
+    ViewController.call(this, parentController);
     // PRIVATE ATTRIBUTES
     var self = this;
 
@@ -18,6 +18,7 @@ function CalendarToolController(parentController, svgContainer, calendarPickerCo
     var _viewBoxWidth = 300;
     var _viewBoxHeight = 100;
 
+    var _frame = {x: 0, y: 580, width:400 ,height: 200};
     var _padding = {top: 20, left: 25, bottom: 20, right: 30};
 
     // PUBLIC METHODS
@@ -26,8 +27,10 @@ function CalendarToolController(parentController, svgContainer, calendarPickerCo
     // PRIVATE METHODS
     var draw = function() {
 
+
+
         _dateText =
-            self.getContentBox()
+            self.getView().getSvg()
             .append("text")
             .classed("calendar-tool-controller-day-text", true)
             .attr("x",_viewBoxWidth - _padding.right)
@@ -37,7 +40,7 @@ function CalendarToolController(parentController, svgContainer, calendarPickerCo
 
 
         _backgroundButton =
-            self.getContentBox()
+            self.getView().getSvg()
                 .append("rect")
                 .classed("calendar-tool-controller-calendar-button-background", true)
                 .classed("selected", false)
@@ -48,7 +51,7 @@ function CalendarToolController(parentController, svgContainer, calendarPickerCo
                 .attr("y",0);
 
         _calendarButton =
-            self.getContentBox()
+            self.getView().getSvg()
                 .append("image")
                 .classed("calendar-tool-controller-calendar-button", true)
                 .attr("xlink:href", "img/calendar-tool-controller-calendar-button.svg")
@@ -77,13 +80,13 @@ function CalendarToolController(parentController, svgContainer, calendarPickerCo
     };
 
     var init = function() {
-        svgContainer.classed("calendar-tool-controller", true);
-        self.setViewBox(_viewBoxWidth, _viewBoxHeight);
+        self.getView().getSvg().classed("calendar-tool-controller", true);
+        self.getView().getSvg().style("pointer-events", "visiblePainted");
+        self.getView().setViewBox(0,0,_viewBoxWidth, _viewBoxHeight);
+        self.getView().setFrame(_frame.x,_frame.y,_frame.width,_frame.height);
 
-        //reset parent padding.
-        self.setPadding(0,0,0,0);
         draw();
     } ();
 }
 
-Utils.extend(CalendarToolController, ToolTileViewController);
+Utils.extend(CalendarToolController, ViewController);

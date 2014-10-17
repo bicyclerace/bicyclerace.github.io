@@ -15,6 +15,10 @@ function TimeModel(parentModel) {
         _date,
         _timeOfTheDay;
 
+
+    var _startDate = new Date("06-27-2013");
+    var _endDate = new Date("12-31-2013");
+
     // PUBLIC METHODS
     this.setPlayState = function(animationState) {
         _playState = animationState;
@@ -33,8 +37,6 @@ function TimeModel(parentModel) {
         } else {
             parentModel.getNotificationCenter().dispatch(Notifications.time.DATE_CHANGED);
         }
-
-
 
     };
 
@@ -86,8 +88,16 @@ function TimeModel(parentModel) {
         return _timeOfTheDay;
     };*/
 
-    // PRIVATE METHODS
 
+    this.getStartDate = function () {
+        return _startDate;
+    };
+
+    this.getEndDate = function () {
+        return _endDate;
+    };
+
+    // PRIVATE METHODS
 
 
     var init = function () {

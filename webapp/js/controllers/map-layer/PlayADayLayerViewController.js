@@ -11,21 +11,27 @@ function PlayADayLayerViewController(parentController, layerGroup) {
     // PRIVATE ATTRIBUTES
     var self = this;
 
+    var _animationStarted = false;
     var _animationSpeed = 50;
-    var _svg,_g;
     var _animatedBikes = [];//{o
     var _map;
     var bikeIconScale = 0.7;
     var _minZoomLevelToEnlargeBikes = 12;
     var _animationIntervalObject;
-
+    var _animationTrips;
     var _currentTime = null;
+
+    var __debug = true;
 
     //////////////////////////// PUBLIC METHODS ////////////////////////////
 
     this.dispose = function() {
         clearInterval(_animationIntervalObject);
+        self.getView().getSvg().html("");
+        _animatedBikes =  [];
+        _animationStarted = false;
     };
+
 
     this.setAnimationSpeed = function(animationSpeed) {
         _animationSpeed = animationSpeed;
@@ -53,35 +59,33 @@ function PlayADayLayerViewController(parentController, layerGroup) {
     };
 
 
-    this.resetAnimation = function () {
-        //reset bikes
-        for(var i in _animatedBikes){
-
-            try{
-                _animatedBikes[i].remove();
-            }catch(err){
-                console.log("error removing a bike");
-            }
-
-        }
-        _animatedBikes = [];
-    };
-
-
     var _oldCoords = [];
     var _zoom;
 
 
     this.onDateChanged = function() {
+
+        //No animation started yet
+        if(!_animationStarted)
+            return;
+
         var timeModel = self.getModel().getTimeModel();
 
         //if it is a different time
         //switch to another moment of the animation
 
+        //g("time changed now:" + _currentTime + " last time:" + timeModel.getDate());
+        if(_currentTime.getTime() != timeModel.getDate().getTime() && daysBetween(_currentTime,timeModel.getDate()) == 0) {
+            if(__debug)console.log("ONLY time changed");
+            self.dispose();
+            startAnimation(_animationTrips);
+
+        }
+
         //if it is a different day
         if(daysBetween(_currentTime,timeModel.getDate()) != 0) {
-            console.log("dateChanged");
-            self.resetAnimation();
+            if(__debug)console.log("dateChanged ON " + timeModel.getDate());
+            self.dispose();
             self.playDay(timeModel.getDate());
 
         }
@@ -108,11 +112,13 @@ function PlayADayLayerViewController(parentController, layerGroup) {
 
 
     var startAnimation = function(trips) {
-        console.log(trips);
+        _animationStarted = true;
+        _animationTrips = trips;
+
         var timeModel = self.getModel().getTimeModel();
 
 
-        var updateInterval = 300;
+        var updateInterval = 1000;
         var currentTripId = 0;
 
         //discard all the trips before time
@@ -126,15 +132,11 @@ function PlayADayLayerViewController(parentController, layerGroup) {
             }
         }
 
+        if(__debug)console.log("started at trip " + currentTripId + " of " + trips.length);
+
         //skip some bikes if they are so many
         var skip = 1;
 
-        var start = databaseModel.getStationCoordinates(trips[0].from_station_id);
-
-        var end = databaseModel.getStationCoordinates(trips[0].to_station_id);
-        var duration = parseInt((trips[0].seconds*100000) / _animationSpeed);
-
-        animateBike(start,end,duration);
 
         _animationIntervalObject = window.setInterval(function() {
             var now = timeModel.getDate();
@@ -150,14 +152,14 @@ function PlayADayLayerViewController(parentController, layerGroup) {
 
                     var end = databaseModel.getStationCoordinates(trip.to_station_id);
                     var duration = parseInt((trip.seconds*1000) / _animationSpeed);
-
+                    if(__debug)console.log("started at trip " + i + " of " + trips.length);
                     animateBike(start,end,duration)
                 }
             }
 
             _currentTime = new Date(now.getTime() + _animationSpeed*updateInterval);
-            timeModel
-            timeModel.setDate(_currentTime);
+
+            timeModel.setDate(new Date(_currentTime));
         }, updateInterval);
 
     };
@@ -202,6 +204,7 @@ function PlayADayLayerViewController(parentController, layerGroup) {
         bike
             .attr("transform",getTranslateAttr(fromCoord,angle,bikeIconScale*fact))
             .transition()
+            .ease("linear")
             .duration(duration)
             .attr("transform",getTranslateAttr(toCoord,angle,bikeIconScale*fact))
             .each("end",function(){
@@ -226,13 +229,7 @@ function PlayADayLayerViewController(parentController, layerGroup) {
 
 
     var draw = function() {
-        _svg = d3.select("#test-lay");
-        //TODO SIZES
-        _svg.attr("width",3000);
-        _svg.attr("height",3000);
-        _g = _svg.append("g").attr("class", "leaflet-zoom-hide");
 
-        //var svg = d3.select(_layerGroup.getPanes().overlayPane).append("svg");
     };
 
     var registerToNotifications = function() {
@@ -242,6 +239,9 @@ function PlayADayLayerViewController(parentController, layerGroup) {
 
         self.getNotificationCenter().subscribe(self, self.onDateChanged,
             Notifications.time.DATE_CHANGED);
+
+        self.getNotificationCenter().subscribe(self, self.onDateChanged,
+            Notifications.time.TIME_OF_THE_DAY_CHANGED);
     };
 
 

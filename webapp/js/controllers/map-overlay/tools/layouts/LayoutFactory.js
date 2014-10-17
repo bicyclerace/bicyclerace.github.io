@@ -26,6 +26,9 @@ function LayoutFactory() {
             case VisualizationType.PLAY_A_DAY:
                 _layoutClass = PlayADayToolsLayoutController;
                 break;
+            case VisualizationType.STATION_FLOW_BALANCE:
+                _layoutClass = FlowBalanceToolsLayoutController;
+                break;
             case VisualizationType.DAY_PATTERNS:
                 _layoutClass = PatternsToolLayoutController;
         }

@@ -1,8 +1,8 @@
 /**
  * Class for the calendar tool
  */
-function CalendarPickerController(parentController, svgContainer) {
-    ToolTileViewController.call(this, parentController, svgContainer);
+function CalendarPickerController(parentController) {
+    ViewController.call(this, parentController);
     // PRIVATE ATTRIBUTES
     var self = this;
 
@@ -13,7 +13,9 @@ function CalendarPickerController(parentController, svgContainer) {
     var _viewBoxWidth = 300;
     var _viewBoxHeight = 300;
 
+    var _frame = {x: 0, y: 580-400, width:400, height: 400};
     var _padding = {top: 50, left: 50, bottom: 10, right: 20};
+
 
 
     // PUBLIC METHODS
@@ -25,21 +27,24 @@ function CalendarPickerController(parentController, svgContainer) {
      * Show the picker
      */
     this.showCalendarPicker = function() {
-        self.getContentBox().transition().attr("height","100%");
+        //self.getView().getSvg().transition().attr("y",580-_frame.height).attr("height","100%");
+        $(self.getView().getSvg()[0]).show(200);
     };
 
     /**
      * Hide the  picker
      */
     this.hideCalendarPicker = function () {
-        self.getContentBox().transition().attr("height",0);
+        //self.getView().getSvg().transition().attr("y",580).attr("height",0);
+        $(self.getView().getSvg()[0]).hide(200);
     };
 
     /**
      * Hide the  picker
      */
     this.hideCalendarPickerWithoutAnimation = function () {
-        self.getContentBox().attr("height",0);
+        //self.getView().getSvg().attr("height",0);
+        $(self.getView().getSvg()[0]).hide();
     };
 
     /**
@@ -65,7 +70,7 @@ function CalendarPickerController(parentController, svgContainer) {
         //make it hidden
 
         //white rect background
-        self.getContentBox()
+        self.getView().getSvg()
                 .append("rect")
                 .classed("calendar-picker-controller-background", true)
                 .attr("width", "100%")
@@ -87,7 +92,7 @@ function CalendarPickerController(parentController, svgContainer) {
             var height = width;
 
             var textBackground =
-                self.getContentBox()
+                self.getView().getSvg()
                     .append("rect")
                     .datum(i)
                     .classed("calendar-picker-controller-text-background", true)
@@ -101,7 +106,7 @@ function CalendarPickerController(parentController, svgContainer) {
 
 
             var dayText =
-                self.getContentBox()
+                self.getView().getSvg()
                 .append("text")
                 .datum(i)
                 .classed("calendar-picker-controller-text", true)
@@ -122,12 +127,12 @@ function CalendarPickerController(parentController, svgContainer) {
 
     };
 
-    var set
 
     var init = function() {
-        svgContainer.classed("calendar-picker-controller", true);
-        self.setPadding(0,0,0,0);
-        self.setViewBox(_viewBoxWidth, _viewBoxHeight);
+        self.getView().getSvg().classed("calendar-picker-controller", true);
+        self.getView().getSvg().style("pointer-events", "visiblePainted");
+        self.getView().setViewBox(0,0,_viewBoxWidth, _viewBoxHeight);
+        self.getView().setFrame(_frame.x,_frame.y,_frame.width,_frame.height);
 
         self.getNotificationCenter().subscribe(self, self.onDayChanged,
                 Notifications.time.DATE_CHANGED);
@@ -137,4 +142,4 @@ function CalendarPickerController(parentController, svgContainer) {
     } ();
 }
 
-Utils.extend(CalendarPickerController, ToolTileViewController);
+Utils.extend(CalendarPickerController, ViewController);

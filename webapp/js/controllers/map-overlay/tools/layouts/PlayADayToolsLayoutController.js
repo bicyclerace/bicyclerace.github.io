@@ -19,10 +19,10 @@ function PlayADayToolsLayoutController(parentController, svgContainer) {
     var _playTimeViewController;
 
     // Calendar sizes
-    var _calendarPickerBox = {x: 10, y: 450, height: 600};
+
     var _calendarPickerController;
 
-    var _calendarToolBox = {x: 10, y: 250, height: 200};
+
     var _calendarToolController;
 
     // PUBLIC METHODS
@@ -35,6 +35,8 @@ function PlayADayToolsLayoutController(parentController, svgContainer) {
         var height = 150;
         _playTimeViewController.getView().setFrame(0, self.getView().getViewBoxHeight() - height, width, height);
 
+        // hide the calendar
+        _calendarPickerController.hideCalendarPickerWithoutAnimation();
 
         // Call super method (updates children)
         superUpdateView.call(self);
@@ -42,31 +44,7 @@ function PlayADayToolsLayoutController(parentController, svgContainer) {
 
     // PRIVATE METHODS
     var draw = function() {
-        // Add calendar
 
-
-        var calendarPickerSvg = _svgContainer.append("svg");
-        var calendarToolSvg = _svgContainer.append("svg");
-
-
-        _calendarPickerController = new CalendarPickerController(self, calendarPickerSvg);
-        _calendarToolController = new CalendarToolController(self, calendarToolSvg, _calendarPickerController);
-
-        calendarToolSvg
-            .attr("x", _calendarToolBox.x)
-            .attr("y", _calendarToolBox.y)
-            .attr("width", _calendarToolController.getAspectRatio() * _calendarToolBox.height)
-            .attr("height", _calendarToolBox.height);
-
-        calendarPickerSvg
-            .attr("x", _calendarPickerBox.x)
-            .attr("y", _calendarPickerBox.y)
-            .attr("width", _calendarPickerController.getAspectRatio() * _calendarPickerBox.height)
-            .attr("height", _calendarPickerBox.height);
-
-        _calendarPickerController.hideCalendarPickerWithoutAnimation();
-
-        //self.getView().getSvg().append(_svgContainer);
 
     };
 
@@ -82,6 +60,12 @@ function PlayADayToolsLayoutController(parentController, svgContainer) {
             .classed("DEBUG-layout-controller", true)
             .attr("viewBox", "0 0 " + _viewBox.width + " " + _viewBox.height)
             .attr("preserveAspectRatio", "xMinYMin meet");
+
+        _calendarPickerController = new CalendarPickerController(self);
+        self.add(_calendarPickerController);
+        _calendarToolController = new CalendarToolController(self, _calendarPickerController);
+        self.add(_calendarToolController);
+
         draw();
 
     } ();

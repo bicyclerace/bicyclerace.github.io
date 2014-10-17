@@ -16,3 +16,7 @@
 .calendar-tool-controller-calendar-button-background{
     fill: #FFFFFF;
 }
+
+.ui-view.view-controller.calendar-tool-controller .background {
+    fill: rgba(41,36,33,0.9);
+}

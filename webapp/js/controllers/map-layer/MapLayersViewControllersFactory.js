@@ -27,7 +27,11 @@ function MapLayerViewControllersFactory() {
             case VisualizationType.PLAY_A_DAY:
                 layersControllers.push(PlayADayLayerViewController);
                 break;
+            case VisualizationType.STATION_FLOW_BALANCE:
+                layersControllers.push(FlowBalanceLayerViewController);
+                break;
             case VisualizationType.DAY_PATTERNS:
+
 
         }
 
