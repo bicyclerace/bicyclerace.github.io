@@ -20,6 +20,9 @@ function MapLayerViewControllersFactory() {
             case VisualizationType.OVERALL_STATISTICS:
 
                 break;
+            case VisualizationType.COMPARE:
+
+                break;
             case VisualizationType.STATION_POPULARITY:
                 layersControllers.push(StationsPopularityLayerViewController);
                 layersControllers.push(CommunityGridLayerViewController);

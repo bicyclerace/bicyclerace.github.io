@@ -6,14 +6,14 @@
  * @param svgContainer
  * @param size
  */
-function PopupController(parentController, svgContainer, popupSize) {
+function PopupController(parentController, popupSize) {
     // Call the base class constructor
     ViewController.call(this, parentController);
 
     // PRIVATE ATTRIBUTES
     var self = this;
 
-    var _svgContainer = svgContainer;
+    var _svgContainer;
     var _svgChart;
     var _viewBoxWidth;
     var _viewBoxHeight;
@@ -106,7 +106,7 @@ function PopupController(parentController, svgContainer, popupSize) {
     };
 
     var init = function() {
-        // console.log("popupController", self);
+        //console.log("popupController", self);
         // _viewBoxHeight = _svgContainer.attr("height");
         // _viewBoxWidth = _svgContainer.attr("width");
         // /*if(_popupSize == "single"){
