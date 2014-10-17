@@ -147,7 +147,7 @@ function ChartsContainerController(parentController, svgContainer) {
     // PRIVATE METHODS
     var draw = function() {
         
-        var popupOne = new PopupController(self).size("double");
+        /*var popupOne = new PopupController(self).size("double");
             // popupTwo = new PopupController(self).size("single"),
             // popupThree = new PopupController(self).size("double");
             
@@ -157,7 +157,7 @@ function ChartsContainerController(parentController, svgContainer) {
         // popupTwo.chartController(chartOne);
         // popupThree.chartController(chartOne);
         
-        self.addPopup(popupOne);
+        self.addPopup(popupOne);*/
         // self.addPopup(popupTwo);
         // self.addPopup(popupThree);
 
@@ -170,8 +170,9 @@ function ChartsContainerController(parentController, svgContainer) {
 
 
         //TODO REMOVE
-        self.addPopup(new PopupController(self,null,"single"));
-        self.addPopup(new PopupController(self,null,"single"));
+
+        self.addPopup(new PopupController(self,"single"));
+        self.addPopup(new PopupController(self,"single"));
 
 
         draw();
