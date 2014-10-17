@@ -209,7 +209,14 @@ function UIView() {
         _svg.attr("height", height);
     };
 
-
+    /**
+     *
+     */
+    this.bringToFront = function() {
+        self.getSvg().each(function(){
+            this.parentNode.appendChild(this);
+        });
+    };
 
 
     // Event handling
@@ -225,9 +232,10 @@ function UIView() {
      * Attach events' callback to the view
      * @param event
      * @param callBack
+     * @param params
      */
-    this.on = function(event, callBack) {
-        _eventsLayer.on(event, callBack);
+    this.on = function(event, callBack, /**params=0*/params) {
+        _eventsLayer.on(event, function(){callBack(params);});
         _svg.style("pointer-events", "visiblePainted");
     };
 

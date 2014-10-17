@@ -14,8 +14,8 @@ function SelectStationLayerViewController(parentController, layerGroup) {
 
 
     var __debug = true;
-
-
+    var _selectionModel = self.getModel().getSelectionModel();
+    var _stationButtons = {};
 
     //////////////////////////// PUBLIC METHODS ////////////////////////////
 
@@ -23,11 +23,33 @@ function SelectStationLayerViewController(parentController, layerGroup) {
 
     };
 
+
+    this.onStationSelectionChanged = function() {
+
+        var selectedStations = _selectionModel.getSelectedStations();
+        console.log("bau " + selectedStations);
+        //deselect all
+        for(var i in _stationButtons){
+            _stationButtons[i].setImage("img/select-stations-layer-deselected.svg");
+        }
+
+        //select few
+        for(var j in selectedStations) {
+            var id = selectedStations[j];
+            _stationButtons[id].setImage("img/select-stations-layer-selected.svg");
+
+            _stationButtons[id].getView().bringToFront();
+
+        }
+    };
+
     ////////////// PRIVATE METHODS
 
-    var onStationSelected(station) {
 
-    }
+    var onStationClicked = function(station) {
+        if(__debug)console.log("selected " + station.station_id);
+        _selectionModel.toggleStationSelection(station.station_id);
+    };
 
 
     var draw = function() {
@@ -41,18 +63,13 @@ function SelectStationLayerViewController(parentController, layerGroup) {
             var p = self.project(coord[0], coord[1]);
 
             //add station
-            self.getView().getSvg().append("image")
-                .classed("select-stations-layer-station", true)
-                .attr("selected",false)
-                .attr("xlink:href", "img/select-stations-layer-deselected")
-                .attr("x", _viewBoxWidth - _padding.right - _logoWith)
-                .attr("y", _padding.top)
-                .attr("width", _logoWith)
-                .attr("height", _logoHeight)
-                .on("click", function(){parentController.closePopup(self)});
-
-            stationButton.setImage("")
-
+            var stationButton = new UIButtonViewController(self);
+            stationButton.setImage("img/select-stations-layer-deselected.svg");
+            stationButton.getView().setFrame(p.x, p.y, 3, 5);
+            stationButton.getView().setViewBox(0,0,3,5);
+            stationButton.onClick(onStationClicked, station);
+            self.add(stationButton);
+            _stationButtons[station.station_id] = stationButton;
 
         }
     };
@@ -60,9 +77,8 @@ function SelectStationLayerViewController(parentController, layerGroup) {
 
 
     var init = function() {
-        var timeModel = self.getModel().getTimeModel();
-        databaseModel.getStationsInflowAndOutflow(timeModel.getStartDate(),timeModel.getEndDate(),self.drawInflowOutflow);
-
+        self.getNotificationCenter().subscribe(self, self.onStationSelectionChanged,
+            Notifications.selections.STATIONS_SELECTED_CHANGED);
         draw();
     } ();
 }

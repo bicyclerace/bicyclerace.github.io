@@ -61,8 +61,8 @@ function UIButtonViewController(parentController) {
      *
      * @param callBack
      */
-    this.onClick = function(callBack) {
-        self.getView().on("click", callBack);
+    this.onClick = function(callBack, params) {
+        self.getView().on("click", callBack, params);
     };
 
     /**

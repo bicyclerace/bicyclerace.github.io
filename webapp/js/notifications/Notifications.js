@@ -35,3 +35,13 @@ Notifications.time = {
     PLAY_STATE_CHANGED  : "com.divvy.time.playStateChanged",
     TIME_OF_THE_DAY_CHANGED  : "com.divvy.time.timeOfTheDayChanged"
 };
+
+Notifications.selections = {
+    /** EVERY TIME STATIONS SELECTION CHANGED */
+    STATIONS_SELECTED_CHANGED : "com.divvy.selections.stationsSelectedChanged",
+    /** IN ADDITION THOSE ARE FIRED*/
+    NONE_STATION_SELECTED : "com.divvy.selections.noneStationSelectedChanged",
+    ONE_STATION_SELECTED : "com.divvy.selections.oneStationSelectedChanged",
+    TWO_STATIONS_SELECTED : "com.divvy.selections.twoStationsSelectedChanged",
+    MANY_STATIONS_SELECTED : "com.divvy.selections.manyStationsSelectedChanged"
+};

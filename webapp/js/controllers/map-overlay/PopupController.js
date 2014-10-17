@@ -13,8 +13,6 @@ function PopupController(parentController, popupSize) {
     // PRIVATE ATTRIBUTES
     var self = this;
 
-    var _svgContainer;
-    var _svgChart;
     var _viewBoxWidth;
     var _viewBoxHeight;
     var _popupSize = popupSize;
@@ -25,19 +23,12 @@ function PopupController(parentController, popupSize) {
     var _padding = {left: 14, top: 14, right: 14, bottom:14};
 
     // PUBLIC METHODS
-    
-    /**
-     * @returns the svg where to draw the chart
-     */
-    this.getChartSvg = function() {
-        return _svgChart;
-    };
 
     /**
-     * @returns the container svg
+     * @returns
      */
     this.getContainerSvg = function() {
-        return _svgContainer;
+        return self.getView().getSvg();
     };
 
     this.getPopupSize = function() {
@@ -48,9 +39,7 @@ function PopupController(parentController, popupSize) {
 
     };
     
-    this.svgContainer = function(value) {
-        return (arguments.length) ? (_svgContainer = value, self) : _svgContainer;
-    };
+
     
     this.size = function(value) {
         return (arguments.length) ? (_popupSize = value, self) : _popupSize;
@@ -67,19 +56,19 @@ function PopupController(parentController, popupSize) {
 
     // PRIVATE METHODS
     this.draw = function() {
-        _viewBoxHeight = _svgContainer.attr("height");
-        _viewBoxWidth = _svgContainer.attr("width");
+        _viewBoxHeight = self.getView().getSvg().attr("height");
+        _viewBoxWidth = self.getView().getSvg().attr("width");
         /*if(_popupSize == "single"){
             _viewBoxWidth = 100;
         } else if(_popupSize == "double") {
             _viewBoxWidth = 210;
         }*/
 
-        _svgContainer
+        self.getView().getSvg()
             .attr("viewBox", "0 0 " + _viewBoxWidth + " " + _viewBoxHeight);
 
         //create background rect
-        _svgContainer.append("rect")
+        self.getView().getSvg().append("rect")
             .attr("width", "100%")
             .attr("height", "100%")
             .classed("popup-controller-background", true);
@@ -95,7 +84,7 @@ function PopupController(parentController, popupSize) {
             */
 
         //Close button
-        _svgContainer.append("image")
+        self.getView().getSvg().append("image")
             .classed("popup-controller-close-button", true)
             .attr("xlink:href", "img/popup-controller-close-button.png")
             .attr("x", _viewBoxWidth - _padding.right - _closeButtonSize)

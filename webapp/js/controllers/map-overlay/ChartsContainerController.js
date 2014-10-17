@@ -151,7 +151,9 @@ function ChartsContainerController(parentController, svgContainer) {
             console.log(size + " is not a popup size");
         }
 
-        var popupSvg = _svgContainer.append("svg")
+        var popupSvg = popup.getView().getSvg();
+
+        popupSvg
             .classed("popup-controller", true)
             .attr("x", x)
             .attr("y", y)
@@ -164,10 +166,10 @@ function ChartsContainerController(parentController, svgContainer) {
         }
 
         // var popup = new PopupController(this, popupSvg, size);
-        
-        popup.svgContainer(popupSvg);
+
         popup.positionInsideContainer = popupPosition;
         popup.draw();
+        _svgContainer.append(function(){return popup.getView().getSvg().node()});
         _openedPopups.push(popup);
         return popup;
     };

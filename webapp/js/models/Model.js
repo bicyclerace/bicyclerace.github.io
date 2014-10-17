@@ -18,6 +18,7 @@ function Model() {
     var _notificationCenter;
     var _colorsModel;
     var _timeModel;
+    var _selectionModel;
 
     // Hold the status of the current visualization context
     var _visualizationTypeModel;
@@ -75,6 +76,15 @@ function Model() {
         return _mapModel;
     };
 
+
+    /**
+     * @returns a mapModel object
+     */
+    this.getSelectionModel = function() {
+        return _selectionModel;
+    };
+
+
     /**
      * Returns the model that holds historical weather data of Chicago
      * @returns {WeatherModel}
@@ -101,6 +111,7 @@ function Model() {
         _visualizationTypeModel = new VisualizationTypeModel(self);
         _timeModel = new TimeModel(self);
         _mapModel = new MapModel(self);
+        _selectionModel = new SelectionModel(self);
         //_weatherModel = new WeatherModel(self);
     } ();
 }
