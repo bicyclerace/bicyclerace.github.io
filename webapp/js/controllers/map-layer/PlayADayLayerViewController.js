@@ -253,6 +253,8 @@ function PlayADayLayerViewController(parentController, layerGroup) {
         draw();
         registerToNotifications();
 
+        //TODO necessary?
+        self.getModel().getSelectionModel().selectAllStations();
 
 
     } ();

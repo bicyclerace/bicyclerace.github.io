@@ -28,6 +28,7 @@ function MapLayerViewControllersFactory() {
                 layersControllers.push(CommunityGridLayerViewController);
                 break;
             case VisualizationType.PLAY_A_DAY:
+                layersControllers.push(SelectStationLayerViewController);
                 layersControllers.push(PlayADayLayerViewController);
                 break;
             case VisualizationType.STATION_FLOW_BALANCE:

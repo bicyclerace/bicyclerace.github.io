@@ -10,7 +10,10 @@ function SelectStationLayerViewController(parentController, layerGroup) {
 
     // PRIVATE ATTRIBUTES
     var self = this;
-    var _stationSize;
+    var _stationHeight,
+        _stationWidth;
+    var _selectImage,
+        _deselectImage;
 
 
     var __debug = true;
@@ -27,16 +30,15 @@ function SelectStationLayerViewController(parentController, layerGroup) {
     this.onStationSelectionChanged = function() {
 
         var selectedStations = _selectionModel.getSelectedStations();
-        console.log("bau " + selectedStations);
         //deselect all
         for(var i in _stationButtons){
-            _stationButtons[i].setImage("img/select-stations-layer-deselected.svg");
+            _stationButtons[i].setImage(_deselectImage);
         }
 
         //select few
         for(var j in selectedStations) {
             var id = selectedStations[j];
-            _stationButtons[id].setImage("img/select-stations-layer-selected.svg");
+            _stationButtons[id].setImage(_selectImage);
 
             _stationButtons[id].getView().bringToFront();
 
@@ -64,9 +66,15 @@ function SelectStationLayerViewController(parentController, layerGroup) {
 
             //add station
             var stationButton = new UIButtonViewController(self);
-            stationButton.setImage("img/select-stations-layer-deselected.svg");
+
+            if(self.getModel().getSelectionModel().isStationSelected(station.station_id)) {
+                stationButton.setImage(_selectImage);
+            } else {
+                stationButton.setImage(_deselectImage);
+            }
+
             stationButton.getView().setFrame(p.x, p.y, 3, 5);
-            stationButton.getView().setViewBox(0,0,3,5);
+            stationButton.getView().setViewBox(0,0, _stationWidth, _stationHeight);
             stationButton.onClick(onStationClicked, station);
             self.add(stationButton);
             _stationButtons[station.station_id] = stationButton;
@@ -77,6 +85,22 @@ function SelectStationLayerViewController(parentController, layerGroup) {
 
 
     var init = function() {
+
+        var visualizationType = self.getModel().getVisualizationTypeModel().getCurrentVisualizationType();
+
+        if(visualizationType == VisualizationType.PLAY_A_DAY) {
+            _stationHeight = 3;
+            _stationWidth = 3;
+            _deselectImage = "img/select-stations-layer-circle-deselected.svg";
+            _selectImage = "img/select-stations-layer-circle-selected.svg"
+        } else {
+            //Default
+            _stationHeight = 5;
+            _stationWidth = 3;
+            _deselectImage = "img/select-stations-layer-deselected.svg";
+            _selectImage = "img/select-stations-layer-selected.svg"
+        }
+
         self.getNotificationCenter().subscribe(self, self.onStationSelectionChanged,
             Notifications.selections.STATIONS_SELECTED_CHANGED);
         draw();

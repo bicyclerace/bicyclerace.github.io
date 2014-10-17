@@ -120,7 +120,7 @@ function DBModel() {
      * @param day
      */
     self.getTripsForPlayADay = function(day, callback) {
-        var dayCleaned = new Date(day.value);
+        var dayCleaned = new Date(day.valueOf());
         dayCleaned.setHours(0,0);
         var start = (dayCleaned).getTime()/1000;
         var endDate = new Date(dayCleaned.valueOf());

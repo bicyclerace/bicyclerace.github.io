@@ -19,6 +19,11 @@ function NotificationCenter () {
     };
 
     this.subscribe = function(observer, callBack, notification) {
+
+        if(!callBack) {
+            console.log("try to subscribe without valid callback");
+        }
+
         if (_observers[notification] == undefined) {
             _observers[notification] = [];
         }
