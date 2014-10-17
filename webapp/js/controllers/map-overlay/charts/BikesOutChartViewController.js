@@ -20,8 +20,8 @@ function BikesOutChartViewController(parentController) {
         var parentWidth = self.getParentController().getView().getViewBoxWidth();
         var parentHeight = self.getParentController().getView().getViewBoxHeight();
         self.getView()
-            .setFrame(0, 0, parentWidth, parentHeight);
-        self.getView().setViewBox(0, 0, parentWidth, parentHeight);
+            .setFrame(0, 0, 400, 400);
+        self.getView().setViewBox(0, 0, 400, 400);
         _button.getView().setFrame(10,10, 200, 200);
         _button.getView().setViewBox(0, 0, 200, 200);
         _button.setTitle("BAU");
