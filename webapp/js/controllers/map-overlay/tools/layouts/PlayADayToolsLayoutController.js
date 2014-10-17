@@ -8,7 +8,7 @@
  */
 function PlayADayToolsLayoutController(parentController, svgContainer) {
     ViewController.call(this, parentController || undefined);
-    // PRIVATE ATTRIBUTES
+    ////////////////////////////// PRIVATE ATTRIBUTES //////////////////////////////
     var self = this;
 
     // UI
@@ -17,6 +17,7 @@ function PlayADayToolsLayoutController(parentController, svgContainer) {
 
     // Tools
     var _playTimeViewController;
+    var _weatherViewController;
 
     // Calendar sizes
 
@@ -25,7 +26,10 @@ function PlayADayToolsLayoutController(parentController, svgContainer) {
 
     var _calendarToolController;
 
-    // PUBLIC METHODS
+
+
+
+    ////////////////////////////// PUBLIC METHODS //////////////////////////////
     /**
      * Subclasses should override this method
      */
@@ -35,6 +39,8 @@ function PlayADayToolsLayoutController(parentController, svgContainer) {
         var height = 150;
         _playTimeViewController.getView().setFrame(0, self.getView().getViewBoxHeight() - height, width, height);
 
+        _weatherViewController.getView().setFrame(self.getView().getViewBoxWidth() -300, 0, 300, 300);
+
         // hide the calendar
         _calendarPickerController.hideCalendarPickerWithoutAnimation();
 
@@ -42,7 +48,11 @@ function PlayADayToolsLayoutController(parentController, svgContainer) {
         superUpdateView.call(self);
     };
 
-    // PRIVATE METHODS
+
+
+
+
+    ////////////////////////////// PRIVATE METHODS //////////////////////////////
     var draw = function() {
 
 
@@ -54,6 +64,10 @@ function PlayADayToolsLayoutController(parentController, svgContainer) {
         // Play time view controller
         _playTimeViewController = new UIPlayTimeViewController(self);
         self.add(_playTimeViewController);
+
+        // Setup weather view controller
+        _weatherViewController = new UIWeatherViewController(self);
+        self.add(_weatherViewController);
 
         // Old
         _svgContainer

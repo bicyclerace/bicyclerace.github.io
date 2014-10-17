@@ -1,0 +1,7 @@
+.ui-view.view-controller.ui-weather-view-controller > .background {
+    fill: rgba(41,36,33,0.9);
+}
+
+.ui-view.view-controller.ui-weather-view-controller .ui-label-view-controller .text {
+    font-size: 40px;
+}

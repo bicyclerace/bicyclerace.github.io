@@ -24,6 +24,9 @@ function Model() {
 
     // Holds the status of the current map context
     var _mapModel;
+
+    // Holds historical weather data of Chicago
+    var _weatherModel;
     
 
     // PUBLIC METHODS
@@ -58,7 +61,7 @@ function Model() {
 
     /**
      *
-     * @returns {*}
+     * @returns {VisualizationTypeModel}
      */
     this.getVisualizationTypeModel = function() {
         return _visualizationTypeModel;
@@ -71,6 +74,14 @@ function Model() {
     this.getMapModel = function() {
         return _mapModel;
     };
+
+    /**
+     * Returns the model that holds historical weather data of Chicago
+     * @returns {WeatherModel}
+     */
+    this.getWeatherModel = function() {
+        return weatherModel;
+    };
     
     
     /**
@@ -79,12 +90,6 @@ function Model() {
     this.getId = function() {
         return _id;
     };
-
-    /* EXAMPLE
-    this.setStation = function(id) {
-        _id = id;
-        self.getNotificationCenter().dispatch()
-    }*/
 
 
     /**
@@ -96,5 +101,6 @@ function Model() {
         _visualizationTypeModel = new VisualizationTypeModel(self);
         _timeModel = new TimeModel(self);
         _mapModel = new MapModel(self);
+        //_weatherModel = new WeatherModel(self);
     } ();
 }

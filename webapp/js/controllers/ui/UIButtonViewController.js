@@ -11,9 +11,23 @@ function UIButtonViewController(parentController) {
     var self = this;
 
     var _title;
-    var _status;
+    var _image;
+
+    var _defaultViewBox = {x: 0, y: 0, width: 50, height: 50};
 
     //////////////////// PUBLIC METHODS ///////////////////////
+    /**
+     * @override
+     */
+    var super_updateView = this.updateView;
+    this.updateView = function() {
+        _image.getView().setFrame(0, 0, self.getView().getViewBoxWidth(), self.getView().getViewBoxHeight());
+        _image.getView().setViewBox(0, 0, self.getView().getViewBoxWidth(), self.getView().getViewBoxHeight());
+
+        // Call super
+        super_updateView.call(self);
+    };
+
     /**
      *
      * @param title
@@ -37,10 +51,9 @@ function UIButtonViewController(parentController) {
     };
 
     /**
-     * // TODO not working
      * @param className [css icon class name]
      */
-    this.setIcon = function(className) {
+    this.setImage = function(path) {
         _title.classed(className, true);
     };
 
@@ -79,6 +92,14 @@ function UIButtonViewController(parentController) {
         // Add button css class
         self.getView().addClass("ui-button-view-controller");
         self.setTitle("");
+
+        // Setup default size
+        self.getView().setFrame(0, 0, _defaultViewBox.width, _defaultViewBox.height);
+        self.getView().setViewBox(_defaultViewBox.x, _defaultViewBox.y, _defaultViewBox.width, _defaultViewBox.height);
+
+        // Setup image controller
+        _image = new UIImageViewController(self);
+        self.add(_image);
     } ();
 }
 

@@ -6,7 +6,7 @@
  * @constructor
  */
 function TimeModel(parentModel) {
-    // PRIVATE ATTRIBUTES
+    ////////////////////////// PRIVATE ATTRIBUTES //////////////////////////
     var self = this;
 
     var _parentModel = parentModel;
@@ -19,16 +19,28 @@ function TimeModel(parentModel) {
     var _startDate = new Date("06-27-2013");
     var _endDate = new Date("12-31-2013");
 
-    // PUBLIC METHODS
+    ////////////////////////// PUBLIC METHODS //////////////////////////
+    /**
+     *
+     * @param animationState
+     */
     this.setPlayState = function(animationState) {
         _playState = animationState;
         parentModel.getNotificationCenter().dispatch(Notifications.time.PLAY_STATE_CHANGED);
     };
 
+    /**
+     *
+     * @returns {string}
+     */
     this.getPlayState = function() {
         return _playState;
     };
 
+    /**
+     *
+     * @param date
+     */
     this.setDate = function(date) {
         var oldDate = _date;
         _date = date;
@@ -40,6 +52,10 @@ function TimeModel(parentModel) {
 
     };
 
+    /**
+     * Return current date
+     * @returns {Date}
+     */
     this.getDate = function() {
         return _date;
     };
@@ -78,15 +94,24 @@ function TimeModel(parentModel) {
         return _date.getMinutes();
     };
 
-    /*
-    this.setTimeOfTheDay = function(time) {
-        _timeOfTheDay = time;
-        parentModel.getNotificationCenter().dispatch(Notifications.time.TIME_OF_THE_DAY_CHANGED);
+    // Parts of the day
+    /**
+     *
+     * @returns {boolean}
+     */
+    this.isDay = function() {
+        var coordinates = _parentModel.getMapModel().getDefaultFocusPoint();
+        var times = SunCalc.getTimes(_date, coordinates[0], coordinates[1]);
+        return _date >= times["sunrise"] && _date < times["sunset"];
     };
 
-    this.getTimeOfTheDay = function() {
-        return _timeOfTheDay;
-    };*/
+    /**
+     *
+     * @returns {boolean}
+     */
+    this.isNight = function() {
+        return !self.isDay();
+    };
 
 
     this.getStartDate = function () {

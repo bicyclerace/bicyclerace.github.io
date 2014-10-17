@@ -10,7 +10,7 @@ function UIImageViewController(parentController) {
     //////////////////// PRIVATE ATTRIBUTES ///////////////////////
     var self = this;
 
-    var _imgPath;
+    var _imgPath = "";
     var _image;
 
     //////////////////// PUBLIC METHODS ///////////////////////
@@ -27,13 +27,13 @@ function UIImageViewController(parentController) {
 
         // Update
         _image = d3Svg.selectAll(".image").data([_imgPath]);
-        _image.attr("xlink:href", "img/weather-icons/cloud.svg");
+        _image.attr("xlink:href", _imgPath);
 
         // Enter
         _image.enter()
             .append("image")
             .classed("image", true)
-            .attr("xlink:href", "img/weather-icons/cloud.svg")
+            .attr("xlink:href", _imgPath)
             .attr("width", "100%")
             .attr("height", "100%");
     };

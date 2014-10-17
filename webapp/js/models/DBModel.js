@@ -23,10 +23,13 @@ function DBModel() {
      * @param callback
      */
     self.loadBasicResources = function(callback) {
+
         queue()
             //LOAD stations
             .defer(loadStations)
             .defer(loadChicagoJson)
+            //TODO move to somewhere else
+            .defer(weatherModel.loadData)
             .await(callback);
     };
 
