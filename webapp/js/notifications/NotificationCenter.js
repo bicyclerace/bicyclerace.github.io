@@ -36,8 +36,8 @@ function NotificationCenter () {
 
     this.unsuscribeFromAll = function(observer) {
         for(var key in _observers) {
-            _observers[key] = _observers[key].filter(function(observer) {
-                return observer.target !== observer;
+            _observers[key] = _observers[key].filter(function(obs) {
+                return obs.target !== observer;
             });
         }
     };

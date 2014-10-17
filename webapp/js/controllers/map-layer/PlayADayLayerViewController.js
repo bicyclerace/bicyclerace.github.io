@@ -4,6 +4,7 @@
  *
  * @param parentController
  */
+
 function PlayADayLayerViewController(parentController, layerGroup) {
     // Call the base class constructor
     MapLayerController.call(this, parentController);
@@ -12,7 +13,7 @@ function PlayADayLayerViewController(parentController, layerGroup) {
     var self = this;
 
     var _animationStarted = false;
-    var _animationSpeed = 50;
+    var _animationSpeed = 150;
     var _animatedBikes = [];//{o
     var _map;
     var bikeIconScale = 0.7;
@@ -24,12 +25,16 @@ function PlayADayLayerViewController(parentController, layerGroup) {
     var __debug = true;
 
     //////////////////////////// PUBLIC METHODS ////////////////////////////
-
+    var super_dispose = this.dispose;
     this.dispose = function() {
+        super_dispose.call(self);
+
         clearInterval(_animationIntervalObject);
         self.getView().getSvg().html("");
         _animatedBikes =  [];
         _animationStarted = false;
+
+        self.getNotificationCenter().unsuscribeFromAll(self);
     };
 
 
@@ -64,7 +69,6 @@ function PlayADayLayerViewController(parentController, layerGroup) {
 
 
     this.onDateChanged = function() {
-
         //No animation started yet
         if(!_animationStarted)
             return;
@@ -74,9 +78,10 @@ function PlayADayLayerViewController(parentController, layerGroup) {
         //if it is a different time
         //switch to another moment of the animation
 
-        //g("time changed now:" + _currentTime + " last time:" + timeModel.getDate());
+        console.log("time changed now:" + _currentTime + " last time:" + timeModel.getDate());
         if(_currentTime.getTime() != timeModel.getDate().getTime() && daysBetween(_currentTime,timeModel.getDate()) == 0) {
-            if(__debug)console.log("ONLY time changed");
+            if(__debug)console.log("ONLY time changed " + _currentTime + " " + timeModel);
+
             self.dispose();
             startAnimation(_animationTrips);
 
@@ -110,6 +115,12 @@ function PlayADayLayerViewController(parentController, layerGroup) {
         return Math.floor(days);
     };
 
+    var isTripInSelectedStations = function(trip){
+        return self.getModel().getSelectionModel().isStationSelected(trip.from_station_id)
+                &&
+                self.getModel().getSelectionModel().isStationSelected(trip.to_station_id)
+    };
+
 
     var startAnimation = function(trips) {
         _animationStarted = true;
@@ -127,7 +138,10 @@ function PlayADayLayerViewController(parentController, layerGroup) {
         for(var i = currentTripId; i < trips.length; i++) {
             var trip = trips[i];
             currentTripId = i;
-            if (new Date(trip.starttime) > now) {
+
+
+            if (new Date(trip.starttime) > now ) {
+
                 break;
             }
         }
@@ -147,7 +161,7 @@ function PlayADayLayerViewController(parentController, layerGroup) {
                 if(new Date(trip.starttime) > now){
                     currentTripId = i;
                     break;
-                } else {
+                } else if(isTripInSelectedStations(trip)) {
                     var start = databaseModel.getStationCoordinates(trip.from_station_id);
 
                     var end = databaseModel.getStationCoordinates(trip.to_station_id);
@@ -158,6 +172,8 @@ function PlayADayLayerViewController(parentController, layerGroup) {
             }
 
             _currentTime = new Date(now.getTime() + _animationSpeed*updateInterval);
+
+            console.log("time changed to: " + _currentTime);
 
             timeModel.setDate(new Date(_currentTime));
         }, updateInterval);
@@ -197,6 +213,8 @@ function PlayADayLayerViewController(parentController, layerGroup) {
 
         var bike = self.getView().getSvg().append("g")
                      .classed("play-a-day-layer-bike",true);
+
+        console.log("added-bike");
 
         var angle = getAngle(fromCoord,toCoord);
         bike.append("polygon").attr("points","-5,0 5,0 0,20");
@@ -253,6 +271,7 @@ function PlayADayLayerViewController(parentController, layerGroup) {
         draw();
         registerToNotifications();
 
+        self.getView().getSvg().classed("play-a-day-layer-view-controller-svg", true);
         //TODO necessary?
         self.getModel().getSelectionModel().selectAllStations();
 

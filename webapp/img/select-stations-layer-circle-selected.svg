@@ -14,7 +14,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="select-stations-layer-selected.svg">
+   sodipodi:docname="select-stations-layer-circle-deselected.svg">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -24,9 +24,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.49497475"
-     inkscape:cx="160.07288"
-     inkscape:cy="556.37875"
+     inkscape:zoom="0.24748737"
+     inkscape:cx="-333.86578"
+     inkscape:cy="487.5757"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -53,7 +53,7 @@
      id="layer1">
     <path
        sodipodi:type="arc"
-       style="fill:#bd3737;fill-opacity:1;stroke:#ffffff;stroke-width:93.65000153;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:0.55707762;stroke-dasharray:none;stroke-dashoffset:0"
+       style="fill:#dc801d;fill-opacity:1;stroke:#ffffff;stroke-width:93.65000152999999727;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:0.55707762000000005;stroke-dasharray:none;stroke-dashoffset:0"
        id="path3855"
        sodipodi:cx="309.10669"
        sodipodi:cy="314.95084"

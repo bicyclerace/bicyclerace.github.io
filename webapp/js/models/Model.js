@@ -78,7 +78,7 @@ function Model() {
 
 
     /**
-     * @returns a mapModel object
+     * @returns SelectionModel
      */
     this.getSelectionModel = function() {
         return _selectionModel;
