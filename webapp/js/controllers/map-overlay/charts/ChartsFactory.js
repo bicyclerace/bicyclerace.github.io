@@ -8,17 +8,16 @@ function ChartsFactory() {
     // PRIVATE ATTRIBUTES
     var self = this;
 
-    var _chartsClasses;
-
     // PUBLIC METHODS
     /**
      *
      * @param visualizationType
      */
-    this.getLayoutClass = function(visualizationType) {
+    this.getChartsControllersClasses = function(visualizationType) {
+        var chartsClasses = [];
         switch(visualizationType) {
             case VisualizationType.OVERALL_STATISTICS:
-
+                chartsClasses.push(BikesOutChartViewController);
                 break;
             case VisualizationType.STATION_POPULARITY:
 
@@ -33,7 +32,7 @@ function ChartsFactory() {
 
         }
 
-        return _chartsClasses;
+        return chartsClasses;
     };
 
     // PRIVATE METHODS

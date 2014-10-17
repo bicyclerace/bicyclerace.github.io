@@ -189,6 +189,7 @@ function MapViewController(parentController, htmlContainer) {
 
         self.getNotificationCenter()
             .subscribe(self, self.visualizationTypeChanged, Notifications.visualizationTypeStatus.VISUALIZATION_TYPE_CHANGED);
+        self.visualizationTypeChanged();
     } ();
 }
 

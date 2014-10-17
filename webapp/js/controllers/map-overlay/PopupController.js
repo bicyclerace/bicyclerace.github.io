@@ -85,12 +85,14 @@ function PopupController(parentController, popupSize) {
             .classed("popup-controller-background", true);
 
         //create the svg  where the chart will be drawn
+        /*
         _svgChart = _svgContainer.append("svg")
             .attr("x", _padding.left)
             .attr("y", _padding.top)
             .attr("width", _viewBoxWidth - _padding.left - _padding.right)
             .attr("height", _viewBoxHeight - _padding.top - _padding.bottom)
             .classed("popup-controller-chart-container", true);
+            */
 
         //Close button
         _svgContainer.append("image")

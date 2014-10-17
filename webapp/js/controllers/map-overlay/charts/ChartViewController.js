@@ -1,3 +1,10 @@
+/**
+ * @class ChartViewController
+ * @description base class for chart container
+ *
+ * @param parentController
+ * @constructor
+ */
 function ChartViewController(parentController) {
     // Call super constructor
     ViewController.call(this, parentController);

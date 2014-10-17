@@ -39,10 +39,11 @@ function ChartsContainerController(parentController, svgContainer) {
      */
     this.visualizationTypeChanged = function() {
         var visualizationType = self.getModel().getVisualizationTypeModel().getCurrentVisualizationType();
-        var chartsControllers = _chartsFactory.getLayersControllers(visualizationType);
+        var chartsControllers = _chartsFactory.getChartsControllersClasses(visualizationType);
 
         // Remove all previous layers from the map
-        self.closeAllPopups();
+        //self.closeAllPopups();
+        cleanCharts();
 
         // For each new layer controller class, instantiate the controller with a new layer group, and add that group
         // to the map
@@ -51,6 +52,7 @@ function ChartsContainerController(parentController, svgContainer) {
             // Change this addPopup
             var chartController = new Controller(self);
             var popup = new PopupController(self, chartController.getSize());
+            popup.add(chartController);
             self.add(popup);
         });
     };
@@ -78,17 +80,18 @@ function ChartsContainerController(parentController, svgContainer) {
 
     /**
      * @override
-     * @param childController
+     * @param popupController
      */
     var oldRemove = this.remove;    // Save super
-    this.remove = function(childController) {
-        //_mapContainer.removeLayer(childController.getLayerGroup());
+    this.remove = function(popupController) {
+        //_mapContainer.removeLayer(popupController.getLayerGroup());
 
-        childController.dispose();
+        popupController.dispose();
         // Call super
-        oldRemove.call(self, childController);
+        oldRemove.call(self, popupController);
 
-        childController.getView().getSvg().remove();
+        self.closePopup(popupController);
+        //popupController.getView().getSvg().remove();
     };
 
     /**
@@ -196,7 +199,7 @@ function ChartsContainerController(parentController, svgContainer) {
     };
 
     this.closeAllPopups = function() {
-       for(i in _positionsAvailable){
+       for(var i in _positionsAvailable){
            _positionsAvailable[i] = true;
        }
        for(i in _openedPopups) {
@@ -206,22 +209,11 @@ function ChartsContainerController(parentController, svgContainer) {
     };
 
     // PRIVATE METHODS
-    var draw = function() {
-        
-        /*var popupOne = new PopupController(self).size("double");
-            // popupTwo = new PopupController(self).size("single"),
-            // popupThree = new PopupController(self).size("double");
-            
-        var chartOne = new ChartController();
-        
-        popupOne.chartController(chartOne);
-        // popupTwo.chartController(chartOne);
-        // popupThree.chartController(chartOne);
-        
-        self.addPopup(popupOne);*/
-        // self.addPopup(popupTwo);
-        // self.addPopup(popupThree);
-
+    var cleanCharts = function() {
+        // Remove all children
+        while(self.getChildren().length > 0) {
+            self.remove(self.getChildren()[0]);
+        }
     };
 
     var init = function() {
@@ -229,10 +221,11 @@ function ChartsContainerController(parentController, svgContainer) {
             .attr("viewBox","0 0 " + _viewBoxWidth + " " + _viewBoxHeight)
             .attr("preserveAspectRatio","xMaxYMin meet");
 
+        _chartsFactory = new ChartsFactory();
 
-
-
-        draw();
+        self.getNotificationCenter()
+            .subscribe(self, self.visualizationTypeChanged(), Notifications.visualizationTypeStatus.VISUALIZATION_TYPE_CHANGED);
+        self.visualizationTypeChanged();
     } ();
 }
 
