@@ -16,12 +16,12 @@ function ChartsContainerController(parentController, svgContainer) {
 
     var _viewBoxWidth = svgContainer.attr("width");
     var _viewBoxHeight = svgContainer.attr("height");
-    var _padding = {left: 40, top: 40, right: 0, bottom:0};
+    var _padding = {left: 20, top: 30, right: 0, bottom:0};
     var _margins = {betweenPopups : 10};
 
     var _singlePopupWidth = 500;
     var _doublePopupWidth = _singlePopupWidth * 2  + _margins.betweenPopups;
-    var _popupHeight = 400;
+    var _popupHeight = 425;
 
     var _positionsAvailable = {"top-left" : true, "top-right": true,
                                "bottom-left" : true, "bottom-right" : true };
@@ -167,6 +167,13 @@ function ChartsContainerController(parentController, svgContainer) {
         _svgContainer
             .attr("viewBox","0 0 " + _viewBoxWidth + " " + _viewBoxHeight)
             .attr("preserveAspectRatio","xMaxYMin meet");
+
+
+        //TODO REMOVE
+        self.addPopup(new PopupController(self,null,"single"));
+        self.addPopup(new PopupController(self,null,"single"));
+
+
         draw();
     } ();
 }

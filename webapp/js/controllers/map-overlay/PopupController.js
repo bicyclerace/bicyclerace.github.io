@@ -102,7 +102,7 @@ function PopupController(parentController, svgContainer, popupSize) {
             .attr("height", _closeButtonSize)
             .on("click", function(){parentController.closePopup(self)});
 
-        _chartController.svgContainer(_svgChart).init();
+        //_chartController.svgContainer(_svgChart).init();
     };
 
     var init = function() {
