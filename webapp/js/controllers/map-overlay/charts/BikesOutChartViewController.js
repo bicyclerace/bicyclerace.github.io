@@ -17,6 +17,13 @@ function BikesOutChartViewController(parentController) {
      */
     var super_updateView = this.updateView;
     this.updateView = function() {
+        var parentWidth = self.getParentController().getView().getViewBoxWidth();
+        var parentHeight = self.getParentController().getView().getViewBoxHeight();
+        self.getView()
+            .setFrame(0, 0, parentWidth, parentHeight);
+        self.getView().setViewBox(0, 0, parentWidth, parentHeight);
+        _button.getView().setFrame(10,10, 200, 200);
+        _button.getView().setViewBox(0, 0, 200, 200);
         _button.setTitle("BAU");
         // Call super
         super_updateView.call(self);

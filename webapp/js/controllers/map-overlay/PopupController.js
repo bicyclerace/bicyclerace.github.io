@@ -97,6 +97,7 @@ function PopupController(parentController, popupSize) {
     };
 
     var init = function() {
+        self.getView().addClass("popup-controller");
         //console.log("popupController", self);
         // _viewBoxHeight = _svgContainer.attr("height");
         // _viewBoxWidth = _svgContainer.attr("width");

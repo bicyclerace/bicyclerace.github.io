@@ -226,7 +226,7 @@ function ChartsContainerController(parentController, svgContainer) {
         _chartsFactory = new ChartsFactory();
 
         self.getNotificationCenter()
-            .subscribe(self, self.visualizationTypeChanged(), Notifications.visualizationTypeStatus.VISUALIZATION_TYPE_CHANGED);
+            .subscribe(self, self.visualizationTypeChanged, Notifications.visualizationTypeStatus.VISUALIZATION_TYPE_CHANGED);
         self.visualizationTypeChanged();
     } ();
 }
