@@ -10,7 +10,7 @@ function BikesOutChartViewController(parentController) {
     var self = this;
 
     // Type of visualization
-    var _chartType = NumberOfBikesOut.DAY_OF_WEEK;
+    var _chartType;
 
     // Column chart
     var _columnChart;
@@ -23,7 +23,7 @@ function BikesOutChartViewController(parentController) {
     var _hourOfDayButton;
     var _dayOfYearButton;
 
-    // Paddings
+    // Padding
     var _padding = {left: 10, top: 20, right: 10, bottom: 10};
     var _defaultViewBox = {x: 0, y: 0, width: 500, height: 425};
 
