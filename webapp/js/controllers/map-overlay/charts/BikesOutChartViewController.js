@@ -122,7 +122,7 @@ function BikesOutChartViewController(parentController) {
                 self.getModel().getDBModel().getTripsCountByDayOfTheYear(startDate, endDate, function(json) {
                     xValues = [];
                     var days = TimeModel.daysBetween(startDate, endDate);
-                    var tmpDate = startDate;
+                    var tmpDate = new Date(startDate);
                     for(var d = 0; d < days; d++) {
                         tmpDate.setDate(tmpDate.getDate() +1);
                         xValues.push(new Date(tmpDate));
