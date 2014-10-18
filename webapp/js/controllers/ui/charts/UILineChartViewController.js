@@ -66,13 +66,13 @@ function UILineChartViewController(parentController) {
         var height = self.getView().getViewBoxHeight() - _chartMargin.top - _chartMargin.bottom;
 
         // Setup x scale
-        var xScale = d3.scale.ordinal()
-            .domain(_data.map(function(d) { return d.label; }))
-            .rangeRoundBands([0, width], .1);
+        var xScale = d3.time.scale()//.ordinal()
+            .domain([_xValues[0], _xValues[_xValues.length -1]])//_data.map(function(d) { return d.label; }))
+            .range([0, width]);
 
         // Setup y scale
         var yScale = d3.scale.linear()
-            .domain([0, d3.max(_data, function(d) { return d.value; })])
+            .domain([0, d3.max(_data, function(d) { return parseFloat(d.value); })])
             .range([height, 0]);
 
         // Setup x axis
@@ -88,6 +88,11 @@ function UILineChartViewController(parentController) {
             .ticks(6)
             //.tickFormat(formatNumber)
             .outerTickSize(1);
+
+        // Setup line function
+        var line = d3.svg.line()
+            .x(function(d) { return xScale(d.label); })
+            .y(function(d) { return yScale(d.value); });
 
         // Setup color scale
         var colorScale = d3.scale.ordinal()
@@ -151,55 +156,22 @@ function UILineChartViewController(parentController) {
             });
 
 
-        // Bars
-        var gBars = chart.select(".bars");
-        if(gBars.node() == null) {
-            gBars = chart.append("g").classed("bars", true);
+        // Line container
+        var gLine = chart.select(".line-container");
+        if(gLine.node() == null) {
+            gLine = chart.append("g").classed("line-container", true);
         }
 
-        // Update
-        var bars = gBars
-            .selectAll(".bar")
-            .data(_data);
+        // Draw lines
+        var linePath = gLine.select(".line");
+        if (linePath.node() == null) {
+            linePath = gLine.append("path").classed("line", true);
+        }
 
-        bars
-            .attr("x", function(d) {
-                return xScale(d.label);
-            })
-            .attr("y", function(d) {
-                return yScale(d.value);
-            })
-            .attr("height", function(d) {
-                return height - yScale(d.value);
-            })
-            .attr("width", xScale.rangeBand())
-            .style("fill", function(d) {
-                return colorScale(d.label);
-            });
 
-        // Enter
-        bars
-            .enter()
-            .append("rect")
-            .attr("class", "bar")
-            .attr("x", function(d) {
-                return xScale(d.label);
-            })
-            .attr("y", function(d) {
-                return yScale(d.value);
-            })
-            .attr("height", function(d) {
-                return height - yScale(d.value);
-            })
-            .attr("width", xScale.rangeBand())
-            .style("fill", function(d) {
-                return colorScale(d.label);
-            });
-
-        // Remove
-        bars
-            .exit()
-            .remove();
+        linePath
+            .datum(_data)
+            .attr("d", line);
     };
 
     // Init

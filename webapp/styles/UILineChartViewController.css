@@ -1,0 +1,13 @@
+.ui-view.view-controller.ui-line-chart-view-controller .g-chart-container .line-container .line {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 3px;
+}
+
+.ui-view.view-controller.ui-line-chart-view-controller .g-chart-container
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}

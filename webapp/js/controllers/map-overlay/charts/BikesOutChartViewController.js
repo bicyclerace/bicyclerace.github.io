@@ -15,6 +15,9 @@ function BikesOutChartViewController(parentController) {
     // Column chart
     var _columnChart;
 
+    // Line chart
+    var _lineChart;
+
     // Buttons
     var _dayOfWeekButton;
     var _hourOfDayButton;
@@ -54,12 +57,18 @@ function BikesOutChartViewController(parentController) {
         _dayOfYearButton.getView().setFrame(contentBox.x + buttonsWidth *2, contentBox.y + heightUnit *5, buttonsWidth, heightUnit);
         _dayOfYearButton.getView().setViewBox(0, 0, buttonsWidth, heightUnit);
 
-        // Update chart
+        // Update charts
         var chartPad = {left: 0, right: 0, top: 30, bottom: 0};
         _columnChart.getView().setFrame(contentBox.x,
                 contentBox.y + chartPad.top,
                 contentBox.width - chartPad.left - chartPad.right,
                 heightUnit * 5 - chartPad.top - chartPad.bottom);
+
+        _lineChart.getView().setFrame(contentBox.x,
+                contentBox.y + chartPad.top,
+                contentBox.width - chartPad.left - chartPad.right,
+                heightUnit * 5 - chartPad.top - chartPad.bottom);
+
         updateData();
 
         // Call super
@@ -68,30 +77,66 @@ function BikesOutChartViewController(parentController) {
 
     /////////////////////////// PRIVATE METHODS ///////////////////////////
     var updateData = function() {
+        var startDate = self.getModel().getTimeModel().getStartDate();
+        var endDate = self.getModel().getTimeModel().getEndDate();
+        var xValues;
+        var yValues;
+
         switch(_chartType) {
             case NumberOfBikesOut.DAY_OF_WEEK:
-                console.log(NumberOfBikesOut.DAY_OF_WEEK);
-                var startDate = self.getModel().getTimeModel().getStartDate();
-                var endDate = self.getModel().getTimeModel().getEndDate();
                 self.getModel().getDBModel().getTripsCountByDayOfTheWeek(startDate, endDate, function(json) {
-                    var xValues = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+                    xValues = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
                     var tmp = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-                    var yValues = [];
+                    yValues = [];
                     json.forEach(function(day) {
                         var index = tmp.indexOf(day["day_name"]);
                         yValues[index] = day["count"];
                     });
+                    _columnChart.getView().show();
+                    _lineChart.getView().hide();
                     _columnChart.setData(xValues, yValues, "WEEK DAY", "BIKES OUT", ["#a6bddb"]);
                 });
 
                 break;
             case NumberOfBikesOut.HOUR_OF_DAY:
-                console.log(NumberOfBikesOut.HOUR_OF_DAY);
-                _columnChart.setData(["male", "female"], [500, 1000], "DAY HOUR", "BIKES OUT", ["#000000", "#000000"]);
+                self.getModel().getDBModel().getTripsCountByHourOfTheDay(startDate, endDate, function(json) {
+                    /*xValues = ["1am", "2am", "3am", "4am", "5am", "6am", "7am", "8am", "9am", "10am", "11am", "12am",
+                        "1pm", "2pm", "3pm", "4pm", "5pm", "6pm", "7pm", "8pm", "9pm", "10pm", "11pm", "12pm"];
+                    //xValues = ["12pm", "11pm"];*/
+                    xValues = [];
+                    var hours = 24;
+                    for(var h = 1; h < hours; h++) {
+                        xValues.push(new Date(0,0,0,h,0));
+                    }
+
+                    yValues = [];
+                    json.forEach(function(hour) {
+                        yValues.push(hour["count"]);
+                    });
+                    _lineChart.setData(xValues, yValues, "DAY HOUR", "BIKES OUT", ["#000000", "#000000"]);
+                });
+                _columnChart.getView().hide();
+                _lineChart.getView().show();
                 break;
             case NumberOfBikesOut.DAY_OF_YEAR:
-                console.log(NumberOfBikesOut.DAY_OF_YEAR);
-                _columnChart.setData(["male", "female"], [500, 1000], "YEAR DAY", "BIKES OUT", ["#000000", "#000000"]);
+                self.getModel().getDBModel().getTripsCountByDayOfTheYear(startDate, endDate, function(json) {
+                    xValues = [];
+                    var days = TimeModel.daysBetween(startDate, endDate);
+                    var tmpDate = startDate;
+                    for(var d = 0; d < days; d++) {
+                        tmpDate.setDate(tmpDate.getDate() +1);
+                        xValues.push(new Date(tmpDate));
+                    }
+
+                    yValues = [];
+                    json.forEach(function(day) {
+                        yValues.push(day["count"]);
+                    });
+                    _lineChart.setData(xValues, yValues, "YEAR", "BIKES OUT", ["#000000", "#000000"]);
+                });
+
+                _columnChart.getView().hide();
+                _lineChart.getView().show();
                 break;
         }
     };
@@ -127,9 +172,13 @@ function BikesOutChartViewController(parentController) {
         self.getView().setFrame(_defaultViewBox.x, _defaultViewBox.y, _defaultViewBox.width, _defaultViewBox.height);
         self.getView().setViewBox(_defaultViewBox.x, _defaultViewBox.y, _defaultViewBox.width, _defaultViewBox.height);
 
-        // Add chart
+        // Add column chart
         _columnChart = new  UIColumnChartViewController(self);
         self.add(_columnChart);
+
+        // Add line chart
+        _lineChart = new UILineChartViewController(self);
+        self.add(_lineChart);
 
         // Add buttons
         _dayOfWeekButton = new UIButtonViewController(self);
@@ -159,3 +208,6 @@ var NumberOfBikesOut = {
 };
 
 Utils.extend(BikesOutChartViewController, ChartViewController);
+
+// USEFUL
+//var parseDate = d3.time.format("%d-%b-%y").parse;

@@ -218,6 +218,20 @@ function UIView() {
         });
     };
 
+    /**
+     *
+     */
+    this.hide = function() {
+        self.getSvg().style("opacity", 0);
+    };
+
+    /**
+     *
+     */
+    this.show = function() {
+        self.getSvg().style("opacity", 1);
+    };
+
 
     // Event handling
     /**
