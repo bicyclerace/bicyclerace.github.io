@@ -1,6 +1,6 @@
 /**
  * @class UILineChartViewController
- * @description
+ * @description Implements a line chart view controller given a set of data
  *
  * @param parentController
  * @constructor
@@ -14,10 +14,22 @@ function UILineChartViewController(parentController) {
     var _xAxisLabel;
     var _yValues;
     var _yAxisLabel;
-    var _columnColors;
+    var _lineColor;
 
     // Holds data in d3 format
     var _data;
+
+
+    // Scales
+    var _xScale = d3.scale.linear();
+    var _yScale = d3.scale.linear();
+
+    // Tick format
+    var _xTickFormat = null;
+    var _yTickFormat = null;
+
+    // Tick alignment
+    var _xTickAlignment = TickAlignment.MIDDLE;
 
     // UI
     var _chartMargin = {top: 40, right: 100, bottom: 40, left: 100};
@@ -35,19 +47,20 @@ function UILineChartViewController(parentController) {
     };
 
     /**
-     *
-     * @param xValues
-     * @param yValues
-     * @param xAxisLabel
-     * @param yAxisLabel
-     * @param colors
+     * This method sets the parameters of the chart and draw it. Notice that the implementation assumes that xValues
+     * are already passed in ascending order
+     * @param xValues = domain values (sorted from the minimum to the maximum)
+     * @param yValues = range values corresponding index by index to domain values
+     * @param xAxisLabel = label for the x axis
+     * @param yAxisLabel = label for the y axis
+     * @param color = color of the line
      */
-    this.setData = function(xValues, yValues, xAxisLabel, yAxisLabel, colors) {
+    this.setData = function(xValues, yValues, xAxisLabel, yAxisLabel, color) {
         _xValues = xValues;
         _yValues = yValues;
         _xAxisLabel = xAxisLabel;
         _yAxisLabel = yAxisLabel;
-        _columnColors = colors;
+        _lineColor = color;
 
         _data = [];
         _xValues.forEach(function(xValue, index) {
@@ -59,6 +72,52 @@ function UILineChartViewController(parentController) {
         updateChart();
     };
 
+    /**
+     * Set the x axis scale of the line chart using d3 scales
+     * @param d3Scale
+     */
+    this.setXScale = function(d3Scale) {
+        _xScale = d3Scale;
+    };
+
+    /**
+     * Set the y axis scale of the line chart using d3 scales
+     * @param d3Scale
+     */
+    this.setYScale = function(d3Scale) {
+        _yScale = d3Scale;
+    };
+
+    /**
+     * Sets a d3 formatter for y tick values
+     * @param d3Format
+     */
+    this.setXTickFormat = function(d3Format) {
+        _xTickFormat = d3Format;
+    };
+
+    /**
+     * Sets a d3 formatter for y tick values
+     * @param d3Format
+     */
+    this.setYTickFormat = function(d3Format) {
+        _yTickFormat = d3Format;
+    };
+
+    /**
+     * Set x tick text alignment
+     * @param tickAlignment = @see TickAlignment enum type
+     */
+    this.setXTickAlignment = function(tickAlignment) {
+        _xTickAlignment = tickAlignment;
+    };
+
+
+
+
+
+
+
     /////////////////////// PRIVATE METHODS ///////////////////////
     var updateChart = function() {
 
@@ -66,37 +125,40 @@ function UILineChartViewController(parentController) {
         var height = self.getView().getViewBoxHeight() - _chartMargin.top - _chartMargin.bottom;
 
         // Setup x scale
-        var xScale = d3.time.scale()//.ordinal()
-            .domain([_xValues[0], _xValues[_xValues.length -1]])//_data.map(function(d) { return d.label; }))
+        _xScale
+            .domain([_xValues[0], _xValues[_xValues.length -1]])
             .range([0, width]);
 
         // Setup y scale
-        var yScale = d3.scale.linear()
+        _yScale
             .domain([0, d3.max(_data, function(d) { return parseFloat(d.value); })])
             .range([height, 0]);
 
         // Setup x axis
         var xAxis = d3.svg.axis()
-            .scale(xScale)
+            .scale(_xScale)
             .orient("bottom")
             .outerTickSize(1);
 
+        if(_xTickFormat != null) {
+            xAxis.tickFormat(_xTickFormat);
+        }
+
         // Setup y axis
         var yAxis = d3.svg.axis()
-            .scale(yScale)
+            .scale(_yScale)
             .orient("left")
             .ticks(6)
-            //.tickFormat(formatNumber)
             .outerTickSize(1);
+
+        if(_yTickFormat != null) {
+            yAxis.tickFormat(_yTickFormat);
+        }
 
         // Setup line function
         var line = d3.svg.line()
-            .x(function(d) { return xScale(d.label); })
-            .y(function(d) { return yScale(d.value); });
-
-        // Setup color scale
-        var colorScale = d3.scale.ordinal()
-            .range(_columnColors);
+            .x(function(d) { return _xScale(d.label); })
+            .y(function(d) { return _yScale(d.value); });
 
         // Chart container
         var chart = self.getView().getSvg().select(".g-chart-container");
@@ -111,9 +173,31 @@ function UILineChartViewController(parentController) {
         if(gxAxis.node() == null) {
             gxAxis = chart.append("g").attr("class", "x axis");
         }
-        gxAxis
+        var axis = gxAxis
             .attr("transform", "translate(0," + height + ")")
             .call(xAxis);
+
+
+        if(_xTickAlignment == TickAlignment.MIDDLE) {
+            axis
+                .selectAll("text")
+                .attr("y", 10)
+                .attr("x", 0)
+                .style("text-anchor", "middle");
+        } else if(_xTickAlignment == TickAlignment.LEFT) {
+            axis
+                .selectAll("text")
+                .attr("y", 6)
+                .attr("x", 6)
+                .style("text-anchor", "start");
+        } else if(_xTickAlignment == TickAlignment.RIGHT) {
+            axis
+                .selectAll("text")
+                .attr("y", 6)
+                .attr("x", -6)
+                .style("text-anchor", "end");
+        }
+
 
         var xLabel = gxAxis.select(".x-label");
         if(xLabel.node() == null) {
@@ -171,7 +255,8 @@ function UILineChartViewController(parentController) {
 
         linePath
             .datum(_data)
-            .attr("d", line);
+            .attr("d", line)
+            .style("stroke", _lineColor);
     };
 
     // Init
@@ -180,5 +265,11 @@ function UILineChartViewController(parentController) {
         self.getView().setViewBox(_defaultViewBox.x, _defaultViewBox.y, _defaultViewBox.width, _defaultViewBox.height);
     } ();
 }
+
+var TickAlignment = {
+    LEFT: "left",
+    MIDDLE: "middle",
+    RIGHT: "right"
+};
 
 Utils.extend(UILineChartViewController, ViewController);

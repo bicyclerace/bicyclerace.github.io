@@ -94,15 +94,12 @@ function BikesOutChartViewController(parentController) {
                     });
                     _columnChart.getView().show();
                     _lineChart.getView().hide();
-                    _columnChart.setData(xValues, yValues, "WEEK DAY", "BIKES OUT", ["#a6bddb"]);
+                    _columnChart.setData(xValues, yValues, "WEEK DAY", "BIKES OUT", ["#3182bd"]);
                 });
 
                 break;
             case NumberOfBikesOut.HOUR_OF_DAY:
                 self.getModel().getDBModel().getTripsCountByHourOfTheDay(startDate, endDate, function(json) {
-                    /*xValues = ["1am", "2am", "3am", "4am", "5am", "6am", "7am", "8am", "9am", "10am", "11am", "12am",
-                        "1pm", "2pm", "3pm", "4pm", "5pm", "6pm", "7pm", "8pm", "9pm", "10pm", "11pm", "12pm"];
-                    //xValues = ["12pm", "11pm"];*/
                     xValues = [];
                     var hours = 24;
                     for(var h = 1; h < hours; h++) {
@@ -113,7 +110,10 @@ function BikesOutChartViewController(parentController) {
                     json.forEach(function(hour) {
                         yValues.push(hour["count"]);
                     });
-                    _lineChart.setData(xValues, yValues, "DAY HOUR", "BIKES OUT", ["#000000", "#000000"]);
+                    _lineChart.setXScale(d3.time.scale());
+                    _lineChart.setXTickFormat(null);
+                    _lineChart.setXTickAlignment(TickAlignment.MIDDLE);
+                    _lineChart.setData(xValues, yValues, "DAY HOUR", "BIKES OUT", "#3182bd");
                 });
                 _columnChart.getView().hide();
                 _lineChart.getView().show();
@@ -132,7 +132,10 @@ function BikesOutChartViewController(parentController) {
                     json.forEach(function(day) {
                         yValues.push(day["count"]);
                     });
-                    _lineChart.setData(xValues, yValues, "YEAR", "BIKES OUT", ["#000000", "#000000"]);
+                    _lineChart.setXScale(d3.time.scale());
+                    _lineChart.setXTickFormat(d3.time.format("%b"));
+                    _lineChart.setXTickAlignment(TickAlignment.LEFT);
+                    _lineChart.setData(xValues, yValues, "YEAR", "BIKES OUT", "#3182bd");
                 });
 
                 _columnChart.getView().hide();
