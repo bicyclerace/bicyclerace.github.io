@@ -20,6 +20,9 @@ function LayoutFactory() {
             case VisualizationType.OVERALL_STATISTICS:
                 _layoutClass = OverallStatisticsToolsLayoutController;
                 break;
+            case VisualizationType.COMPARE:
+                _layoutClass = CompareToolsLayoutController;
+                break;
             case VisualizationType.STATION_POPULARITY:
                 _layoutClass = PopularityToolsLayoutController;
                 break;

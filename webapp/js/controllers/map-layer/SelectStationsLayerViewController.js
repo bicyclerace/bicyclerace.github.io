@@ -73,7 +73,7 @@ function SelectStationLayerViewController(parentController, layerGroup) {
                 stationButton.setImage(_deselectImage);
             }
 
-            stationButton.getView().setFrame(p.x, p.y, 3, 5);
+            stationButton.getView().setFrame(p.x - (_stationWidth/2), p.y - (_stationHeight/2), _stationWidth, _stationHeight);
             stationButton.getView().setViewBox(0,0, _stationWidth, _stationHeight);
             stationButton.onClick(onStationClicked, station);
             self.add(stationButton);
@@ -88,12 +88,14 @@ function SelectStationLayerViewController(parentController, layerGroup) {
 
         var visualizationType = self.getModel().getVisualizationTypeModel().getCurrentVisualizationType();
 
-        if(visualizationType == VisualizationType.PLAY_A_DAY) {
-            _stationHeight = 3;
-            _stationWidth = 3;
+        if(visualizationType == VisualizationType.PLAY_A_DAY ||
+            visualizationType == VisualizationType.COMPARE ) {
+            _stationHeight = 2;
+            _stationWidth = 2;
             _deselectImage = "img/select-stations-layer-circle-deselected.svg";
             _selectImage = "img/select-stations-layer-circle-selected.svg"
-        } else {
+        }
+        else {
             //Default
             _stationHeight = 5;
             _stationWidth = 3;

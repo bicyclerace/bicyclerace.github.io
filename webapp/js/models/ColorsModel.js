@@ -36,3 +36,10 @@ function ColorsModel(modelId) {
     }();
 }
 
+
+ColorsModel.colors = {
+    //USED by legenda, ..
+  "deselectedGray" : "#DDDDDD",
+  "inflow" : "#2ca25f",
+  "outflow" : "#feb24c"
+};

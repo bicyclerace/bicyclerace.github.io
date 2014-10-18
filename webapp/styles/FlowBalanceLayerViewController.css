@@ -1,5 +1,4 @@
 .flow-balance-layer-histogram-inflow {
-    fill: #4c84ff;
     opacity: 0.9;
     stroke: #FFFFFF;
     stroke-width: 0.05;
@@ -7,7 +6,6 @@
 }
 
 .flow-balance-layer-histogram-outflow {
-    fill: #feb24c;
     opacity: 0.9;
     stroke: #FFFFFF;
     stroke-width: 0.05;

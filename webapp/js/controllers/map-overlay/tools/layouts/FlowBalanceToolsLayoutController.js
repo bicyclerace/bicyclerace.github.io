@@ -13,9 +13,7 @@ function FlowBalanceToolsLayoutController(parentController, svgContainer) {
 
     // UI
     var _svgContainer = svgContainer;
-
-
-
+    var _legendaViewController;
 
     // PUBLIC METHODS
     /**
@@ -27,6 +25,14 @@ function FlowBalanceToolsLayoutController(parentController, svgContainer) {
 
         // Call super
         _superUpdateView.call(self);
+
+        //legenda tool
+        var legendaSize = {width: 200, height: 200, marginRight: 10};
+        _legendaViewController.getView().setFrame( self.getView().getViewBoxWidth() - legendaSize.width - legendaSize.marginRight,
+                                         self.getView().getViewBoxHeight() - legendaSize.height,
+                                         legendaSize.width,
+                                         legendaSize.height);
+
     };
 
     // PRIVATE METHODS
@@ -34,13 +40,11 @@ function FlowBalanceToolsLayoutController(parentController, svgContainer) {
     };
 
     var init = function() {
-        self.getView().addClass("popularity-tool-layout-controller");
-        // Old
-        /*
-        _svgContainer
-            .classed("popularity-tool-layout-controller", true)
-            .attr("viewBox", "0 0 " + _viewBox.width + " " + _viewBox.height)
-            .attr("preserveAspectRatio", "xMinYMin meet");*/
+        self.getView().addClass("flow-balance-tool-layout-controller");
+        _legendaViewController = new UILegendaViewController(self);
+        self.add(_legendaViewController);
+
+
         draw();
     } ();
 }

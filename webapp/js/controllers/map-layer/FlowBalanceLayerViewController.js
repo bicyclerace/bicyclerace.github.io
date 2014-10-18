@@ -61,6 +61,7 @@ function FlowBalanceLayerViewController(parentController, layerGroup) {
                 .attr("y", p.y-h_inflow)
                 .attr("width", _barWidth)
                 .attr("height", h_inflow)
+                .attr("fill", ColorsModel.colors.inflow)
 
                 ;
 
@@ -70,6 +71,7 @@ function FlowBalanceLayerViewController(parentController, layerGroup) {
                     .attr("y", p.y-h_outflow)
                     .attr("width", _barWidth)
                     .attr("height", h_outflow)
+                    .attr("fill", ColorsModel.colors.outflow)
             ;
 
         }
@@ -105,6 +107,15 @@ function FlowBalanceLayerViewController(parentController, layerGroup) {
     var init = function() {
         var timeModel = self.getModel().getTimeModel();
         databaseModel.getStationsInflowAndOutflow(timeModel.getStartDate(),timeModel.getEndDate(),self.drawInflowOutflow);
+
+        //Legenda
+        self.getModel().getLegendaModel().setEntries(
+            [
+                {name:"inflow" , color:ColorsModel.colors.inflow},
+                {name:"outflow" , color:ColorsModel.colors.outflow}
+            ]
+        );
+
 
         draw();
 

@@ -19,6 +19,7 @@ function Model() {
     var _colorsModel;
     var _timeModel;
     var _selectionModel;
+    var _legendaModel;
 
     // Hold the status of the current visualization context
     var _visualizationTypeModel;
@@ -45,6 +46,14 @@ function Model() {
     this.getColorModel = function() {
         return _colorsModel;
     };
+
+    /**
+     * @returns the color model
+     */
+    this.getLegendaModel = function() {
+        return _legendaModel;
+    };
+
 
     /**
      * @returns The DBModel object, which contains all the interfaces to the database{dbModel|*|DBModel}
@@ -112,6 +121,7 @@ function Model() {
         _timeModel = new TimeModel(self);
         _mapModel = new MapModel(self);
         _selectionModel = new SelectionModel(self);
+        _legendaModel = new LegendaModel(self);
         //_weatherModel = new WeatherModel(self);
     } ();
 }

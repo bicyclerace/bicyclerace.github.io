@@ -183,6 +183,24 @@ function DBModel() {
             .fail(_failCallback);
     };
 
+
+    /**
+     * @param station_id
+     * @param startDate
+     * @param endDate
+     * @param callback
+     */
+    self.getSingleStationInflowAndOutflow = function(station_id, startDate, endDate, callback) {
+        var start = (startDate).getTime()/1000;
+        var end = (endDate).getTime()/1000;
+        var url = _dbServer + "get_station_inflow_and_outflow.php?station_id="+station_id+"&start_date=" + start + "&end_date=" + end;
+        logUrl(url);
+        $.getJSON(url)
+            .done(callback)
+            .fail(_failCallback);
+    };
+
+
     /**
      *
      * @param callback

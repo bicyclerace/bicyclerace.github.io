@@ -9,12 +9,12 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="744.09448819"
-   height="1052.3622047"
+   width="128"
+   height="128"
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="select-stations-layer-circle-selected.svg">
+   sodipodi:docname="select-stations-layer-circle-deselected.svg">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -24,9 +24,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.49497475"
-     inkscape:cx="160.07288"
-     inkscape:cy="556.37875"
+     inkscape:zoom="1.979899"
+     inkscape:cx="27.117274"
+     inkscape:cy="139.81892"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -50,16 +50,17 @@
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1">
+     id="layer1"
+     transform="translate(0,-924.36218)">
     <path
        sodipodi:type="arc"
-       style="fill:#b7b7b7;fill-opacity:1;stroke:#ffffff;stroke-width:93.65000152999999727;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:0.55707762000000005;stroke-dasharray:none;stroke-dashoffset:0"
+       style="fill:#999999;fill-opacity:0.73059362;stroke:#ffffff;stroke-width:93.65000152999999727;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:0.55707762000000005;stroke-dasharray:none;stroke-dashoffset:0"
        id="path3855"
        sodipodi:cx="309.10669"
        sodipodi:cy="314.95084"
        sodipodi:rx="309.10669"
        sodipodi:ry="309.10669"
        d="m 618.21338,314.95084 a 309.10669,309.10669 0 1 1 -618.21338,0 309.10669,309.10669 0 1 1 618.21338,0 z"
-       transform="translate(68.690372,38.385796)" />
+       transform="matrix(0.17909353,0,0,-0.17909353,8.0280693,1045.3808)" />
   </g>
 </svg>

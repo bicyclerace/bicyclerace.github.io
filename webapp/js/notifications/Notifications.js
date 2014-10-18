@@ -45,3 +45,8 @@ Notifications.selections = {
     TWO_STATIONS_SELECTED : "com.divvy.selections.twoStationsSelectedChanged",
     MANY_STATIONS_SELECTED : "com.divvy.selections.manyStationsSelectedChanged"
 };
+
+Notifications.legenda = {
+    LEGENDA_CHANGED : "com.divvy.selections.legendaChanged",
+    SELECTED_ENTRIES_CHANGED : "com.divvy.selections.selectedEntriesChanged"
+};

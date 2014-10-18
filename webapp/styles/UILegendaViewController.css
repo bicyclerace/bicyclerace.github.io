@@ -1,0 +1,8 @@
+.ui-view.view-controller.ui-legenda-view-controller > .background {
+    fill: rgba(41,36,33,1.0);
+}
+
+.ui-legenda-view-controller-entry {
+    fill: #FFFFFF;
+    font-size: 30px
+}
