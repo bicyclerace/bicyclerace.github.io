@@ -14,9 +14,10 @@ function CalendarPickerController(parentController) {
     var _viewBoxHeight = 300;
 
     var _frame = {x: 0, y: 580-400, width:400, height: 400};
-    var _padding = {top: 50, left: 50, bottom: 10, right: 20};
+    var _padding = {top: 10, left: 50, bottom: 10, right: 20};
+    var _titleHeight = 40;
 
-
+    var _monthLabel;
 
     // PUBLIC METHODS
     this.getAspectRatio = function() {
@@ -48,11 +49,12 @@ function CalendarPickerController(parentController) {
     };
 
     /**
-     * Change currently displaied day
+     * Change currently displayed day or month
      */
     this.onDayChanged = function() {
-        var currentDate = self.getModel().getTimeModel().getDate();
 
+        var currentDate = self.getModel().getTimeModel().getDate();
+        draw(currentDate);
 
         for(var k in _daysTexts){
             _daysTexts[k].classed("selected",false);
@@ -61,12 +63,15 @@ function CalendarPickerController(parentController) {
 
         _daysTexts[currentDate.getDate()].classed("selected", true);
         _daysBackgrounds[currentDate.getDate()].classed("selected", true);
+
+        var currentMonth = currentDate.getMonth();
+        _monthLabel.setText(TimeModel.monthNames[currentMonth].slice(0, 3));
     };
 
 
     // PRIVATE METHODS
-    var draw = function() {
-
+    var draw = function(date) {
+        self.getView().getSvg().html("");
         //make it hidden
 
         //white rect background
@@ -84,9 +89,9 @@ function CalendarPickerController(parentController) {
 
         var daysPerLine = 6;
         var lines = 6;
-        for(var i = 1; i <= 31; i++){
+        for(var i = 1; i <= TimeModel.daysInMonth(date.getMonth(), 2013); i++){
             var x = _padding.left + ((_viewBoxWidth - _padding.left - _padding.right) / daysPerLine)*(i%daysPerLine);
-            var y = _padding.top + ((_viewBoxHeight - _padding.top - _padding.bottom) / lines) *Math.floor(i/daysPerLine);
+            var y = _padding.top*4 + _titleHeight + ((_viewBoxHeight - _padding.top - _padding.bottom - _titleHeight) / lines) *Math.floor(i/daysPerLine);
 
             var width = (_viewBoxWidth - _padding.left - _padding.right) / daysPerLine;
             var height = width;
@@ -116,7 +121,7 @@ function CalendarPickerController(parentController) {
                 .text(i)
                 .on("click",
                 function(day){
-                    self.getModel().getTimeModel().setDate(new Date(2013,7,day));
+                    self.getModel().getTimeModel().setDayOfTheMonth(day);
                 });
 
             _daysTexts[i] = dayText;
@@ -124,7 +129,26 @@ function CalendarPickerController(parentController) {
         }
 
         //month
+        _monthLabel = new UILabelViewController(self);
+        _monthLabel.getView().getSvg().classed("calendar-picker-controller-month-label",true);
+        _monthLabel.getView().setFrame(0, _padding.top, _viewBoxWidth, _titleHeight );
+        _monthLabel.setText("Jan");
+        self.add(_monthLabel);
 
+        //plus and minus
+        var plusButton = new UIButtonViewController(self);
+        plusButton.getView().getSvg().classed("calendar-picker-controller-month-button",true);
+        plusButton.setTitle("+");
+        plusButton.onClick(self.getModel().getTimeModel().nextMonth);
+        plusButton.getView().setFrame(_viewBoxWidth/2 + 45, _padding.top + 10, 15, _titleHeight );
+        self.add(plusButton);
+
+        var minusButton = new UIButtonViewController(self);
+        minusButton.getView().getSvg().classed("calendar-picker-controller-month-button",true);
+        minusButton.setTitle("-");
+        minusButton.onClick(self.getModel().getTimeModel().previousMonth);
+        minusButton.getView().setFrame(_viewBoxWidth/2 - 50, _padding.top + 10, 15, _titleHeight );
+        self.add(minusButton);
     };
 
 
@@ -137,8 +161,7 @@ function CalendarPickerController(parentController) {
         self.getNotificationCenter().subscribe(self, self.onDayChanged,
                 Notifications.time.DATE_CHANGED);
 
-
-        draw();
+        self.onDayChanged();
     } ();
 }
 

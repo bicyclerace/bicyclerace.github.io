@@ -42,15 +42,45 @@ function TimeModel(parentModel) {
      * @param date
      */
     this.setDate = function(date) {
-        var oldDate = _date;
-        _date = date;
-        if(TimeModel.daysBetween(oldDate,date) == 0 && oldDate != date){
-            parentModel.getNotificationCenter().dispatch(Notifications.time.TIME_OF_THE_DAY_CHANGED);
-        } else {
-            parentModel.getNotificationCenter().dispatch(Notifications.time.DATE_CHANGED);
+
+
+        if(date >= _startDate && date <= _endDate) {
+            var oldDate = _date;
+            _date = date;
+            if(TimeModel.daysBetween(oldDate,date) == 0 && oldDate != date){
+                parentModel.getNotificationCenter().dispatch(Notifications.time.TIME_OF_THE_DAY_CHANGED);
+            } else {
+                parentModel.getNotificationCenter().dispatch(Notifications.time.DATE_CHANGED);
+            }
         }
 
+
+
     };
+
+    /**
+     *
+     */
+    this.nextMonth = function() {
+
+            self.setDate(new Date(_date.getFullYear(), _date.getMonth()+1,1));
+
+    };
+
+
+    /**
+     *
+     */
+    this.previousMonth = function() {
+        if( _date.getMonth()-1 != self.getStartDate().getMonth()) {
+            self.setDate(new Date(_date.getFullYear(), _date.getMonth()-1,1));
+        } else {
+            self.setDate(self.getStartDate());
+        }
+
+
+    };
+
 
     /**
      * Return current date
@@ -92,6 +122,13 @@ function TimeModel(parentModel) {
      */
     this.getMinutes = function() {
         return _date.getMinutes();
+    };
+
+    /**
+     *
+     */
+    this.setDayOfTheMonth = function(day) {
+        self.setDate(new Date(_date.getFullYear(), _date.getMonth(),day));
     };
 
     // Parts of the day
@@ -151,3 +188,10 @@ TimeModel.daysBetween = function(first, second) {
     // Round down.
     return Math.floor(days);
 };
+
+TimeModel.monthNames = [ "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December" ];
+
+TimeModel.daysInMonth = function(month,year) {
+    return new Date(year, month+1, 0).getDate();
+}

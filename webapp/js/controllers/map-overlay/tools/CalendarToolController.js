@@ -22,7 +22,10 @@ function CalendarToolController(parentController, calendarPickerController) {
     var _padding = {top: 20, left: 25, bottom: 20, right: 30};
 
     // PUBLIC METHODS
-
+    this.onDateChanged = function() {
+         var currentDate = self.getModel().getTimeModel().getDate();
+        _dateText.text(TimeModel.monthNames[currentDate.getMonth()].slice(0,3) + " " + currentDate.getDate());
+    };
 
     // PRIVATE METHODS
     var draw = function() {
@@ -36,7 +39,7 @@ function CalendarToolController(parentController, calendarPickerController) {
             .attr("x",_viewBoxWidth - _padding.right)
             .attr("y",47 + _padding.top)
             .attr("text-anchor","end")
-            .text("Jan 21");
+            .text("");
 
 
         _backgroundButton =
@@ -85,7 +88,11 @@ function CalendarToolController(parentController, calendarPickerController) {
         self.getView().setViewBox(0,0,_viewBoxWidth, _viewBoxHeight);
         self.getView().setFrame(_frame.x,_frame.y,_frame.width,_frame.height);
 
+        self.getNotificationCenter().subscribe(self, self.onDateChanged,
+            Notifications.time.DATE_CHANGED);
+
         draw();
+        self.onDateChanged();
     } ();
 }
 

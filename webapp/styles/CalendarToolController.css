@@ -20,3 +20,12 @@
 .ui-view.view-controller.calendar-tool-controller .background {
     fill: rgba(41,36,33,0.9);
 }
+
+.ui-view.view-controller.ui-label-view-controller .text{
+    fill: #000000;
+}
+
+.ui-view.view-controller.ui-button-view-controller.calendar-picker-controller-month-button .title {
+    fill: #000000;
+    font-size: 75px;
+}
