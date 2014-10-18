@@ -19,7 +19,7 @@ function ChartsContainerController(parentController, svgContainer) {
     var _padding = {left: 20, top: 30, right: 0, bottom:0};
     var _margins = {betweenPopups : 10};
 
-    var _singlePopupWidth = 500;
+    var _singlePopupWidth = 600;
     var _doublePopupWidth = _singlePopupWidth * 2  + _margins.betweenPopups;
     var _popupHeight = 425;
 
@@ -52,8 +52,11 @@ function ChartsContainerController(parentController, svgContainer) {
             // Change this addPopup
             var chartController = new Controller(self);
             var popup = new PopupController(self, chartController.getSize());
-            popup.add(chartController);
             self.add(popup);
+            chartController.getView().setFrame(0, 0, popup.getView().getViewBoxWidth(), popup.getView().getViewBoxHeight());
+            chartController.getView().setViewBox(0, 0, popup.getView().getViewBoxWidth(), popup.getView().getViewBoxHeight());
+            popup.add(chartController);
+
         });
     };
 

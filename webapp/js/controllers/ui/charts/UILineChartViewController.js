@@ -1,11 +1,11 @@
 /**
- * @class UIColumnChartViewController
+ * @class UILineChartViewController
  * @description
  *
  * @param parentController
  * @constructor
  */
-function UIColumnChartViewController(parentController) {
+function UILineChartViewController(parentController) {
     ViewController.call(this, parentController);
     /////////////////////// PRIVATE ATTRIBUTES ///////////////////////
     var self = this;
@@ -18,7 +18,7 @@ function UIColumnChartViewController(parentController) {
 
     // Holds data in d3 format
     var _data;
-    
+
     // UI
     var _chartMargin = {top: 40, right: 100, bottom: 40, left: 100};
     var _defaultViewBox = {x: 0, y: 0, width: 600, height: 300};
@@ -61,7 +61,7 @@ function UIColumnChartViewController(parentController) {
 
     /////////////////////// PRIVATE METHODS ///////////////////////
     var updateChart = function() {
-        
+
         var width = self.getView().getViewBoxWidth() - _chartMargin.left - _chartMargin.right;
         var height = self.getView().getViewBoxHeight() - _chartMargin.top - _chartMargin.bottom;
 
@@ -204,9 +204,9 @@ function UIColumnChartViewController(parentController) {
 
     // Init
     var init = function() {
-        self.getView().addClass("ui-column-chart-view-controller");
+        self.getView().addClass("ui-line-chart-view-controller");
         self.getView().setViewBox(_defaultViewBox.x, _defaultViewBox.y, _defaultViewBox.width, _defaultViewBox.height);
     } ();
 }
 
-Utils.extend(UIColumnChartViewController, ViewController);
+Utils.extend(UILineChartViewController, ViewController);

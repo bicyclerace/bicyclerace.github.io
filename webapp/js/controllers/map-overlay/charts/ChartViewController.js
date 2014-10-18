@@ -31,7 +31,7 @@ function ChartViewController(parentController) {
 
     /////////////////////////// PRIVATE METHODS ///////////////////////////
     var init = function() {
-
+        self.getView().addClass("chart-view-controller");
     } ();
 }
 
