@@ -18,6 +18,7 @@ function PlayADayToolsLayoutController(parentController, svgContainer) {
     // Tools
     var _playTimeViewController;
     var _weatherViewController;
+    var _stationSelectionToolController;
 
     // Calendar sizes
 
@@ -35,14 +36,20 @@ function PlayADayToolsLayoutController(parentController, svgContainer) {
      */
     var superUpdateView = this.updateView;
     this.updateView = function() {
-        var width = 300;
+        var playToolWidth = 300;
         var height = 150;
-        _playTimeViewController.getView().setFrame(0, self.getView().getViewBoxHeight() - height, width, height);
+        _playTimeViewController.getView().setFrame(0, self.getView().getViewBoxHeight() - height, playToolWidth, height);
 
         _weatherViewController.getView().setFrame(self.getView().getViewBoxWidth() -300, 0, 300, 300);
 
         // hide the calendar
         _calendarPickerController.hideCalendarPickerWithoutAnimation();
+
+        // Update selection tool
+        var stationSize = {width: 400, height: 100, marginLeft: 10};
+
+        _stationSelectionToolController.getView()
+            .setFrame(playToolWidth + stationSize.marginLeft, self.getView().getViewBoxHeight() - stationSize.height, stationSize.width, stationSize.height);
 
         // Call super method (updates children)
         superUpdateView.call(self);
@@ -79,6 +86,10 @@ function PlayADayToolsLayoutController(parentController, svgContainer) {
         self.add(_calendarPickerController);
         _calendarToolController = new CalendarToolController(self, _calendarPickerController);
         self.add(_calendarToolController);
+
+        // Stations selection tool
+        _stationSelectionToolController = new UIStationsSelectionViewController(self);
+        self.add(_stationSelectionToolController);
 
         draw();
 

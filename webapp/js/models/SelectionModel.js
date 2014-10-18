@@ -43,6 +43,7 @@ function SelectionModel(parentModel) {
   };
 
 
+
   this.selectAllStations = function() {
       _selectedStationsId = [];
       var stations = databaseModel.getStations();
