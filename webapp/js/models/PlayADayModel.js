@@ -29,6 +29,58 @@ function PlayADayModel(parentModel) {
       return _activeTrips.slice();
   };
 
+  this.getActiveFilteredTrips = function() {
+      var filterModel = parentModel.getFilterModel();
+
+      //NOT EFFICIENT?
+      return _activeTrips.filter(function(trip) {
+
+          //GENDER
+
+          if(filterModel.getGenderFilter() == FilterModel.GENDER_FILTER.FEMALE) {
+              if(trip.gender != "Female")
+                return false;
+          }
+          if(filterModel.getGenderFilter() == FilterModel.GENDER_FILTER.MALE) {
+              if(trip.gender != "Male")
+                  return false;
+          }
+          if(filterModel.getGenderFilter() == FilterModel.GENDER_FILTER.UNKNOWN) {
+              if(trip.gender != "")
+                  return false;
+          }
+
+          //AGE
+          var ageFilter = filterModel.getAgeFilter();
+
+          if(ageFilter != FilterModel.AGE_FILTER.ALL){
+              var birthyear = parseInt(trip.birthyear);
+              if(birthyear == 0)
+                return false;
+              var age = 2013 -  birthyear;
+
+              var ageRange = FilterModel.ageFilterToRange(ageFilter);
+
+              if(age < ageRange[0] || age > ageRange[1]){
+                  return false;
+              }
+          }
+
+          // USER TYPE
+          if(filterModel.getUserTypeFilter() == FilterModel.USER_TYPE_FILTER.CUSTOMER) {
+              if(trip.usertype != "Customer")
+                  return false;
+          }
+          if(filterModel.getUserTypeFilter() == FilterModel.USER_TYPE_FILTER.SUBSCRIBER) {
+              if(trip.usertype != "Subscriber")
+                  return false;
+          }
+
+
+          return true;
+      });
+  };
+
 
   this.getStationInflow = function(station_id) {
       return _.filter(_activeTrips,function(t){return t.to_station_id == station_id;}).length;
@@ -44,9 +96,8 @@ function PlayADayModel(parentModel) {
   // PRIVATE METHODS
 
 
-  
   var init = function() {
   } ();
   
   
-}
+};

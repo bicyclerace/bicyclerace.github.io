@@ -294,7 +294,7 @@ function RidesDistributionChartViewController(parentController) {
         // Set chart distance metric
         _distanceMetric = DistanceMetrics.MILES;
 
-        self.setSize("double");
+        self.setSize(PopupController.SIZE.DOUBLE);
 
         addBehaviors();
     } ();

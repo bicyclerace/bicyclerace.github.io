@@ -82,3 +82,9 @@ function PopupController(parentController, popupSize) {
 
 // Inheritance
 Utils.extend(PopupController, ViewController);
+
+PopupController.SIZE = {
+   SINGLE : "single",
+   DOUBLE : "double",
+   TALL : "tall"
+};

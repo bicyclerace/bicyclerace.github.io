@@ -25,7 +25,7 @@ function ChartsFactory() {
 
                 break;
             case VisualizationType.PLAY_A_DAY:
-
+                chartsClasses.push(BikesOutInPlayADayChartViewController);
                 break;
             case VisualizationType.STATION_FLOW_BALANCE:
 

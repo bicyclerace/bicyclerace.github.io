@@ -21,6 +21,7 @@ function Model() {
     var _selectionModel;
     var _legendaModel;
     var _playADayModel;
+    var _filterModel;
 
     // Hold the status of the current visualization context
     var _visualizationTypeModel;
@@ -46,6 +47,13 @@ function Model() {
      */
     this.getColorModel = function() {
         return _colorsModel;
+    };
+
+    /**
+     * @returns
+     */
+    this.getFilterModel = function() {
+        return _filterModel;
     };
 
     /**
@@ -132,6 +140,7 @@ function Model() {
         _selectionModel = new SelectionModel(self);
         _legendaModel = new LegendaModel(self);
         _playADayModel = new PlayADayModel(self);
+        _filterModel = new FilterModel(self);
         //_weatherModel = new WeatherModel(self);
     } ();
 }

@@ -22,6 +22,7 @@ function ChartsContainerController(parentController, svgContainer) {
     var _singlePopupWidth = svgContainer.attr("width") / 2 - _padding.left * 2;
     var _doublePopupWidth = _singlePopupWidth * 2  + _margins.betweenPopups;
     var _popupHeight = 425;
+    var _popupDoubleHeight = _popupHeight * 2 + _margins.betweenPopups;
 
     var _positionsAvailable = {"top-left" : true, "top-right": true,
                                "bottom-left" : true, "bottom-right" : true };
@@ -150,6 +151,23 @@ function ChartsContainerController(parentController, svgContainer) {
                 return null;
             }
 
+        } else if (size == "tall") {
+
+            if (_positionsAvailable["top-right"] && _positionsAvailable["bottom-right"]) {
+                x = _viewBoxWidth - _singlePopupWidth - _padding.left - _margins.betweenPopups;
+                y = 0 + _padding.top;
+                popupPosition = "right";
+                _positionsAvailable["top-right"] = _positionsAvailable["bottom-right"] = false;
+            } else if(_positionsAvailable["top-left"] && _positionsAvailable["bottom-left"]){
+                x = _viewBoxWidth - _doublePopupWidth - _padding.left;
+                y = 0 + _padding.top;
+                popupPosition = "left";
+                _positionsAvailable["top-left"] = _positionsAvailable["bottom-left"] = false;
+            } else {
+                console.log("ERROR: no position available for the popup");
+                return null;
+            }
+
         } else {
             console.log(size + " is not a popup size");
         }
@@ -166,7 +184,11 @@ function ChartsContainerController(parentController, svgContainer) {
             popupSvg.attr("width", _singlePopupWidth);
         } else if (size == "double"){
             popupSvg.attr("width", _doublePopupWidth);
+        } else if (size == "tall"){
+            popupSvg.attr("width", _singlePopupWidth);
+            popupSvg.attr("height", _popupDoubleHeight);
         }
+
 
         // var popup = new PopupController(this, popupSvg, size);
 
@@ -194,6 +216,14 @@ function ChartsContainerController(parentController, svgContainer) {
                 _positionsAvailable["top-left"] = _positionsAvailable["top-right"] = true;
             } else if (popup.positionInsideContainer == "bottom"){
                 _positionsAvailable["bottom-left"] = _positionsAvailable["bottom-right"] = true;
+            }
+
+        } else if(popup.getPopupSize() == "tall"){
+
+            if(popup.positionInsideContainer == "left"){
+                _positionsAvailable["top-left"] = _positionsAvailable["bottom-left"] = true;
+            } else if (popup.positionInsideContainer == "right"){
+                _positionsAvailable["top-right"] = _positionsAvailable["bottom-right"] = true;
             }
 
         }

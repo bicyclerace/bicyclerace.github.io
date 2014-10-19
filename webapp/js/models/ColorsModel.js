@@ -1,5 +1,5 @@
 //Colors which identify the VisualizationViewController
-var avilableIdentificationColors = ["#F33","#FF9000"];
+var avilableIdentificationColors = ["#F33","#AA9000","#AA90AA","#F33","#AA9000","#AA90AA","#e6550d"];
 var identificationColorsBindings = {};
 
 /**
@@ -40,6 +40,10 @@ function ColorsModel(modelId) {
 ColorsModel.colors = {
     //USED by legenda, ..
   "deselectedGray" : "#DDDDDD",
+
+    //USED by PLAY A DAY
+  "filtered-bikes" : "#AAAAFF",
+  "other-bikes" : "#AAAAAA",
 
   "totalFlow" : "#AAAAAA",
   "inflow" : "#2ca25f",

@@ -106,6 +106,16 @@ function OverviewMapController(htmlContainer) {
             .attr("d", path)
             .attr("class", "overview-map-controller-community")
         ;
+
+
+
+
+
+
+
+
+        //REMOVE TODO
+        //feature
     };
 
 

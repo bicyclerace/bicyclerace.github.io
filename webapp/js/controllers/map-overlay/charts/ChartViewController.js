@@ -10,7 +10,7 @@ function ChartViewController(parentController) {
     ViewController.call(this, parentController);
     /////////////////////////// PRIVATE ATTRIBUTES ///////////////////////////
     var self = this;
-    var _size = "single";
+    var _size = PopupController.SIZE.SINGLE;
 
     /////////////////////////// PUBLIC METHODS ///////////////////////////
     /**

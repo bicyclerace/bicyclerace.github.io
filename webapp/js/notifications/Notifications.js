@@ -57,3 +57,7 @@ Notifications.legenda = {
 Notifications.playADay = {
     TRIPS_DATA_CHANGED : "com.divvy.selections.tripsDataChanged"
 };
+
+Notifications.filter = {
+    ON_FILTER_CHANGED : "com.divvy.filter.onFilterChanged"
+};

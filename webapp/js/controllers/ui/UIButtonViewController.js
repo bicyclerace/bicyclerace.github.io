@@ -51,6 +51,14 @@ function UIButtonViewController(parentController) {
     };
 
     /**
+     *
+     * @returns {*}
+     */
+    this.getTitle = function() {
+        return _title.text();
+    };
+
+    /**
      * @param path [css icon class name]
      */
     this.setImage = function(path) {
