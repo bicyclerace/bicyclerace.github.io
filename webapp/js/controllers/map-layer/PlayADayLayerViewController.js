@@ -279,6 +279,9 @@ function PlayADayLayerViewController(parentController, layerGroup) {
         self.getNotificationCenter().subscribe(self, self.onDateChanged,
             Notifications.time.TIME_OF_THE_DAY_CHANGED);
 
+        self.getNotificationCenter().subscribe(self, self.onFilterChanged,
+            Notifications.filter.ON_FILTER_CHANGED);
+
     };
 
 

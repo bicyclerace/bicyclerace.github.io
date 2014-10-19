@@ -45,13 +45,22 @@ function MapLayerPopupViewController(parentController) {
       return _contentView;
     };
 
-    var super_updateView = self.updateView();
+
+    var super_updateView = self.updateView;
     this.updateView = function() {
         _contentView.getView().setFrame(0,0,self.getView().getFrameWidth(), self.getView().getFrameHeight() - _bottomHeight);
         _contentView.getView().setViewBox(0,0,self.getView().getFrameWidth(), self.getView().getFrameHeight() - _bottomHeight);
 
-
+        _closeButton.getView().setFrame(self.getView().getFrameWidth() - 2 , 0.5, 1.5 , 1.5);
         super_updateView();
+    };
+
+    this.setContentViewFrame = function(width,height) {
+        self.getView().setViewBox(0,0,width, height - _bottomHeight);
+        self.getView().setFrame(0,0,width, height - _bottomHeight);
+
+
+        self.updateView();
     };
 
     /////////////////////////////// PRIVATE METHODS ///////////////////////////////
@@ -76,12 +85,8 @@ function MapLayerPopupViewController(parentController) {
     var init = function() {
         self.getView().getSvg().classed("map-layer-popup-view-controller", true);
 
-
-
-
         self.getNotificationCenter().subscribe(self, self.onZoomChanged, Notifications.mapController.ZOOM_CHANGED);
-        self.getView().setViewBox(0,0,_frame.width, _frame.height);
-        self.getView().setFrame(0,0,_frame.width, _frame.height);
+
 
         _contentView = new ViewController(self);
         _contentView.getView().getSvg().classed("map-layer-popup-view-controller-content-view", true);
@@ -89,10 +94,12 @@ function MapLayerPopupViewController(parentController) {
         self.add(_contentView);
 
         _closeButton = new UIButtonViewController(self);
-        _closeButton.getView().setFrame(_frame.width - 2 , 0.5, 1.5 , 1.5);
+
         _closeButton.setImage("img/popup-controller-close-button.png");
         _closeButton.onClick(self.closePopup);
         self.add(_closeButton);
+
+        self.setContentViewFrame(_frame.width,_frame.height + _bottomHeight);
 
         draw();
     } ();
