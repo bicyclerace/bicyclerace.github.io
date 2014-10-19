@@ -173,44 +173,34 @@ function RidesDistributionChartViewController(parentController) {
 
                 _columnChart.getView().show();
                 _lineChart.getView().hide();
-                /*
-                self.getModel().getDBModel().getRidersAge(function(json) {
+                break;
+            case RidesDistribution.BIKE_DISTANCE:
+                self.getModel().getDBModel().getDistanceByBikeDistribution(function(json) {
                     xValues = [];
                     yValues = [];
-
-                    var TRIP_TIME;
-                    json.forEach(function(year) {
-                        TRIP_TIME = endDate.getFullYear() - parseInt(year["birthyear"]);
-                        xValues.push(TRIP_TIME);
-                        yValues.push(parseInt(year["count"]));
+                    json.forEach(function(group) {
+                        var distance = parseInt(group["distance"]);
+                        //if(distance <= 10000) {
+                            if(_distanceMetric == DistanceMetrics.MILES) {
+                                distance = distance * 0.000621371;
+                            } else {
+                                distance = distance / 1000;
+                            }
+                            xValues.push(distance);
+                            yValues.push(parseInt(group["count"]));
+                        //}
                     });
 
-                    xValues.reverse();
                     _lineChart.setXTickAlignment(TickAlignment.MIDDLE);
                     _lineChart.removeAllLines();
-                    _lineChart.setXAxisLabel("TRIP_TIME");
-                    _lineChart.setYAxisLabel("TRIPS COUNT");
+                    _lineChart.setXAxisLabel("DISTANCE");
+                    _lineChart.setYAxisLabel("BIKES COUNT");
+                    _lineChart.removeAllLines();
                     _lineChart.addLine(xValues, yValues, "#3182bd");
                 });
 
                 _columnChart.getView().hide();
-                _lineChart.getView().show();*/
-                break;
-            case RidesDistribution.BIKE_DISTANCE:
-                self.getModel().getDBModel().getDistanceByBikeDistribution(function(json) {
-
-                });
-                /*
-                self.getModel().getDBModel().getRidersUsertype(function(json) {
-                    xValues = ["Subscriber", "Customer"];
-                    yValues = [];
-                    yValues.push(parseInt(json["Subscriber"]));
-                    yValues.push(parseInt(json["Customer"]));
-
-                    _columnChart.getView().show();
-                    _lineChart.getView().hide();
-                    _columnChart.setData(xValues, yValues, "USER TYPE", "TRIPS COUNT", ["#3182bd"]);
-                });*/
+                _lineChart.getView().show();
                 break;
         }
     };
@@ -221,6 +211,8 @@ function RidesDistributionChartViewController(parentController) {
             _distanceButton.select();
             _timeButton.deselect();
             _bikeButton.deselect();
+            _kmButton.getView().show();
+            _milesButton.getView().show();
             updateData();
         });
 
@@ -229,6 +221,8 @@ function RidesDistributionChartViewController(parentController) {
             _distanceButton.deselect();
             _timeButton.select();
             _bikeButton.deselect();
+            _kmButton.getView().hide();
+            _milesButton.getView().hide();
             updateData();
         });
 
@@ -237,6 +231,8 @@ function RidesDistributionChartViewController(parentController) {
             _distanceButton.deselect();
             _timeButton.deselect();
             _bikeButton.select();
+            _kmButton.getView().show();
+            _milesButton.getView().show();
             updateData();
         });
 
