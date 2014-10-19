@@ -16,6 +16,7 @@ function MapLayerPopupViewController(parentController) {
     var _lat,_lng;
     var _contentView;
     var _closeButton;
+    var _triangle;
     /////////////////////////////// PUBLIC METHODS ///////////////////////////////
 
     this.onZoomChanged = function() {
@@ -53,6 +54,7 @@ function MapLayerPopupViewController(parentController) {
 
         _closeButton.getView().setFrame(self.getView().getFrameWidth() - 2 , 0.5, 1.5 , 1.5);
         super_updateView();
+        drawTriangle();
     };
 
     this.setContentViewFrame = function(width,height) {
@@ -65,14 +67,19 @@ function MapLayerPopupViewController(parentController) {
 
     /////////////////////////////// PRIVATE METHODS ///////////////////////////////
 
-    var draw = function() {
+    var drawTriangle = function() {
+        if(_triangle)
+            _triangle.remove();
         //Bottom triangle
 
-        var v1 = [_frame.width/2, _frame.height],
-            v2 = [_frame.width/2 - 0.8, _frame.height - _bottomHeight - 0.1],
-            v3 = [_frame.width/2 + 0.8, _frame.height - _bottomHeight - 0.1];
+        var width = self.getView().getFrameWidth();
+        var height = self.getView().getFrameHeight();
 
-        self.getView().getSvg()
+        var v1 = [width/2, height],
+            v2 = [width/2 - 0.8, height - _bottomHeight - 0.1],
+            v3 = [width/2 + 0.8, height - _bottomHeight - 0.1];
+
+        _triangle = self.getView().getSvg()
             .append("polygon")
             .classed("background-triangle", true)
             .attr("points", v1 + " " + v2 + " " + v3)
@@ -101,7 +108,6 @@ function MapLayerPopupViewController(parentController) {
 
         self.setContentViewFrame(_frame.width,_frame.height + _bottomHeight);
 
-        draw();
     } ();
 }
 

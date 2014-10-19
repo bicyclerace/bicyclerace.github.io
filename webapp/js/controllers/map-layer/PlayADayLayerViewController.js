@@ -65,6 +65,11 @@ function PlayADayLayerViewController(parentController, layerGroup) {
     };
 
 
+    this.onFilterChanged = function() {
+
+    };
+
+
     this.playDay = function(date) {
         _currentTime = date;
         _dateBeingLoaded = date;
