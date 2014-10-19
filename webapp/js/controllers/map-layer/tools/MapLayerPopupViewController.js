@@ -55,6 +55,7 @@ function MapLayerPopupViewController(parentController) {
         _closeButton.getView().setFrame(self.getView().getFrameWidth() - 2 , 0.5, 1.5 , 1.5);
         super_updateView();
         drawTriangle();
+
     };
 
     this.setContentViewFrame = function(width,height) {
@@ -63,6 +64,12 @@ function MapLayerPopupViewController(parentController) {
 
 
         self.updateView();
+
+        if(_lat && _lng){
+            var position = parentController.project(_lat,_lng);
+            self.getView().setFramePosition(position.x - _frame.width/2, position.y - _frame.height);
+        }
+
     };
 
     /////////////////////////////// PRIVATE METHODS ///////////////////////////////

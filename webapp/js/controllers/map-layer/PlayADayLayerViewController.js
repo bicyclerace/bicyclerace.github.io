@@ -14,7 +14,7 @@ function PlayADayLayerViewController(parentController, layerGroup) {
 
     var _animationStarted = false;
     var _animationSpeed = 200;
-    var _animatedBikes = [];//{o
+    var _animatedBikes = [];
     var _map;
     var bikeIconScale = 0.7;
     var _minZoomLevelToEnlargeBikes = 12;
@@ -66,7 +66,8 @@ function PlayADayLayerViewController(parentController, layerGroup) {
 
 
     this.onFilterChanged = function() {
-
+        //Update already existings bike
+        _animatedBikes
     };
 
 
