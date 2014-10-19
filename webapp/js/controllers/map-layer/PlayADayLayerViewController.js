@@ -13,7 +13,7 @@ function PlayADayLayerViewController(parentController, layerGroup) {
     var self = this;
 
     var _animationStarted = false;
-    var _animationSpeed = 400;
+    var _animationSpeed = 200;
     var _animatedBikes = [];//{o
     var _map;
     var bikeIconScale = 0.7;
@@ -23,6 +23,7 @@ function PlayADayLayerViewController(parentController, layerGroup) {
     var _currentTime = null;
     var _updateInterval = 400;
     var _dateBeingLoaded = null;
+    var _playModel = self.getModel().getPlayADayModel();
 
     var __debug = true;
 
@@ -181,7 +182,9 @@ function PlayADayLayerViewController(parentController, layerGroup) {
                     var end = databaseModel.getStationCoordinates(trip.to_station_id);
                     var duration = parseInt((trip.seconds*1000) / _animationSpeed);
                     if(__debug)console.log("        trip " + i + " of " + trips.length);
-                    animateBike(start,end,duration)
+
+                    _playModel.addTrip(trip);
+                    animateBike(start,end,duration, trip)
                 }
             }
 
@@ -218,7 +221,7 @@ function PlayADayLayerViewController(parentController, layerGroup) {
     }
 
 
-    var animateBike = function(from, to, duration) {
+    var animateBike = function(from, to, duration, trip) {
 
         var fromCoord = self.project(from[0], from[1]);//_map.latLngToLayerPoint(new L.LatLng(from[0], from[1]));
         var toCoord = self.project(to[0], to[1]);//_map.latLngToLayerPoint(new L.LatLng(to[0], to[1]));
@@ -233,11 +236,13 @@ function PlayADayLayerViewController(parentController, layerGroup) {
 
         bike
             .attr("transform",getTranslateAttr(fromCoord,angle,bikeIconScale*fact))
+            .datum(trip)
             .transition()
             .ease("linear")
             .duration(duration)
             .attr("transform",getTranslateAttr(toCoord,angle,bikeIconScale*fact))
-            .each("end",function(){
+            .each("end",function(trip){
+                _playModel.removeTrip(trip);
                 _animatedBikes = _.without(_animatedBikes, this);
                 this.remove()});
 

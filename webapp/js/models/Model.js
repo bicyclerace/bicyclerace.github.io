@@ -20,6 +20,7 @@ function Model() {
     var _timeModel;
     var _selectionModel;
     var _legendaModel;
+    var _playADayModel;
 
     // Hold the status of the current visualization context
     var _visualizationTypeModel;
@@ -48,11 +49,19 @@ function Model() {
     };
 
     /**
-     * @returns the color model
+     * @returns
      */
     this.getLegendaModel = function() {
         return _legendaModel;
     };
+
+    /**
+     * @returns
+     */
+    this.getPlayADayModel = function() {
+        return _playADayModel;
+    };
+
 
 
     /**
@@ -122,6 +131,7 @@ function Model() {
         _mapModel = new MapModel(self);
         _selectionModel = new SelectionModel(self);
         _legendaModel = new LegendaModel(self);
+        _playADayModel = new PlayADayModel(self);
         //_weatherModel = new WeatherModel(self);
     } ();
 }

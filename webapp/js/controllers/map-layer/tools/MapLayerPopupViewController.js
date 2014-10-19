@@ -22,6 +22,10 @@ function MapLayerPopupViewController(parentController) {
 
     };
 
+    this.dispose = function () {
+        self.getNotificationCenter().unsuscribeFromAll(self);
+    };
+
 
     this.setLatLng = function(lat,lng) {
         _lat = lat;
@@ -33,17 +37,12 @@ function MapLayerPopupViewController(parentController) {
 
     this.closePopup = function() {
         parentController.remove(self);
+        self.dispose();
     };
 
-    /**
-     * @Override
-     * @param child
-     */
-    this.add = function(childController) {
-        self.getChildren().push(childController);
-        childController.setParentController(self);
-        _contentView.add(childController.getView());
-        childController.updateView();
+
+    this.getContentViewController = function() {
+      return _contentView;
     };
 
     /////////////////////////////// PRIVATE METHODS ///////////////////////////////

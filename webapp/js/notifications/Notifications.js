@@ -53,3 +53,7 @@ Notifications.legenda = {
     LEGENDA_CHANGED : "com.divvy.selections.legendaChanged",
     SELECTED_ENTRIES_CHANGED : "com.divvy.selections.selectedEntriesChanged"
 };
+
+Notifications.playADay = {
+    TRIPS_DATA_CHANGED : "com.divvy.selections.tripsDataChanged"
+};

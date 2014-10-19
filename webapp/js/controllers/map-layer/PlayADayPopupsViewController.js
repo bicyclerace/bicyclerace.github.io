@@ -30,13 +30,7 @@ function PlayADayPopupsViewController(parentController) {
         var stationId = _selectionModel.getDoubleClickStation();
 
         if(stationId) {
-
-            var popup = new MapLayerPopupViewController(self);
-            self.add(popup);
-            var coord = databaseModel.getStationCoordinates(stationId);
-            popup.setLatLng(coord[0],coord[1]);
-
-
+            openPopup(stationId);
         }
 
 
@@ -45,7 +39,13 @@ function PlayADayPopupsViewController(parentController) {
 
     ////////////// PRIVATE METHODS
 
+    var openPopup = function(stationId) {
+        //SET UP POPUP
+        var popup = new PlayADayPopupViewController(self, stationId);
+        self.add(popup);
 
+
+    };
 
     var draw = function() {
 

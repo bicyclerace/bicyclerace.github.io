@@ -8,3 +8,7 @@
     fill: #FFFFFF;
 }
 
+.ui-view.view-controller.map-layer-popup-view-controller-content-view > .popup-title > .text {
+    fill: #000000;
+    font-size: 1.3px;
+}
