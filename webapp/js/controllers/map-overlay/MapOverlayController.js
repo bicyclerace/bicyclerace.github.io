@@ -17,7 +17,7 @@ function MapOverlayController(parentController, svgContainer) {
     var _viewBoxHeight = 1000;
 
     // Bar height
-    var _toolsWidth = 2000;
+    var _toolsWidth = 1800;
     var _bottomBarHeight = 100;
 
     // Children controllers

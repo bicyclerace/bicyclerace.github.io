@@ -1,0 +1,10 @@
+.ui-view.view-controller.map-layer-popup-view-controller-content-view > .background {
+    opacity: 0.9;
+    fill: #FFFFFF;
+}
+
+.ui-view.view-controller.map-layer-popup-view-controller .background-triangle {
+    opacity: 0.9;
+    fill: #FFFFFF;
+}
+

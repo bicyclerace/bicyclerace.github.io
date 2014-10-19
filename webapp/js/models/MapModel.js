@@ -52,7 +52,12 @@ function MapModel(parentModel) {
    };
 
 
-
+    /**
+     *
+     */
+    this.getZoomLevel = function() {
+        return _map.getZoomLevel();
+    };
 
     /**
   *
@@ -73,6 +78,10 @@ function MapModel(parentModel) {
       _map = map;
       _map.on("move", function(){
           _parentModel.getNotificationCenter().dispatch(Notifications.mapController.MAP_POSITION_OR_ZOOM_CHANGED)
+      });
+
+      _map.on("zoomend", function(){
+          _parentModel.getNotificationCenter().dispatch(Notifications.mapController.ZOOM_CHANGED);
       });
   };
 

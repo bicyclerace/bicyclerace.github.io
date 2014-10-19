@@ -211,6 +211,16 @@ function UIView() {
 
     /**
      *
+     * @param x
+     * @param y
+     */
+    this.setFramePosition = function(x, y) {
+        _svg.attr("x", x);
+        _svg.attr("y", y);
+    };
+
+    /**
+     *
      */
     this.bringToFront = function() {
         self.getSvg().each(function(){
@@ -249,7 +259,9 @@ function UIView() {
      * @param params
      */
     this.on = function(event, callBack, /**params=0*/params) {
-        _eventsLayer.on(event, function(){callBack(params);});
+        _eventsLayer.on(event, function(){
+            d3.event.stopPropagation();
+            callBack(params);});
         _svg.style("pointer-events", "visiblePainted");
     };
 

@@ -13,7 +13,7 @@ function PlayADayLayerViewController(parentController, layerGroup) {
     var self = this;
 
     var _animationStarted = false;
-    var _animationSpeed = 150;
+    var _animationSpeed = 400;
     var _animatedBikes = [];//{o
     var _map;
     var bikeIconScale = 0.7;
@@ -21,6 +21,8 @@ function PlayADayLayerViewController(parentController, layerGroup) {
     var _animationIntervalObject;
     var _animationTrips;
     var _currentTime = null;
+    var _updateInterval = 400;
+    var _dateBeingLoaded = null;
 
     var __debug = true;
 
@@ -29,12 +31,16 @@ function PlayADayLayerViewController(parentController, layerGroup) {
     this.dispose = function() {
         super_dispose.call(self);
 
+        this.clearAnimation();
+        self.getNotificationCenter().unsuscribeFromAll(self);
+    };
+
+    this.clearAnimation = function() {
+
         clearInterval(_animationIntervalObject);
         self.getView().getSvg().html("");
         _animatedBikes =  [];
         _animationStarted = false;
-
-        self.getNotificationCenter().unsuscribeFromAll(self);
     };
 
 
@@ -60,6 +66,7 @@ function PlayADayLayerViewController(parentController, layerGroup) {
 
     this.playDay = function(date) {
         _currentTime = date;
+        _dateBeingLoaded = date;
         databaseModel.getTripsForPlayADay(date, startAnimation);
     };
 
@@ -82,7 +89,7 @@ function PlayADayLayerViewController(parentController, layerGroup) {
         if(_currentTime.getTime() != timeModel.getDate().getTime() && daysBetween(_currentTime,timeModel.getDate()) == 0) {
             if(__debug)console.log("ONLY time changed " + _currentTime + " " + timeModel);
 
-            self.dispose();
+            self.clearAnimation();
             startAnimation(_animationTrips);
 
         }
@@ -90,7 +97,7 @@ function PlayADayLayerViewController(parentController, layerGroup) {
         //if it is a different day
         if(daysBetween(_currentTime,timeModel.getDate()) != 0) {
             if(__debug)console.log("dateChanged ON " + timeModel.getDate());
-            self.dispose();
+            self.clearAnimation();
             self.playDay(timeModel.getDate());
 
         }
@@ -123,13 +130,20 @@ function PlayADayLayerViewController(parentController, layerGroup) {
 
 
     var startAnimation = function(trips) {
+
+
         _animationStarted = true;
         _animationTrips = trips;
 
         var timeModel = self.getModel().getTimeModel();
 
+        if(TimeModel.daysBetween(_dateBeingLoaded,timeModel.getDate()) > 0){
+            //Discard because day changed
+            return;
+        }
 
-        var updateInterval = 1000;
+
+
         var currentTripId = 0;
 
         //discard all the trips before time
@@ -166,17 +180,17 @@ function PlayADayLayerViewController(parentController, layerGroup) {
 
                     var end = databaseModel.getStationCoordinates(trip.to_station_id);
                     var duration = parseInt((trip.seconds*1000) / _animationSpeed);
-                    if(__debug)console.log("started at trip " + i + " of " + trips.length);
+                    if(__debug)console.log("        trip " + i + " of " + trips.length);
                     animateBike(start,end,duration)
                 }
             }
 
-            _currentTime = new Date(now.getTime() + _animationSpeed*updateInterval);
+            _currentTime = new Date(now.getTime() + _animationSpeed*_updateInterval);
 
-            console.log("time changed to: " + _currentTime);
+            console.log("       time changed to: " + _currentTime);
 
             timeModel.setDate(new Date(_currentTime));
-        }, updateInterval);
+        }, _updateInterval);
 
     };
 
@@ -214,8 +228,6 @@ function PlayADayLayerViewController(parentController, layerGroup) {
         var bike = self.getView().getSvg().append("g")
                      .classed("play-a-day-layer-bike",true);
 
-        console.log("added-bike");
-
         var angle = getAngle(fromCoord,toCoord);
         bike.append("polygon").attr("points","-5,0 5,0 0,20");
 
@@ -235,6 +247,7 @@ function PlayADayLayerViewController(parentController, layerGroup) {
         _animatedBikes.push(bike);
 
     };
+
 
     var getBikeZoomFactor = function() {
         var fact = 0.2;
@@ -260,6 +273,7 @@ function PlayADayLayerViewController(parentController, layerGroup) {
 
         self.getNotificationCenter().subscribe(self, self.onDateChanged,
             Notifications.time.TIME_OF_THE_DAY_CHANGED);
+
     };
 
 

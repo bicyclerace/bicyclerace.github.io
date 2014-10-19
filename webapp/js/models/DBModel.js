@@ -224,16 +224,13 @@ function DBModel() {
      * @param callback
      */
     self.getRidersGender = function(callback) {
-        if(_stations_popularity)
-            callback(_stations_popularity);
-        else
-        {
+
             var url = _dbServer + "get_riders_gender.php";
             logUrl(url);
             $.getJSON(url)
                 .done(function(j){return callback(j[0]);})
                 .fail(_failCallback);
-        }
+
 
     };
 
@@ -242,16 +239,13 @@ function DBModel() {
      * @param callback
      */
     self.getRidersAge = function(callback) {
-        if(_stations_popularity)
-            callback(_stations_popularity);
-        else
-        {
+
             var url = _dbServer + "get_riders_age.php";
             logUrl(url);
             $.getJSON(url)
                 .done(callback)
         .fail(_failCallback);
-        }
+
 
     };
 
@@ -261,16 +255,12 @@ function DBModel() {
      * @param callback
      */
     self.getRidersUsertype = function(callback) {
-        if(_stations_popularity)
-            callback(_stations_popularity);
-        else
-        {
+
             var url = _dbServer + "get_riders_usertype.php";
             logUrl(url);
             $.getJSON(url)
                 .done(function(j){return callback(j[0]);})
                 .fail(_failCallback);
-        }
 
     };
 
@@ -279,16 +269,13 @@ function DBModel() {
      * @param callback
      */
     self.getDistanceDistribution = function(callback) {
-        if(_stations_popularity)
-            callback(_stations_popularity);
-        else
-        {
+
             var url = _dbServer + "get_distance_distribution.php";
             logUrl(url);
             $.getJSON(url)
                 .done(callback)
                 .fail(_failCallback);
-        }
+
 
     };
 
@@ -298,16 +285,13 @@ function DBModel() {
      * @param callback
      */
     self.getTripsDurationDistribution = function(callback) {
-        if(_stations_popularity)
-            callback(_stations_popularity);
-        else
-        {
+
             var url = _dbServer + "get_trips_duration_distribution.php";
             logUrl(url);
             $.getJSON(url)
                 .done(callback)
                 .fail(_failCallback);
-        }
+
 
     };
 
@@ -317,16 +301,13 @@ function DBModel() {
      * @param callback
      */
      self.getDistanceByBikeDistribution = function(callback) {
-        if(_stations_popularity)
-            callback(_stations_popularity);
-        else
-        {
+
             var url = _dbServer + "get_distance_by_bike_distribution.php";
             logUrl(url);
             $.getJSON(url)
                 .done(callback)
                 .fail(_failCallback);
-        }
+
 
     };
 

@@ -12,6 +12,7 @@ function SelectionModel(parentModel) {
   var _selectedStationsId = [];
   var _lastStationWasSelected = null;
   var _lastStationSelected = null;
+  var _lastDoubleClickedStation = null;
     // PUBLIC METHODS
 
   this.isStationSelected = function(station_id) {
@@ -72,6 +73,16 @@ function SelectionModel(parentModel) {
       }
 
       fireStationSelectedEvents();
+  };
+
+
+  this.setDoubleClickStation = function(station_id) {
+      _lastDoubleClickedStation = station_id;
+      parentModel.getNotificationCenter().dispatch(Notifications.selections.DOUBLE_CLICK_ON_STATION);
+  };
+
+  this.getDoubleClickStation = function() {
+     return _lastDoubleClickedStation;
   };
 
   // PRIVATE METHODS

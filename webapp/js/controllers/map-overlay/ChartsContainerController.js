@@ -19,7 +19,7 @@ function ChartsContainerController(parentController, svgContainer) {
     var _padding = {left: 20, top: 30, right: 0, bottom:0};
     var _margins = {betweenPopups : 10};
 
-    var _singlePopupWidth = 600;
+    var _singlePopupWidth = svgContainer.attr("width") / 2 - _padding.left * 2;
     var _doublePopupWidth = _singlePopupWidth * 2  + _margins.betweenPopups;
     var _popupHeight = 425;
 

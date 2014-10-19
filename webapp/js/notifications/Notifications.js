@@ -13,7 +13,8 @@ var Notifications = Notifications || {};//function() {};
 Notifications.mapController = {
     STATION_HAS_BEEN_SELECTED : "com.divvy.mapController.stationSelected",
     //whenever a map change its position / zoom
-    MAP_POSITION_OR_ZOOM_CHANGED : "com.divvy.mapContainerController.mapPositionOrZoomChanged"
+    MAP_POSITION_OR_ZOOM_CHANGED : "com.divvy.mapContainerController.mapPositionOrZoomChanged",
+    ZOOM_CHANGED : "com.divvy.mapContainerController.mapZoomChanged"
 };
 
 Notifications.mapContainerController = {
@@ -43,7 +44,9 @@ Notifications.selections = {
     NONE_STATION_SELECTED : "com.divvy.selections.noneStationSelectedChanged",
     ONE_STATION_SELECTED : "com.divvy.selections.oneStationSelectedChanged",
     TWO_STATIONS_SELECTED : "com.divvy.selections.twoStationsSelectedChanged",
-    MANY_STATIONS_SELECTED : "com.divvy.selections.manyStationsSelectedChanged"
+    MANY_STATIONS_SELECTED : "com.divvy.selections.manyStationsSelectedChanged",
+
+    DOUBLE_CLICK_ON_STATION: "com.divvy.selections.doubleClickOnStation"
 };
 
 Notifications.legenda = {

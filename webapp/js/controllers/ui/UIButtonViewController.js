@@ -65,6 +65,11 @@ function UIButtonViewController(parentController) {
         self.getView().on("click", callBack, params);
     };
 
+
+    this.onDoubleClick = function(callBack, params) {
+        self.getView().on("dblclick", callBack, params);
+    };
+
     /**
      *
      */
@@ -89,9 +94,12 @@ function UIButtonViewController(parentController) {
 
     //////////////////// PRIVATE METHODS ///////////////////////
     var init = function() {
+
+
         // Add button css class
         self.getView().addClass("ui-button-view-controller");
-        self.setTitle("");
+
+
 
         // Setup default size
         self.getView().setFrame(0, 0, _defaultViewBox.width, _defaultViewBox.height);
@@ -100,6 +108,8 @@ function UIButtonViewController(parentController) {
         // Setup image controller
         _image = new UIImageViewController(self);
         self.add(_image);
+        self.setTitle("");
+
     } ();
 }
 

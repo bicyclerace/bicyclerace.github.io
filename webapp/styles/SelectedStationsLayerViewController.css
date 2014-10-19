@@ -1,0 +1,11 @@
+.flow-balance-layer-histogram-inflow {
+    opacity: 0.9;
+    stroke: #FFFFFF;
+    stroke-width: 0.05;
+
+}
+
+.select-stations-layer-view-controller .ui-view.view-controller.ui-button-view-controller .title {
+    font-size: 1.5px;
+    fill: #FFFFFF
+}
