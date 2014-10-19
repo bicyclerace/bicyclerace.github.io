@@ -45,6 +45,15 @@ function MapLayerPopupViewController(parentController) {
       return _contentView;
     };
 
+    var super_updateView = self.updateView();
+    this.updateView = function() {
+        _contentView.getView().setFrame(0,0,self.getView().getFrameWidth(), self.getView().getFrameHeight() - _bottomHeight);
+        _contentView.getView().setViewBox(0,0,self.getView().getFrameWidth(), self.getView().getFrameHeight() - _bottomHeight);
+
+
+        super_updateView();
+    };
+
     /////////////////////////////// PRIVATE METHODS ///////////////////////////////
 
     var draw = function() {
@@ -63,20 +72,21 @@ function MapLayerPopupViewController(parentController) {
     };
 
 
+
     var init = function() {
         self.getView().getSvg().classed("map-layer-popup-view-controller", true);
 
-        _contentView = new ViewController(self);
-        _contentView.getView().getSvg().classed("map-layer-popup-view-controller-content-view", true);
-        _contentView.getView().setFrame(0,0,_frame.width, _frame.height - _bottomHeight);
-        _contentView.getView().setViewBox(0,0,_frame.width, _frame.height - _bottomHeight);
-        self.add(_contentView);
+
 
 
         self.getNotificationCenter().subscribe(self, self.onZoomChanged, Notifications.mapController.ZOOM_CHANGED);
         self.getView().setViewBox(0,0,_frame.width, _frame.height);
         self.getView().setFrame(0,0,_frame.width, _frame.height);
 
+        _contentView = new ViewController(self);
+        _contentView.getView().getSvg().classed("map-layer-popup-view-controller-content-view", true);
+
+        self.add(_contentView);
 
         _closeButton = new UIButtonViewController(self);
         _closeButton.getView().setFrame(_frame.width - 2 , 0.5, 1.5 , 1.5);
