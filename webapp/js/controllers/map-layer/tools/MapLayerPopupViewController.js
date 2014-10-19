@@ -31,8 +31,10 @@ function MapLayerPopupViewController(parentController) {
     this.setLatLng = function(lat,lng) {
         _lat = lat;
         _lng = lng;
+        var width = self.getView().getFrameWidth();
+        var height = self.getView().getFrameHeight();
         var position = parentController.project(_lat,_lng);
-        self.getView().setFramePosition(position.x - _frame.width/2, position.y - _frame.height);
+        self.getView().setFramePosition(position.x - width/2, position.y - height);
     };
 
 

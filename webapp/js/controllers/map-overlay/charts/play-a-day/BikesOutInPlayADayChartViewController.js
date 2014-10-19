@@ -102,8 +102,8 @@ function BikesOutInPlayADayChartViewController(parentController) {
         var filteredTrips = playModel.getActiveFilteredTrips();
 
         _columnChart.setData(["Total active", "Filtered"],[activeTrips.length, filteredTrips.length],"", "BIKES",
-            [ColorsModel.colors["other-bikes"],
-             ColorsModel.colors["filtered-bikes"]
+            [ColorsModel.colors.otherBikes,
+             ColorsModel.colors.filteredBikes
             ]);
     };
 

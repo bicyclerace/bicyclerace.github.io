@@ -42,8 +42,8 @@ ColorsModel.colors = {
   "deselectedGray" : "#DDDDDD",
 
     //USED by PLAY A DAY
-  "filtered-bikes" : "#AAAAFF",
-  "other-bikes" : "#AAAAAA",
+  "filteredBikes" : "#AAAAFF",
+  "otherBikes" : "#AAAAAA",
 
   "totalFlow" : "#AAAAAA",
   "inflow" : "#2ca25f",

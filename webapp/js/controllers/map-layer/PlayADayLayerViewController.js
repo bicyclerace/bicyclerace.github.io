@@ -67,7 +67,16 @@ function PlayADayLayerViewController(parentController, layerGroup) {
 
     this.onFilterChanged = function() {
         //Update already existings bike
-        _animatedBikes
+        _animatedBikes.forEach(
+            function(bike) {
+                var trip = bike._trip;
+                if(_playModel.tripFilter(trip)){
+                    bike.attr("fill", ColorsModel.colors.filteredBikes);
+                } else {
+                    bike.attr("fill", ColorsModel.colors.otherBikes);
+                }
+            }
+        );
     };
 
 
@@ -254,6 +263,7 @@ function PlayADayLayerViewController(parentController, layerGroup) {
 
         var endTime = new Date();
         endTime.setMilliseconds(endTime.getMilliseconds() + duration);
+        bike._trip = trip;
         bike._animationsInfo = {destination:new L.LatLng(to[0],to[1]),endTime: endTime};
         _animatedBikes.push(bike);
 
