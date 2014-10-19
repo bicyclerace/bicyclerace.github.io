@@ -10,17 +10,21 @@ function UILineChartViewController(parentController) {
     /////////////////////// PRIVATE ATTRIBUTES ///////////////////////
     var self = this;
 
-    var _xValues;
+    //var _xValues;
+    //var _yValues;
+
     var _xAxisLabel;
-    var _yValues;
     var _yAxisLabel;
-    var _lineColor;
+
+    //var _lineColor;
+
 
     // Holds data in d3 format
-    var _data;
+    var _data = [];
 
 
     // Scales
+    var _xDomain = {min: null, max: null};
     var _xScale = d3.scale.linear();
     var _yScale = d3.scale.linear();
 
@@ -56,20 +60,76 @@ function UILineChartViewController(parentController) {
      * @param color = color of the line
      */
     this.setData = function(xValues, yValues, xAxisLabel, yAxisLabel, color) {
-        _xValues = xValues;
-        _yValues = yValues;
         _xAxisLabel = xAxisLabel;
         _yAxisLabel = yAxisLabel;
-        _lineColor = color;
 
-        _data = [];
-        _xValues.forEach(function(xValue, index) {
-            _data.push({
-                label: _xValues[index],
-                value: _yValues[index]
+        self.addLine(xValues, yValues, color);
+    };
+
+    /**
+     * Add a line to the line chart
+     * @param xValues = line domain
+     * @param yValues = line range
+     * @param color = line color
+     * @param tag = assign custom tag to refer later to this line
+     */
+    this.addLine = function(xValues, yValues, color, /**tag=""*/tag) {
+        tag = tag || "";
+
+        var data = [];
+        xValues.forEach(function(xValue, index) {
+            data.push({
+                label: xValues[index],
+                value: yValues[index]
             });
         });
+
+
+        var line = {
+            data: data,
+            color: color,
+            tag: tag
+        };
+
+        _data.push(line);
         updateChart();
+    };
+
+    /**
+     * Removes all the lines with the given tag
+     * @param tag
+     */
+    this.removeLinesWithTag = function(tag) {
+        var tmp = _data.slice();
+
+        tmp.forEach(function(line, index) {
+            if(line.tag == tag) {
+                _data.splice(index, 1);
+            }
+        });
+    };
+
+    /**
+     * Removes all lines on the chart
+     */
+    this.removeAllLines = function() {
+        _data = [];
+    };
+
+    /**
+     * Set x axis label
+     * @param label
+     */
+    this.setXAxisLabel = function(label) {
+        _xAxisLabel = label;
+    };
+
+    /**
+     * Set y axis label
+     * @param label
+     */
+    this.setYAxisLabel = function(label) {
+        _yAxisLabel = label;
     };
 
     /**
@@ -86,6 +146,16 @@ function UILineChartViewController(parentController) {
      */
     this.setYScale = function(d3Scale) {
         _yScale = d3Scale;
+    };
+
+    /**
+     * Set scale min and max values
+     * @param min
+     * @param max
+     */
+    this.setXDomain = function(min, max) {
+        _xDomain.min = min;
+        _xDomain.max = max;
     };
 
     /**
@@ -117,7 +187,6 @@ function UILineChartViewController(parentController) {
 
 
 
-
     /////////////////////// PRIVATE METHODS ///////////////////////
     var updateChart = function() {
 
@@ -125,13 +194,31 @@ function UILineChartViewController(parentController) {
         var height = self.getView().getViewBoxHeight() - _chartMargin.top - _chartMargin.bottom;
 
         // Setup x scale
+        var xMin = _xDomain.min;
+        if(xMin == null) {
+            xMin = _data[0].data[0].label;
+        }
+        var xMax = _xDomain.max;
+        if(xMax == null) {
+            xMax = _data[0].data[ _data[0].data.length -1 ].label;
+        }
+
         _xScale
-            .domain([_xValues[0], _xValues[_xValues.length -1]])
+            .domain([xMin, xMax])
             .range([0, width]);
 
+
         // Setup y scale
+        var yMax = 0;
+        _data.forEach(function(line) {
+            var tmpMax = d3.max(line.data, function(d) {return parseFloat(d.value)});
+            if(tmpMax > yMax) {
+                yMax = tmpMax;
+            }
+        });
         _yScale
-            .domain([0, d3.max(_data, function(d) { return parseFloat(d.value); })])
+            //.domain([0, d3.max(_data, function(d) { return parseFloat(d.value); })])
+            .domain([0, yMax])
             .range([height, 0]);
 
         // Setup x axis
@@ -180,19 +267,19 @@ function UILineChartViewController(parentController) {
 
         if(_xTickAlignment == TickAlignment.MIDDLE) {
             axis
-                .selectAll("text")
+                .selectAll(".tick > text")
                 .attr("y", 10)
                 .attr("x", 0)
                 .style("text-anchor", "middle");
         } else if(_xTickAlignment == TickAlignment.LEFT) {
             axis
-                .selectAll("text")
+                .selectAll(".tick > text")
                 .attr("y", 6)
                 .attr("x", 6)
                 .style("text-anchor", "start");
         } else if(_xTickAlignment == TickAlignment.RIGHT) {
             axis
-                .selectAll("text")
+                .selectAll(".tick > text")
                 .attr("y", 6)
                 .attr("x", -6)
                 .style("text-anchor", "end");
@@ -239,7 +326,63 @@ function UILineChartViewController(parentController) {
                 return _yAxisLabel;
             });
 
+        // Line container UPDATE
+        var gLine = chart.selectAll(".line-container").data(_data);
 
+
+        var color;
+        gLine
+            .select(".line")
+            .datum(function(d) {
+                color = d.color;
+                return d.data;
+            })
+            .attr("d", line)
+            .style("stroke", function(d) {
+                return color;
+            });
+
+
+        gLine.enter()
+            .append("g")
+            .classed("line-container", true)
+                .append("path")
+                    .classed("line", true)
+                    .datum(function(d) {
+                        color = d.color;
+                        return d.data;
+                    })
+                    .attr("d", line)
+                    .style("stroke", function(d) {
+                        return color;
+                    });
+
+
+/*
+        var linePath = gLine.select(".line").datum(function(d) {
+            return d;
+        });
+
+        linePath
+            .attr("d", line)
+            .style("stroke", function(d) {
+                return d.color;
+            });
+
+        linePath.enter()
+            .append("path")
+            .classed("line", true)
+            .attr("d", line)
+            .style("stroke", function(d) {
+                return d.color;
+            });
+
+        // Line container ENTER
+        linePath = gLine.enter()
+            .append("g")
+            .classed("line-container", true);
+*/
+        /*
         // Line container
         var gLine = chart.select(".line-container");
         if(gLine.node() == null) {
@@ -247,7 +390,9 @@ function UILineChartViewController(parentController) {
         }
 
         // Draw lines
-        var linePath = gLine.select(".line");
+        var linePath = gLine.selectAll(".line");
+
+
         if (linePath.node() == null) {
             linePath = gLine.append("path").classed("line", true);
         }
@@ -256,7 +401,9 @@ function UILineChartViewController(parentController) {
         linePath
             .datum(_data)
             .attr("d", line)
-            .style("stroke", _lineColor);
+            .style("stroke", function(d) {
+                return d.color;
+            });*/
     };
 
     // Init

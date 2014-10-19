@@ -66,8 +66,18 @@ function RiderDemographicsChartViewController(parentController) {
                 contentBox.width - chartPad.left - chartPad.right,
                 heightUnit * 5 - chartPad.top - chartPad.bottom);
 
+        _columnChart.getView().setViewBox(0,
+                0,
+                contentBox.width - chartPad.left - chartPad.right,
+                heightUnit * 5 - chartPad.top - chartPad.bottom);
+
         _lineChart.getView().setFrame(contentBox.x,
                 contentBox.y + chartPad.top,
+                contentBox.width - chartPad.left - chartPad.right,
+                heightUnit * 5 - chartPad.top - chartPad.bottom);
+
+        _lineChart.getView().setViewBox(0,
+            0,
                 contentBox.width - chartPad.left - chartPad.right,
                 heightUnit * 5 - chartPad.top - chartPad.bottom);
 
@@ -111,10 +121,11 @@ function RiderDemographicsChartViewController(parentController) {
                     });
 
                     xValues.reverse();
-                    //_lineChart.setXScale(d3.time.scale());
-                    //_lineChart.setXTickFormat(d3.time.format("%yyyy"));
                     _lineChart.setXTickAlignment(TickAlignment.MIDDLE);
-                    _lineChart.setData(xValues, yValues, "AGE", "TRIPS COUNT", "#3182bd");
+                    _lineChart.removeAllLines();
+                    _lineChart.setXAxisLabel("AGE");
+                    _lineChart.setYAxisLabel("TRIPS COUNT");
+                    _lineChart.addLine(xValues, yValues, "#3182bd");
                 });
 
                 _columnChart.getView().hide();

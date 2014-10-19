@@ -19,6 +19,7 @@ function ChartsFactory() {
             case VisualizationType.OVERALL_STATISTICS:
                 chartsClasses.push(BikesOutChartViewController);
                 chartsClasses.push(RiderDemographicsChartViewController);
+                chartsClasses.push(RidesDistributionChartViewController);
                 break;
             case VisualizationType.STATION_POPULARITY:
 

@@ -113,7 +113,10 @@ function BikesOutChartViewController(parentController) {
                     _lineChart.setXScale(d3.time.scale());
                     _lineChart.setXTickFormat(null);
                     _lineChart.setXTickAlignment(TickAlignment.MIDDLE);
-                    _lineChart.setData(xValues, yValues, "DAY HOUR", "BIKES OUT", "#3182bd");
+                    _lineChart.setXAxisLabel("DAY HOUR");
+                    _lineChart.setYAxisLabel("BIKES OUT");
+                    _lineChart.removeAllLines();
+                    _lineChart.addLine(xValues, yValues, "#3182bd");
                 });
                 _columnChart.getView().hide();
                 _lineChart.getView().show();
@@ -130,12 +133,15 @@ function BikesOutChartViewController(parentController) {
 
                     yValues = [];
                     json.forEach(function(day) {
-                        yValues.push(day["count"]);
+                        yValues.push(parseInt(day["count"]));
                     });
                     _lineChart.setXScale(d3.time.scale());
                     _lineChart.setXTickFormat(d3.time.format("%b"));
                     _lineChart.setXTickAlignment(TickAlignment.LEFT);
-                    _lineChart.setData(xValues, yValues, "YEAR", "BIKES OUT", "#3182bd");
+                    _lineChart.setXAxisLabel("YEAR");
+                    _lineChart.setYAxisLabel("BIKES OUT");
+                    _lineChart.removeAllLines();
+                    _lineChart.addLine(xValues, yValues, "#3182bd");
                 });
 
                 _columnChart.getView().hide();
