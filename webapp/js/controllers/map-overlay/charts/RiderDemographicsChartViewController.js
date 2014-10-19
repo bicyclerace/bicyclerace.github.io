@@ -105,7 +105,7 @@ function RiderDemographicsChartViewController(parentController) {
 
                     _columnChart.getView().show();
                     _lineChart.getView().hide();
-                    _columnChart.setData(xValues, yValues, "GENDER", "TRIPS COUNT", ["#3182bd"]);
+                    _columnChart.setData(xValues, yValues, "GENDER", "TRIPS COUNT", ["#67A9CF", "#E9A3C9", "#bababa"]);
                 });
                 break;
             case RiderDemographics.AGE:
@@ -140,7 +140,7 @@ function RiderDemographicsChartViewController(parentController) {
 
                     _columnChart.getView().show();
                     _lineChart.getView().hide();
-                    _columnChart.setData(xValues, yValues, "USER TYPE", "TRIPS COUNT", ["#3182bd"]);
+                    _columnChart.setData(xValues, yValues, "USER TYPE", "TRIPS COUNT", ["#8dd3c7", "#fb8072"]);
                 });
                 break;
         }
