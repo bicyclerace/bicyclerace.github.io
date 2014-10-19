@@ -90,12 +90,16 @@ function PlayADayModel(parentModel) {
 
 
   this.getStationInflow = function(station_id) {
-      return _.filter(_activeTrips,function(t){return t.to_station_id == station_id;}).length;
+      return _.filter(_activeTrips,function(t){
+          return t.to_station_id == station_id && self.tripFilter(t);
+      }).length;
   };
 
 
   this.getStationOutflow = function(station_id) {
-      return _.filter(_activeTrips,function(t){return t.from_station_id == station_id;}).length;
+      return _.filter(_activeTrips,function(t){
+          return t.from_station_id == station_id  && self.tripFilter(t);
+      }).length;
   };
 
 

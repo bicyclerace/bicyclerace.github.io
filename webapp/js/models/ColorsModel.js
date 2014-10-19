@@ -42,7 +42,7 @@ ColorsModel.colors = {
   "deselectedGray" : "#DDDDDD",
 
     //USED by PLAY A DAY
-  "filteredBikes" : "#AAAAFF",
+  "filteredBikes" : "#2c7fb8",
   "otherBikes" : "#AAAAAA",
 
   "totalFlow" : "#AAAAAA",

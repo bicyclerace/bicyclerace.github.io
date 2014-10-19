@@ -61,8 +61,8 @@ function MapLayerPopupViewController(parentController) {
     };
 
     this.setContentViewFrame = function(width,height) {
-        self.getView().setViewBox(0,0,width, height - _bottomHeight);
-        self.getView().setFrame(0,0,width, height - _bottomHeight);
+        self.getView().setViewBox(0,0,width, height + _bottomHeight);
+        self.getView().setFrame(0,0,width, height + _bottomHeight);
 
 
         self.updateView();

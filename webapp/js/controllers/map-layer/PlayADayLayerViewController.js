@@ -71,9 +71,9 @@ function PlayADayLayerViewController(parentController, layerGroup) {
             function(bike) {
                 var trip = bike._trip;
                 if(_playModel.tripFilter(trip)){
-                    bike.attr("fill", ColorsModel.colors.filteredBikes);
+                    bike.select("*").attr("fill", ColorsModel.colors.filteredBikes);
                 } else {
-                    bike.attr("fill", ColorsModel.colors.otherBikes);
+                    bike.select("*").attr("fill", ColorsModel.colors.otherBikes);
                 }
             }
         );
@@ -247,8 +247,12 @@ function PlayADayLayerViewController(parentController, layerGroup) {
                      .classed("play-a-day-layer-bike",true);
 
         var angle = getAngle(fromCoord,toCoord);
-        bike.append("polygon").attr("points","-5,0 5,0 0,20");
 
+        var color = _playModel.tripFilter(trip)? ColorsModel.colors.filteredBikes : ColorsModel.colors.deselectedGray;
+
+        bike.append("polygon")
+            .attr("points","-5,0 5,0 0,20")
+            .attr("fill", color);
         bike
             .attr("transform",getTranslateAttr(fromCoord,angle,bikeIconScale*fact))
             .datum(trip)
