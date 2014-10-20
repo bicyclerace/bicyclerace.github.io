@@ -1,5 +1,6 @@
 //Colors which identify the VisualizationViewController
-var avilableIdentificationColors = ["#F33","#AA9000","#AA90AA","#F33","#AA9000","#AA90AA","#e6550d"];
+var identificationColors = ["#e6550d","#2ca25f"];
+var availableIdentificationColors = identificationColors.slice();
 var identificationColorsBindings = {};
 
 /**
@@ -20,14 +21,14 @@ function ColorsModel(modelId) {
 
 
     var bindIdentificationColor = function(modelId) {
-        var color = avilableIdentificationColors.pop();
+        var color = availableIdentificationColors.pop();
         identificationColorsBindings[modelId] = color;
         return color;
     };
 
 
-    var unbindIdentificationColor = function(modelId) {
-        avilableIdentificationColors.push(identificationColorsBindings[modelId]);
+    this.unbindIdentificationColor = function(modelId) {
+        availableIdentificationColors.push(identificationColorsBindings[modelId]);
         delete identificationColorsBindings[modelId];
     };
 

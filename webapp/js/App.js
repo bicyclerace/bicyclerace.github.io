@@ -28,8 +28,8 @@ function App() {
             var body = d3.select("body");
             _mainWindowController = new WindowController(body);
             _mainWindowController.addOverviewMap();
-            _mainWindowController.addMap();
-           // _mainWindowController.addMap();
+
+            multiMapModel.toggleMap(0);
   
         });
 

@@ -17,7 +17,8 @@ function MapOverlayController(parentController, svgContainer) {
     var _viewBoxHeight = 1000;
 
     // Bar height
-    var _toolsWidth = 1800;
+    var _chartsWidth = 1400;
+    var _minToolsWith = 1800;
     var _bottomBarHeight = 100;
 
     // Children controllers
@@ -38,12 +39,18 @@ function MapOverlayController(parentController, svgContainer) {
 
 
     // PUBLIC METHODS
-    this.setWidth = function(width, chartsPosition){
+    this.setWidth = function(width){
         _viewBoxWidth = width;
-        _toolsWidth = 1800;
-        _toolsSvg.attr("width", _toolsWidth);
-        _chartsSvg.attr("width", _viewBoxWidth - _toolsWidth)
-                  .attr("x", chartsPosition);
+        _chartsSvg.attr("x", width - _chartsWidth);
+
+        //Overlapping or resizing tools layout
+        if(width - _chartsWidth < _minToolsWith) {
+            _toolContainerController.setWidth(width);
+            _toolContainerController.updateView();
+        } else {
+            _toolContainerController.setWidth(_viewBoxWidth - _chartsWidth);
+            _toolContainerController.updateView();
+        }
 
     };
 
@@ -53,7 +60,7 @@ function MapOverlayController(parentController, svgContainer) {
         _toolsSvg = _svgContainer.append("svg")
             .classed("tools-container-controller", true)
             .attr("y", _topLineHeight)
-            .attr("width", _toolsWidth)
+            .attr("width", _viewBoxWidth - _chartsWidth)
             .attr("height", _viewBoxHeight - _bottomBarHeight - _topLineHeight
 
 
@@ -61,8 +68,8 @@ function MapOverlayController(parentController, svgContainer) {
 
         _chartsSvg = _svgContainer.append("svg")
             .classed("charts-container-controller", true)
-            .attr("x", _toolsWidth)
-            .attr("width", _viewBoxWidth - _toolsWidth)
+            .attr("x", _viewBoxWidth - _chartsWidth)
+            .attr("width", _chartsWidth)
             .attr("height", _viewBoxHeight - _bottomBarHeight);
 
         _barSvg = _svgContainer.append("svg")

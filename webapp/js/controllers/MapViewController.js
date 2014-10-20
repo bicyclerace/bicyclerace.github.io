@@ -35,6 +35,8 @@ function MapViewController(parentController, htmlContainer) {
     var _svgLayerGroup;
     
     /////////////////////////// PUBLIC METHODS ///////////////////////////
+
+
     /**
      * Handler for "VISUALIZATION_TYPE_CHANGED" notification.
      * Namely when the visualization type context changed, update map layers.

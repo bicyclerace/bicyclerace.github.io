@@ -44,6 +44,21 @@ function ToolsContainerController(parentController, svgContainer) {
         _currentLayout.updateView();
     };
 
+    /**
+     *
+     */
+    this.setWidth = function(width) {
+        _svgContainer.attr("width", width);
+        _svgContainer.attr("viewBox", "0 0 " + width + " " + _viewBoxHeight);
+        _viewBoxWidth = width;
+        // Setup frame
+        var layoutWidth = _viewBoxWidth - _padding.left - _padding.right;
+        var layoutHeight = _viewBoxHeight - _padding.top - _padding.bottom;
+        _currentLayout.getView().setFrame(_padding.left, _padding.top, layoutWidth, layoutHeight);
+        _currentLayout.getView().setViewBox(0, 0, layoutWidth, layoutHeight);
+        _currentLayout.updateView();
+    };
+
 
     // PRIVATE METHODS
     var cleanLayout = function() {
@@ -76,7 +91,7 @@ function ToolsContainerController(parentController, svgContainer) {
     var init = function() {
         _svgContainer
             .attr("viewBox", "0 0 " + _viewBoxWidth + " " + _viewBoxHeight)
-            .attr("preserveAspectRatio", "xMinYMin meet");
+            .attr("preserveAspectRatio", "xMinYMin slice");
         _layoutFactory = new LayoutFactory();
         draw();
 

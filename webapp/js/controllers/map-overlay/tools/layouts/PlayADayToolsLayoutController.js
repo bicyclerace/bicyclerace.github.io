@@ -41,6 +41,7 @@ function PlayADayToolsLayoutController(parentController, svgContainer) {
         _playTimeViewController.getView().setFrame(0, self.getView().getViewBoxHeight() - height, playToolWidth, height);
 
         _weatherViewController.getView().setFrame(self.getView().getViewBoxWidth() -300, 0, 300, 300);
+        //_weatherViewController.getView().setFrame("70%", 0, 300, 300);
 
         // hide the calendar
         _calendarPickerController.hideCalendarPickerWithoutAnimation();

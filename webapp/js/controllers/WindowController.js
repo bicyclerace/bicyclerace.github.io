@@ -26,14 +26,33 @@ function WindowController(htmlContainer) {
         var mapController = new VisualizationModuleController(mapContainer);
         _visualizationModulesControllers.push(mapController);
 
-        //dispatch an event that something has changed in the map configuration
-        sharedNotificationCenter.dispatch(Notifications.mapContainerController.MAP_CONFIGURATION_CHANGED);
+        //Resize the visualizationModuleControllers
+        _visualizationModulesControllers.forEach(function(visualizationController) {
+            visualizationController.resize(_visualizationModulesControllers.length);
+        });
+
+        return mapController;
+    };
+
+    /**
+     *
+     * @param id it is not really an id, just 0 or 1
+     */
+    this.removeMap = function(number) {
+
+
+        var module = _visualizationModulesControllers[number];
+        module.remove();
+
+            _visualizationModulesControllers.splice(number,1);
 
         //Resize the visualizationModuleControllers
-        //_visualizationModulesControllers.forEach(function(visualizationController) {
-        //    visualizationController.
-        //});
+        _visualizationModulesControllers.forEach(function(visualizationController) {
+            visualizationController.resize(_visualizationModulesControllers.length);
+        });
     };
+
+
     this.getVisualizationModulesControllers = function() {
         return _visualizationModulesControllers.slice(0);
     };

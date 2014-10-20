@@ -21,8 +21,19 @@ function VisualizationModuleController(htmlContainer) {
     var _mapViewController;
     var _mapOverlayController;
 
+    var _mapOverlaySvg, _mapViewDiv;
+
 
     // PUBLIC METHODS
+
+    this.remove = function() {
+        _mapOverlaySvg.remove();
+        _mapViewDiv.remove();
+        _htmlContainer.remove();
+
+        self.getModel().getColorModel().unbindIdentificationColor(self.getModel().getId());
+    };
+
 
     /**
      * @override
@@ -43,7 +54,10 @@ function VisualizationModuleController(htmlContainer) {
     /**
      *
      */
-    this.updateView = function() {
+    this.resize = function(numberOfMaps) {
+        var width = 3200 / numberOfMaps;
+
+        _mapOverlayController.setWidth(width);
 
     };
 
@@ -51,12 +65,12 @@ function VisualizationModuleController(htmlContainer) {
     // PRIVATE METHODS
     var draw = function() {
         // Draw map view container
-        var mapViewDiv = _htmlContainer.append("div").classed("map-view-controller", true);
-        _mapViewController = new MapViewController(self, mapViewDiv);
+        _mapViewDiv = _htmlContainer.append("div").classed("map-view-controller", true);
+        _mapViewController = new MapViewController(self, _mapViewDiv);
 
-        var svg = _htmlContainer.append("svg")
+        _mapOverlaySvg = _htmlContainer.append("svg")
                                 .classed("map-overlay-controller", true);
-        _mapOverlayController = new MapOverlayController(self, svg);
+        _mapOverlayController = new MapOverlayController(self, _mapOverlaySvg);
     };
 
     var init = function() {
