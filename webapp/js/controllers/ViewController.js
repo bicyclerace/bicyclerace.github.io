@@ -119,7 +119,9 @@ function ViewController(/**ViewController=*/parentController) {
      * @override
      */
     this.dispose = function() {
-
+        _children.forEach(function(child) {
+            child.dispose();
+        });
     };
 
 
