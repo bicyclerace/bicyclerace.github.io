@@ -21,6 +21,7 @@ function FlowBalanceLayerViewController(parentController) {
     //////////////////////////// PUBLIC METHODS ////////////////////////////
 
     /**
+     * unsubscribe from all notifications
      * @override
      */
     var super_dispose = this.dispose;

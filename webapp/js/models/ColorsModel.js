@@ -46,7 +46,7 @@ ColorsModel.colors = {
   "filteredBikes" : "#2c7fb8",
   "otherBikes" : "#AAAAAA",
 
-  "totalFlow" : "#AAAAAA",
+  "totalFlow" : "#8e44ad",
   "inflow" : "#2c7bb6",
   "outflow" : "#d7191c"
 };

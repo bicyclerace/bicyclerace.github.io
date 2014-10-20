@@ -24,171 +24,107 @@ function OverallFlorLayerViewController(parentController) {
 
     //////////////////////////// PUBLIC METHODS ////////////////////////////
 
+    /**
+     * unsubscribe from all notifications
+     * @override
+     */
+    var super_dispose = this.dispose;
     this.dispose = function() {
+        self.getNotificationCenter().unsuscribeFromAll(self);
 
+        // Call super
+        super_dispose.call(self);
     };
 
-
     /**
-     *  NONE
+     * Handler for the TIME_OF_THE_DAY_CHANGED notification
      */
-    this.onNoneStationSelected = function() {
-        //CLEAN UP
-        self.getView().getSvg().html("");
-
-        self.getModel().getLegendaModel().clearEntries();
+    this.timeChanged = function() {
+        drawOverallFlow();
     };
 
+    ////////////////////////// PRIVATE METHODS //////////////////////////
 
-    /**
-     *  SINGLE
-     */
-    this.onSingleStationSelected = function() {
-        if(__debug)console.log("SINGLE MODE");
-
-        var station_id = _selectionModel.getSelectedStations()[0];
-
+    var drawOverallFlow = function() {
+        var stations = databaseModel.getStations();
         var timeModel = self.getModel().getTimeModel();
-        databaseModel.getSingleStationInflowAndOutflow(
-            station_id,
-            timeModel.getStartDate(),timeModel.getEndDate(),
-            self.drawSingleStationFlow);
+        var category;
 
-
-        //Legenda
-        self.getModel().getLegendaModel().clearEntries();
-        self.getModel().getLegendaModel().setEntries(
-            [
-                {name:"inflow" , color:ColorsModel.colors.inflow},
-                {name:"outflow" , color:ColorsModel.colors.outflow}
-            ]
-        );
-
-        self.getModel().getLegendaModel().setSelectedEntries(["inflow"]);
-    } ;
-
-    ////////////////////
-
-    /**
-     *  TWO
-     */
-    this.onTwoStationSelected = function() {
-        if(__debug)console.log("TWO MODE");
-        //CLEAN UP
-        self.getView().getSvg().html("");
-
-        self.getModel().getLegendaModel().clearEntries();
-
-        //MOVED IN CompareTwoStationsLayerViewController
-    } ;
-
-    ////////////////////
-
-    /**
-     *  MANY
-     */
-    this.onManyStationSelected = function() {
-        if(__debug)console.log("MANY MODE");
-        //CLEAN UP
-        self.getView().getSvg().html("");
-
-        self.getModel().getLegendaModel().clearEntries();
-    } ;
-
-    ///////////////////
-
-    /**
-     * LEGENDA SELECTION CHANGED
-     */
-    this.onLegendaSelectedEntriesChanged = function() {
-        if(__debug)console.log("LEGENDA CHANGED");
-        redrawCurrentMode();
-    };
-
-
-    ////////////// PRIVATE METHODS
-
-    this.drawSingleStationFlow = function(flowData) {
-
-        _flowData = flowData;
-
-        //CLEAN UP
-        self.getView().getSvg().html("");
-        if(__debug)console.log("Flow Data: " + flowData);
-
-        if(_selectionModel.getSelectedStations().length != 1){
-            if(__debug)console.log("NO MORE SINGLE STATION SELECTED");
-            return;
+        if(timeModel.isCurrentCategory(TimeModel.DayCategories.MORNING)) {
+            category = TimeModel.DayCategories.MORNING;
+        } else if(timeModel.isCurrentCategory(TimeModel.DayCategories.LUNCH_TIME)) {
+            category = TimeModel.DayCategories.LUNCH_TIME;
+        } else if(timeModel.isCurrentCategory(TimeModel.DayCategories.AFTER_WORK)) {
+            category = TimeModel.DayCategories.AFTER_WORK;
+        } else if(timeModel.isCurrentCategory(TimeModel.DayCategories.EVENING)) {
+            category = TimeModel.DayCategories.EVENING;
+        } else if(timeModel.isCurrentCategory(TimeModel.DayCategories.NIGHT)) {
+            category = TimeModel.DayCategories.NIGHT;
         }
 
-        var station_id = _selectionModel.getSelectedStations()[0];
+        var startDate = new Date(2013, 0, 1, category.start.hours, category.start.minutes);
+        var endDate = new Date(2013, 0, 1, category.end.hours, category.end.minutes);
+        var flowsLimit = 300;
+        self.getModel().getDBModel().getStationsFlowFilterByHour(startDate, endDate, flowsLimit, function(json) {
 
-        var startPointCoords = databaseModel.getStationCoordinates(station_id);
-        var startPoint = self.project(startPointCoords[0],startPointCoords[1]);
+            console.log("got data");
 
-        //Calculate max flow value
-        var maxFlowObject = _.max(flowData, function(d){return Math.max(parseInt(d.inflow),parseInt(d.outflow));});
-        var maxFlowValue = Math.max(parseInt(maxFlowObject.inflow),parseInt(maxFlowObject.outflow));
-        if(__debug)console.log("MAX FLOW " + maxFlowValue);
+            // Compute min and max for the scale
+            var min = d3.min(json, function(connection) {
+                return parseFloat(connection["flow"]);
+            });
 
-        var lineColor = ColorsModel.colors.inflow;
+            var max = d3.max(json, function(connection) {
+                return parseFloat(connection["flow"]);
+            });
 
-        for(var f in flowData){
+            // Setup scale
+            var maxStrokeWidth = 2;
+            var widthScale = d3.scale.linear();
+            widthScale
+                .domain([min, max])
+                .range([0, maxStrokeWidth]);
 
-            var flow = flowData[f];
-            var endPointCoords = databaseModel.getStationCoordinates(flow.station_id);
-            var endPoint = self.project(endPointCoords[0],endPointCoords[1]);
+            var opacityScale = d3.scale.linear();
+            var opacityBounds = {min: 0.2, max: 0.8};
+            opacityScale
+                .domain([min, max])
+                .range([opacityBounds.min, opacityBounds.max]);
 
-            //INFLOW
-
-            if(_legendaModel.isEntrySelected("inflow")){
-                var perc = (flow.inflow/maxFlowValue);
-
-
-                self.getView().getSvg()
-                    .append("line")
-                    .classed("compare-layer-flow-line",true)
-                    .attr("x1",startPoint.x)
-                    .attr("y1",startPoint.y)
-                    .attr("x2",endPoint.x)
-                    .attr("y2",endPoint.y)
-                    .attr("opacity",_baseOpacity + (1-_baseOpacity)*perc)
-                    .attr("stroke-width", _maxFlowStroke*perc)
-                    .attr("stroke", lineColor);
-            }
-
-
-
-            //OUTFLOW
-            if(_legendaModel.isEntrySelected("outflow")) {
-                var perc = (flow.outflow / maxFlowValue);
-
-                self.getView().getSvg()
-                    .append("line")
-                    .classed("compare-layer-flow-line", true)
-                    .attr("x1", startPoint.x)
-                    .attr("y1", startPoint.y)
-                    .attr("x2", endPoint.x)
-                    .attr("y2", endPoint.y)
-                    .attr("opacity", _baseOpacity + (1 - _baseOpacity) * perc)
-                    .attr("stroke-width", _maxFlowStroke * perc)
-                    .attr("stroke", ColorsModel.colors.outflow);
-            }
-
-        }
-    };
-
-    var redrawCurrentMode = function() {
-        var selection_count = _selectionModel.getSelectedStations().length;
-        if(selection_count == 0){
-
-        } else if (selection_count == 1) {
-            self.drawSingleStationFlow(_flowData);
-        } else if (selection_count == 2) {
-
-        } else if (selection_count > 2) {
-
-        }
+            // draw connections
+            self.getView().getSvg().selectAll(".connection").remove();
+            var connections = self.getView().getSvg().selectAll(".connection").data(json);
+            connections.enter()
+                .append("line")
+                .classed("connection", true)
+                .attr("x1", function(connection) {
+                    var startPointCoord = databaseModel.getStationCoordinates(connection["from_station_id"]);
+                    var startPoint = self.project(startPointCoord[0],startPointCoord[1]);
+                    return startPoint.x;
+                })
+                .attr("y1", function(connection) {
+                    var startPointCoord = databaseModel.getStationCoordinates(connection["from_station_id"]);
+                    var startPoint = self.project(startPointCoord[0],startPointCoord[1]);
+                    return startPoint.y;
+                })
+                .attr("x2", function(connection) {
+                    var endPointCoord = databaseModel.getStationCoordinates(connection["to_station_id"]);
+                    var endPoint = self.project(endPointCoord[0],endPointCoord[1]);
+                    return endPoint.x;
+                })
+                .attr("y2", function(connection) {
+                    var endPointCoord = databaseModel.getStationCoordinates(connection["to_station_id"]);
+                    var endPoint = self.project(endPointCoord[0],endPointCoord[1]);
+                    return endPoint.y;
+                })
+                .attr("opacity", function(connection) {
+                    return opacityScale(parseFloat(connection["flow"]));
+                })
+                .attr("stroke-width", function(connection) {
+                    return widthScale(parseFloat(connection["flow"]));
+                })
+                .attr("stroke", ColorsModel.colors.totalFlow);
+        });
     };
 
 
@@ -197,26 +133,9 @@ function OverallFlorLayerViewController(parentController) {
         //deselect all stations
         _selectionModel.deselectAllStations();
 
+        self.getNotificationCenter().subscribe(self, self.timeChanged, Notifications.time.TIME_OF_THE_DAY_CHANGED);
 
-        //Notifications
-        self.getNotificationCenter().subscribe(self, self.onNoneStationSelected,
-            Notifications.selections.NONE_STATION_SELECTED);
-        self.getNotificationCenter().subscribe(self, self.onSingleStationSelected,
-            Notifications.selections.ONE_STATION_SELECTED);
-
-        self.getNotificationCenter().subscribe(self, self.onTwoStationSelected,
-            Notifications.selections.TWO_STATIONS_SELECTED);
-
-        self.getNotificationCenter().subscribe(self, self.onManyStationSelected,
-            Notifications.selections.MANY_STATIONS_SELECTED);
-
-
-        self.getNotificationCenter().subscribe(self, self.onLegendaSelectedEntriesChanged,
-            Notifications.legenda.SELECTED_ENTRIES_CHANGED);
-
-
-
-
+        self.timeChanged();
     } ();
 }
 
