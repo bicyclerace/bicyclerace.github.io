@@ -16,11 +16,13 @@ function UIColumnChartViewController(parentController) {
     var _yAxisLabel;
     var _columnColors;
 
+    var _title;
+
     // Holds data in d3 format
     var _data;
     
     // UI
-    var _chartMargin = {top: 40, right: 100, bottom: 40, left: 100};
+    var _chartMargin = {top: 60, right: 100, bottom: 40, left: 100};
     var _defaultViewBox = {x: 0, y: 0, width: 600, height: 300};
 
     /////////////////////// PUBLIC ATTRIBUTES ///////////////////////
@@ -59,6 +61,14 @@ function UIColumnChartViewController(parentController) {
         updateChart();
     };
 
+    /**
+     * Set the chart's title
+     * @param title
+     */
+    this.setTitle = function(title) {
+        _title = title;
+    };
+
     /////////////////////// PRIVATE METHODS ///////////////////////
     var updateChart = function() {
         
@@ -72,7 +82,7 @@ function UIColumnChartViewController(parentController) {
 
         // Setup y scale
         var yScale = d3.scale.linear()
-            .domain([0, d3.max(_data, function(d) { return d.value; })])
+            .domain([0, d3.max(_data, function(d) { return parseFloat(d.value); })])
             .range([height, 0]);
 
         // Setup x axis
@@ -200,6 +210,20 @@ function UIColumnChartViewController(parentController) {
         bars
             .exit()
             .remove();
+
+        // Setup title
+        var titleText = self.getView().getSvg().select(".title");
+        if(titleText.node() == null) {
+            titleText = self.getView().getSvg().append("text").classed("title", true);
+        }
+
+        titleText.attr("transform", "translate(" + (_chartMargin.left + (width /2)) + "," + (_chartMargin.top/2) + ")");
+        titleText
+            .attr("width", width)
+            .attr("height", _chartMargin.top)
+            .attr("text-anchor", "middle")
+            .attr("dy", "0.5em")
+            .text(_title);
     };
 
     // Init

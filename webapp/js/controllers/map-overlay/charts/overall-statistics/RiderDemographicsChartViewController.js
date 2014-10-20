@@ -103,10 +103,11 @@ function RiderDemographicsChartViewController(parentController) {
                     yValues.push(parseInt(json["Female"]));
                     yValues.push(parseInt(json["Unknown"]));
 
-                    _columnChart.getView().show();
-                    _lineChart.getView().hide();
+                    _columnChart.setTitle("TRIPS COUNT BY GENDER");
                     _columnChart.setData(xValues, yValues, "GENDER", "TRIPS COUNT", ["#67A9CF", "#E9A3C9", "#bababa"]);
                 });
+                _columnChart.getView().show();
+                _lineChart.getView().hide();
                 break;
             case RiderDemographics.AGE:
                 self.getModel().getDBModel().getRidersAge(function(json) {
@@ -123,6 +124,7 @@ function RiderDemographicsChartViewController(parentController) {
                     xValues.reverse();
                     _lineChart.setXTickAlignment(TickAlignment.MIDDLE);
                     _lineChart.removeAllLines();
+                    _lineChart.setTitle("TRIPS COUNT BY AGE");
                     _lineChart.setXAxisLabel("AGE");
                     _lineChart.setYAxisLabel("TRIPS COUNT");
                     _lineChart.addLine(xValues, yValues, "#3182bd");
@@ -140,6 +142,7 @@ function RiderDemographicsChartViewController(parentController) {
 
                     _columnChart.getView().show();
                     _lineChart.getView().hide();
+                    _columnChart.setTitle("TRIPS COUNT BY USER TYPE");
                     _columnChart.setData(xValues, yValues, "USER TYPE", "TRIPS COUNT", ["#8dd3c7", "#fb8072"]);
                 });
                 break;

@@ -92,10 +92,11 @@ function BikesOutChartViewController(parentController) {
                         var index = tmp.indexOf(day["day_name"]);
                         yValues[index] = day["count"];
                     });
-                    _columnChart.getView().show();
-                    _lineChart.getView().hide();
+                    _columnChart.setTitle("BIKES OUT PER DAY OF THE WEEK");
                     _columnChart.setData(xValues, yValues, "WEEK DAY", "BIKES OUT", ["#3182bd"]);
                 });
+                _columnChart.getView().show();
+                _lineChart.getView().hide();
 
                 break;
             case NumberOfBikesOut.HOUR_OF_DAY:
@@ -113,6 +114,7 @@ function BikesOutChartViewController(parentController) {
                     _lineChart.setXScale(d3.time.scale());
                     _lineChart.setXTickFormat(null);
                     _lineChart.setXTickAlignment(TickAlignment.MIDDLE);
+                    _lineChart.setTitle("BIKES OUT PER HOUR OF THE DAY");
                     _lineChart.setXAxisLabel("DAY HOUR");
                     _lineChart.setYAxisLabel("BIKES OUT");
                     _lineChart.removeAllLines();
@@ -140,6 +142,7 @@ function BikesOutChartViewController(parentController) {
                     _lineChart.setXTickAlignment(TickAlignment.LEFT);
                     _lineChart.setXAxisLabel("YEAR");
                     _lineChart.setYAxisLabel("BIKES OUT");
+                    _lineChart.setTitle("BIKES OUT PER DAY OF THE YEAR");
                     _lineChart.removeAllLines();
                     _lineChart.addLine(xValues, yValues, "#3182bd");
                 });

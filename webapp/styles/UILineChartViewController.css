@@ -11,3 +11,8 @@
     stroke: #000;
     shape-rendering: crispEdges;
 }
+
+.ui-view.view-controller.ui-line-chart-view-controller > .title {
+    font-weight: 600;
+    font-size: 20px;
+}

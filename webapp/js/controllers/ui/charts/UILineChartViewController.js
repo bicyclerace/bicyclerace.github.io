@@ -10,9 +10,11 @@ function UILineChartViewController(parentController) {
     /////////////////////// PRIVATE ATTRIBUTES ///////////////////////
     var self = this;
 
+    // Labels
+    var _title = "";
+
     var _xAxisLabel;
     var _yAxisLabel;
-
 
 
     // Holds data in d3 format
@@ -32,7 +34,7 @@ function UILineChartViewController(parentController) {
     var _xTickAlignment = TickAlignment.MIDDLE;
 
     // UI
-    var _chartMargin = {top: 40, right: 100, bottom: 40, left: 100};
+    var _chartMargin = {top: 60, right: 100, bottom: 40, left: 100};
     var _defaultViewBox = {x: 0, y: 0, width: 600, height: 300};
 
     /////////////////////// PUBLIC ATTRIBUTES ///////////////////////
@@ -110,6 +112,14 @@ function UILineChartViewController(parentController) {
      */
     this.removeAllLines = function() {
         _data = [];
+    };
+
+    /**
+     * Set the chart's title
+     * @param title
+     */
+    this.setTitle = function(title) {
+        _title = title;
     };
 
     /**
@@ -241,7 +251,7 @@ function UILineChartViewController(parentController) {
         // Setup line function
         var line = d3.svg.line()
             .x(function(d) { return _xScale(d.label); })
-            .y(function(d) { return _yScale(d.value); });
+            .y(function(d) { return _yScale(parseFloat(d.value)); });
 
         // Chart container
         var chart = self.getView().getSvg().select(".g-chart-container");
@@ -344,53 +354,19 @@ function UILineChartViewController(parentController) {
                         return d.color;
                     });
 
-
-/*
-        var linePath = gLine.select(".line").datum(function(d) {
-            return d;
-        });
-
-        linePath
-            .attr("d", line)
-            .style("stroke", function(d) {
-                return d.color;
-            });
-
-        linePath.enter()
-            .append("path")
-            .classed("line", true)
-            .attr("d", line)
-            .style("stroke", function(d) {
-                return d.color;
-            });
-
-        // Line container ENTER
-        linePath = gLine.enter()
-            .append("g")
-            .classed("line-container", true);
-*/
-        /*
-        // Line container
-        var gLine = chart.select(".line-container");
-        if(gLine.node() == null) {
-            gLine = chart.append("g").classed("line-container", true);
+        // Setup title
+        var titleText = self.getView().getSvg().select(".title");
+        if(titleText.node() == null) {
+            titleText = self.getView().getSvg().append("text").classed("title", true);
         }
 
-        // Draw lines
-        var linePath = gLine.selectAll(".line");
-
-
-        if (linePath.node() == null) {
-            linePath = gLine.append("path").classed("line", true);
-        }
-
-
-        linePath
-            .datum(_data)
-            .attr("d", line)
-            .style("stroke", function(d) {
-                return d.color;
-            });*/
+        titleText.attr("transform", "translate(" + (_chartMargin.left + (width /2)) + "," + (_chartMargin.top/2) + ")");
+        titleText
+            .attr("width", width)
+            .attr("height", _chartMargin.top)
+            .attr("text-anchor", "middle")
+            .attr("dy", "0.5em")
+            .text(_title);
     };
 
     // Init

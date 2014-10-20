@@ -5,3 +5,8 @@
 .ui-view.view-controller.ui-column-chart-view-controller > .g-chart-container .y.axis .tick {
     font-size: 24px;
 }
+
+.ui-view.view-controller.ui-column-chart-view-controller > .title {
+    font-weight: 600;
+    font-size: 20px;
+}
