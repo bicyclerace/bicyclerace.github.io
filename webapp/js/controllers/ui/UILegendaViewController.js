@@ -78,7 +78,10 @@ function UILegendaViewController(parentController) {
                 return d.name;
             })
             .on("click", function(d){
-                legendaModel.toggleEntry(d.name);
+                if(!legendaModel.isEntryStatic(d.name)){
+                    legendaModel.toggleEntry(d.name);
+                }
+
             })
         ;
 
@@ -95,10 +98,18 @@ function UILegendaViewController(parentController) {
                 .attr("stroke-width", 3)
                 .attr("pointer-events","visiblePainted")
                 .attr("fill", function(d){
-                    var circle_color = legendaModel.isEntrySelected(d.name) ? d.color : ColorsModel.colors.deselectedGray;
-                return circle_color;})
+
+                    if(!legendaModel.isEntryStatic(d.name)){
+                        return legendaModel.isEntrySelected(d.name) ? d.color : ColorsModel.colors.deselectedGray;
+                    } else {
+                        return d.color;
+                    }
+
+                })
                 .on("click", function(d){
-                     legendaModel.toggleEntry(d.name);
+                   if(!legendaModel.isEntryStatic(d.name)){
+                       legendaModel.toggleEntry(d.name);
+                   }
                 })
             ;
 

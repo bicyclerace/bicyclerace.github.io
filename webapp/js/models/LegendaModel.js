@@ -10,6 +10,7 @@ function LegendaModel(parentModel) {
   var _parentModel = parentModel;
   var _entries = [];
   var _selectedEntries = [];
+  var _staticEntries = [];
 
   // PUBLIC METHODS
 
@@ -22,8 +23,19 @@ function LegendaModel(parentModel) {
       parentModel.getNotificationCenter().dispatch(Notifications.legenda.LEGENDA_CHANGED);
   };
 
+    /**
+     * ENTRIES NON SELECTABLE
+     * @param entries
+     */
+  this.setStaticEntries = function (entries) {
+        _entries = entries;
+        parentModel.getNotificationCenter().dispatch(Notifications.legenda.LEGENDA_CHANGED);
+      _staticEntries = entries;
+  };
 
-  this.clearEntries = function() {
+
+
+    this.clearEntries = function() {
       _entries = [];
       parentModel.getNotificationCenter().dispatch(Notifications.legenda.LEGENDA_CHANGED);
   }  ;
@@ -64,6 +76,11 @@ function LegendaModel(parentModel) {
 
   this.isEntrySelected = function(name) {
       return _.filter(_selectedEntries,function(v){return v.name == name;}).length > 0;
+  };
+
+
+  this.isEntryStatic = function(name) {
+        return _.filter(_staticEntries,function(v){return v.name == name;}).length > 0;
   };
 
   // PRIVATE METHODS
