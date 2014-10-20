@@ -15,6 +15,10 @@ function UIButtonViewController(parentController) {
 
     var _defaultViewBox = {x: 0, y: 0, width: 50, height: 50};
 
+    var _singleClickTimeout = null;
+
+    var _singleClickTimeInterval = 400;
+
     //////////////////// PUBLIC METHODS ///////////////////////
     /**
      * @override
@@ -70,12 +74,21 @@ function UIButtonViewController(parentController) {
      * @param callBack
      */
     this.onClick = function(callBack, params) {
-        self.getView().on("click", callBack, params);
+        self.getView().on("click",
+            function(p){
+                clearTimeout(_singleClickTimeout);
+                _singleClickTimeout = window.setTimeout(
+                    function(){callBack(p);}, _singleClickTimeInterval);
+            },
+            params);
     };
 
 
     this.onDoubleClick = function(callBack, params) {
-        self.getView().on("dblclick", callBack, params);
+        self.getView().on("dblclick", function(p){
+            clearTimeout(_singleClickTimeout);
+            callBack(p);
+        }, params);
     };
 
     /**

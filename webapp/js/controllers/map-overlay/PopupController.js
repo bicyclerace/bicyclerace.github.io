@@ -71,6 +71,7 @@ function PopupController(parentController, popupSize) {
             .attr("y", _padding.top)
             .attr("width", _closeButtonSize)
             .attr("height", _closeButtonSize)
+            .attr("pointer-events","visible")
             .on("click", function(){parentController.closePopup(self)});
 
     };

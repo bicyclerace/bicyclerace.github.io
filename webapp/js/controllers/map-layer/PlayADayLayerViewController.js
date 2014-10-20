@@ -30,6 +30,7 @@ function PlayADayLayerViewController(parentController, layerGroup) {
     //////////////////////////// PUBLIC METHODS ////////////////////////////
     var super_dispose = this.dispose;
     this.dispose = function() {
+
         super_dispose.call(self);
 
         this.clearAnimation();

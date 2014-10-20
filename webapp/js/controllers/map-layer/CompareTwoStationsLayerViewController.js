@@ -16,6 +16,8 @@ function CompareTwoStationsLayerViewController(parentController) {
     var _arrowMaxThickness = 2;
 
 
+    var _flowData = null;
+
     //////////////////////////// PUBLIC METHODS ////////////////////////////
 
 
@@ -27,6 +29,7 @@ function CompareTwoStationsLayerViewController(parentController) {
 
         //CLEAN UP
         self.getView().getSvg().html("");
+        _flowData = null;
 
         if(_selectionModel.getSelectedStations().length == 2) {
             var stationA = _selectionModel.getSelectedStations()[0];
@@ -44,6 +47,8 @@ function CompareTwoStationsLayerViewController(parentController) {
 
     /** TWO STATIONS FLOW */
     this.drawTwoStationsFlow = function(flowData) {
+
+        var _flowData = flowData;
 
         //CLEAN UP
         self.getView().getSvg().html("");
@@ -80,6 +85,7 @@ function CompareTwoStationsLayerViewController(parentController) {
             .append("polygon")
             .classed("compare-layer-view-controller-flow-arrow", true)
             .attr("fill", ColorsModel.colors.inflow)
+            .attr("opacity",0.9)
             .attr("points",drawArrow(stationAPoint,stationBPoint,percAB,percBA,1) );
         ;
 
@@ -87,6 +93,7 @@ function CompareTwoStationsLayerViewController(parentController) {
             .append("polygon")
             .classed("compare-layer-view-controller-flow-arrow", true)
             .attr("fill", ColorsModel.colors.outflow)
+            .attr("opacity",0.9)
             .attr("points",drawArrow(stationBPoint,stationAPoint,percBA,percAB,1) );
         ;
 
@@ -119,13 +126,13 @@ function CompareTwoStationsLayerViewController(parentController) {
     };
 
 
+
+
     var init = function() {
 
         //Notifications
         self.getNotificationCenter().subscribe(self, self.onStationSelectedChanged,
                                                Notifications.selections.STATIONS_SELECTED_CHANGED);
-
-
 
     } ();
 }

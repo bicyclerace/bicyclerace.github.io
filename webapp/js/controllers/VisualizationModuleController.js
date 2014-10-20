@@ -27,11 +27,15 @@ function VisualizationModuleController(htmlContainer) {
     // PUBLIC METHODS
 
     this.remove = function() {
+        _mapViewController.dispose();
+        _mapOverlayController.dispose();
         _mapOverlaySvg.remove();
         _mapViewDiv.remove();
         _htmlContainer.remove();
 
         self.getModel().getColorModel().unbindIdentificationColor(self.getModel().getId());
+
+
     };
 
 

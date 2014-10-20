@@ -106,6 +106,12 @@ function CompareFlowChartViewController(parentController) {
 
         updateData();
 
+
+        if(_selectionModel.getSelectedStations().length != 2) {
+            hidePopup();
+        }
+
+
         // Call super
         super_updateView.call(self);
     };
@@ -174,10 +180,6 @@ function CompareFlowChartViewController(parentController) {
     var addBehaviors = function() {
     };
 
-    var updateView = function() {
-        hidePopup();
-    };
-
 
     var init = function() {
         self.getView().addClass("compare-flow-chart-view-controller");
@@ -186,6 +188,7 @@ function CompareFlowChartViewController(parentController) {
 
         // Add line chart
         _lineChart = new  UILineChartViewController(self);
+        _lineChart.setTitle("Overall number of rides from  27 Jun 2013 to  31 Dec 2013");
         self.add(_lineChart);
 
 
