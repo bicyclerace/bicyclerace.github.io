@@ -38,6 +38,8 @@ function LegendaModel(parentModel) {
 
    this.clearEntries = function() {
       _entries = [];
+       _selectedEntries = [];
+       _staticEntries = [];
       parentModel.getNotificationCenter().dispatch(Notifications.legenda.LEGENDA_CHANGED);
   }  ;
 

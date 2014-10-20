@@ -194,11 +194,19 @@ function DBModel() {
     self.getStationsInflowAndOutflowFilterByHour = function(startDate, endDate, callback) {
         var start = (startDate).getTime()/1000;
         var end = (endDate).getTime()/1000;
-        var url = _dbServer + "get_stations_inflow_and_outflow_select_by_hour.php?start_date=" + start + "&end_date=" + end;
-        logUrl(url);
-        $.getJSON(url)
-            .done(callback)
-            .fail(_failCallback);
+        var apiUrl = "get_stations_inflow_and_outflow_select_by_hour.php?start_date=" + start + "&end_date=" + end;
+        var url = _dbServer + apiUrl;
+
+        cache(  apiUrl,
+                callback,
+                function(){
+                    logUrl(url);
+                    $.getJSON(url)
+                     .done(callback)
+                     .fail(_failCallback);
+                }
+        );
+
     };
 
     /**
@@ -212,7 +220,8 @@ function DBModel() {
     self.getStationsFlowFilterByHour = function(startDate, endDate, limit, callback) {
         var start = (startDate).getTime()/1000;
         var end = (endDate).getTime()/1000;
-        var url = _dbServer + "get_stations_flow_select_by_hour.php?start_date=" + start + "&end_date=" + end + "&limit=" + limit;
+        var apiUrl = "get_stations_flow_select_by_hour.php?start_date=" + start + "&end_date=" + end + "&limit=" + limit;
+        var url = _dbServer + apiUrl;
         logUrl(url);
         $.getJSON(url)
             .done(callback)
@@ -426,6 +435,16 @@ function DBModel() {
         console.log("Request Failed: " + err);
     };
 
+
+    var cache = function(url, callback, fail) {
+        $.getJSON("resources/cache/"+url+".json")
+            .done(function(json){
+                console.log("Fetched cached version of " + url);
+                callback(json);
+
+            })
+            .fail(fail);
+    };
 
 
     /**
