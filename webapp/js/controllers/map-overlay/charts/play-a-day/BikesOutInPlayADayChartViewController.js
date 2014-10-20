@@ -158,7 +158,7 @@ function BikesOutInPlayADayChartViewController(parentController) {
         _userTypeButton = new UIMultiButtonViewController(self, FilterModel.toArray(FilterModel.USER_TYPE_FILTER));
         self.add(_userTypeButton);
 
-        self.setSize(PopupController.SIZE.DOUBLE);
+        self.setSize(PopupController.SIZE.FULL);
 
         addBehaviors();
 

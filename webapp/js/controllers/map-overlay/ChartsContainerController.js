@@ -168,6 +168,16 @@ function ChartsContainerController(parentController, svgContainer) {
                 return null;
             }
 
+        } else if (size == "full") {
+            if (_positionsAvailable["top-left"]) {
+                x = _viewBoxWidth - _doublePopupWidth - _padding.left;
+                y = 0 + _padding.top;
+                popupPosition = "top";
+                _positionsAvailable["top-left"] = 
+                _positionsAvailable["top-right"] = 
+                _positionsAvailable["bottom-left"] = 
+                _positionsAvailable["bottom-right"] = false;
+            }
         } else {
             console.log(size + " is not a popup size");
         }
@@ -180,12 +190,15 @@ function ChartsContainerController(parentController, svgContainer) {
             .attr("y", y)
             .attr("height", _popupHeight);
 
-        if(size == "single"){
+        if (size == "single"){
             popupSvg.attr("width", _singlePopupWidth);
         } else if (size == "double"){
             popupSvg.attr("width", _doublePopupWidth);
         } else if (size == "tall"){
             popupSvg.attr("width", _singlePopupWidth);
+            popupSvg.attr("height", _popupDoubleHeight);
+        } else if (size == "full") {
+            popupSvg.attr("width", _doublePopupWidth);
             popupSvg.attr("height", _popupDoubleHeight);
         }
 
@@ -226,6 +239,11 @@ function ChartsContainerController(parentController, svgContainer) {
                 _positionsAvailable["top-right"] = _positionsAvailable["bottom-right"] = true;
             }
 
+        } else if(popup.getPopupSize() == "full" ) {
+             _positionsAvailable["top-left"] = 
+             _positionsAvailable["top-right"] = 
+             _positionsAvailable["bottom-left"] = 
+             _positionsAvailable["bottom-right"] = true;
         }
 
         _openedPopups = _.without(_openedPopups, popup);

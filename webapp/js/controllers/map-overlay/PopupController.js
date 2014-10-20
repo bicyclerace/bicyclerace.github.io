@@ -87,5 +87,6 @@ Utils.extend(PopupController, ViewController);
 PopupController.SIZE = {
    SINGLE : "single",
    DOUBLE : "double",
-   TALL : "tall"
+   TALL : "tall",
+   FULL : "full"
 };
