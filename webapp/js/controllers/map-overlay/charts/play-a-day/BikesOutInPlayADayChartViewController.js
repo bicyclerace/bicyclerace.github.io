@@ -12,7 +12,7 @@ function BikesOutInPlayADayChartViewController(parentController) {
     var self = this;
 
     //Chart
-    var _columnChart;
+    var _playADayChart;
 
     // Buttons
     var _genderButton,
@@ -69,12 +69,12 @@ function BikesOutInPlayADayChartViewController(parentController) {
         // Update charts
         var chartPad = {left: 0, right: 0, top: 30, bottom: 0};
         
-        _columnChart.getView().setFrame(contentBox.x,
+        _playADayChart.getView().setFrame(contentBox.x,
                 contentBox.y + chartPad.top,
                 contentBox.width - chartPad.left - chartPad.right,
                 heightUnit * chartHeight - chartPad.top - chartPad.bottom);
 
-        _columnChart.getView().setViewBox(0,
+        _playADayChart.getView().setViewBox(0,
                 0,
                 contentBox.width - chartPad.left - chartPad.right,
                 heightUnit * chartHeight - chartPad.top - chartPad.bottom);
@@ -104,7 +104,7 @@ function BikesOutInPlayADayChartViewController(parentController) {
         var activeTrips = playModel.getActiveTrips();
         var filteredTrips = playModel.getActiveFilteredTrips();
 
-        _columnChart.setData(["Total active", "Filtered"],[activeTrips.length, filteredTrips.length],"", "BIKES",
+        _playADayChart.setData(["Total active", "Filtered"],[activeTrips.length, filteredTrips.length],"", "BIKES",
             [ColorsModel.colors.otherBikes,
              ColorsModel.colors.filteredBikes
             ]);
@@ -143,8 +143,8 @@ function BikesOutInPlayADayChartViewController(parentController) {
         self.getView().setViewBox(_defaultViewBox.x, _defaultViewBox.y, _defaultViewBox.width, _defaultViewBox.height);
 
         // Add column chart
-        _columnChart = new  UIPlayADayChartViewController(self);
-        self.add(_columnChart);
+        _playADayChart = new  UIPlayADayChartViewController(self);
+        self.add(_playADayChart);
 
 
 
@@ -163,7 +163,8 @@ function BikesOutInPlayADayChartViewController(parentController) {
         addBehaviors();
 
         self.getNotificationCenter().subscribe(self, self.onFilterChanged, Notifications.filter.ON_FILTER_CHANGED);
-        self.getNotificationCenter().subscribe(self, self.updateData, Notifications.playADay.TRIPS_DATA_CHANGED);
+        // self.getNotificationCenter().subscribe(self, self.updateData, Notifications.playADay.TRIPS_DATA_CHANGED);
+        self.getNotificationCenter().subscribe(self, self.updateData, Notifications.time.TIME_OF_THE_DAY_CHANGED);
         self.onFilterChanged();
     } ();
 }
