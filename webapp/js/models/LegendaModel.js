@@ -11,6 +11,7 @@ function LegendaModel(parentModel) {
   var _entries = [];
   var _selectedEntries = [];
   var _staticEntries = [];
+  var _legendaVisibility;
 
   // PUBLIC METHODS
 
@@ -35,7 +36,7 @@ function LegendaModel(parentModel) {
 
 
 
-    this.clearEntries = function() {
+   this.clearEntries = function() {
       _entries = [];
       parentModel.getNotificationCenter().dispatch(Notifications.legenda.LEGENDA_CHANGED);
   }  ;
@@ -47,7 +48,7 @@ function LegendaModel(parentModel) {
 
   this.setSelectedEntries = function(entriesNames) {
       _selectedEntries = _.filter(_entries,function(v){return _.contains(entriesNames, v.name);});
-      parentModel.getNotificationCenter().dispatch(Notifications.legenda.SELECTED_CHANGED);
+      parentModel.getNotificationCenter().dispatch(Notifications.legenda.SELECTED_ENTRIES_CHANGED);
   }  ;
 
     /**
@@ -82,6 +83,8 @@ function LegendaModel(parentModel) {
   this.isEntryStatic = function(name) {
         return _.filter(_staticEntries,function(v){return v.name == name;}).length > 0;
   };
+
+
 
   // PRIVATE METHODS
 

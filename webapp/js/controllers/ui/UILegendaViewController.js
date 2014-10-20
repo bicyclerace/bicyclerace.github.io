@@ -57,6 +57,13 @@ function UILegendaViewController(parentController) {
         var legendaModel = self.getModel().getLegendaModel();
         var entries = legendaModel.getEntries();
 
+        if(entries.length == 0) {
+            self.getView().hide();
+        } else {
+            self.getView().show();
+        }
+
+
         // for(var e in entries) {
        // var entry = entries[e];
        // var color = entry.color;

@@ -128,9 +128,9 @@ function SelectStationLayerViewController(parentController, layerGroup) {
 
 
         //MORE SPECIFIC
-        if(visualizationType == VisualizationType.COMPARE ) {
+        /*if(visualizationType == VisualizationType.COMPARE ) {
             _useLetterLabel = true;
-        }
+        }*/
 
         self.getNotificationCenter().subscribe(self, self.onStationSelectionChanged,
             Notifications.selections.STATIONS_SELECTED_CHANGED);

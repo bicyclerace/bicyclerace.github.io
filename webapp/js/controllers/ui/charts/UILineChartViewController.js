@@ -327,19 +327,14 @@ function UILineChartViewController(parentController) {
             });
 
         // Line container UPDATE
+
         var gLine = chart.selectAll(".line-container").data(_data);
 
-
-        var color;
         gLine
             .select(".line")
-            .datum(function(d) {
-                color = d.color;
-                return d.data;
-            })
-            .attr("d", line)
+            .attr("d", function(d){return line(d.data);})
             .style("stroke", function(d) {
-                return color;
+                return  d.color;
             });
 
 
@@ -348,13 +343,9 @@ function UILineChartViewController(parentController) {
             .classed("line-container", true)
                 .append("path")
                     .classed("line", true)
-                    .datum(function(d) {
-                        color = d.color;
-                        return d.data;
-                    })
-                    .attr("d", line)
+                    .attr("d",function(d){return line(d.data);})
                     .style("stroke", function(d) {
-                        return color;
+                        return d.color;
                     });
 
 

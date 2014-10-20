@@ -23,6 +23,7 @@ function MapLayerViewControllersFactory() {
             case VisualizationType.COMPARE:
                 layersControllers.push(CompareLayerViewController);
                 layersControllers.push(SelectStationLayerViewController);
+                layersControllers.push(CompareTwoStationsLayerViewController);
                 break;
             case VisualizationType.STATION_POPULARITY:
                 layersControllers.push(StationsPopularityLayerViewController);

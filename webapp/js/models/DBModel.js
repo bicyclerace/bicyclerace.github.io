@@ -219,6 +219,19 @@ function DBModel() {
             .fail(_failCallback);
     };
 
+    /**
+     *
+     * @param callback
+     */
+    self.getTwoStationsFlowByHour = function(stationA, stationB, callback) {
+
+        var url = _dbServer + "get_two_stations_flow_by_hour.php?station_id1=" + stationA + "&station_id2=" + stationB;
+        logUrl(url);
+        $.getJSON(url)
+            .done(callback)
+            .fail(_failCallback);
+    };
+
 
 
 

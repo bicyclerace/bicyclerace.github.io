@@ -28,9 +28,15 @@ function CompareLayerViewController(parentController) {
 
     };
 
+
+    /**
+     *  NONE
+     */
     this.onNoneStationSelected = function() {
         //CLEAN UP
         self.getView().getSvg().html("");
+
+        self.getModel().getLegendaModel().clearEntries();
     };
 
 
@@ -48,6 +54,17 @@ function CompareLayerViewController(parentController) {
                         timeModel.getStartDate(),timeModel.getEndDate(),
                         self.drawSingleStationFlow);
 
+
+        //Legenda
+        self.getModel().getLegendaModel().clearEntries();
+        self.getModel().getLegendaModel().setEntries(
+            [
+                {name:"inflow" , color:ColorsModel.colors.inflow},
+                {name:"outflow" , color:ColorsModel.colors.outflow}
+            ]
+        );
+
+        self.getModel().getLegendaModel().setSelectedEntries(["inflow"]);
     } ;
 
     ////////////////////
@@ -59,6 +76,10 @@ function CompareLayerViewController(parentController) {
         if(__debug)console.log("TWO MODE");
         //CLEAN UP
         self.getView().getSvg().html("");
+
+        self.getModel().getLegendaModel().clearEntries();
+
+        //MOVED IN CompareTwoStationsLayerViewController
     } ;
 
     ////////////////////
@@ -70,6 +91,8 @@ function CompareLayerViewController(parentController) {
         if(__debug)console.log("MANY MODE");
         //CLEAN UP
         self.getView().getSvg().html("");
+
+        self.getModel().getLegendaModel().clearEntries();
     } ;
 
     ///////////////////
@@ -155,7 +178,6 @@ function CompareLayerViewController(parentController) {
         }
     };
 
-
     var redrawCurrentMode = function() {
         var selection_count = _selectionModel.getSelectedStations().length;
         if(selection_count == 0){
@@ -175,15 +197,6 @@ function CompareLayerViewController(parentController) {
         //deselect all stations
         _selectionModel.deselectAllStations();
 
-        //Legenda
-        self.getModel().getLegendaModel().setEntries(
-            [
-                {name:"inflow" , color:ColorsModel.colors.inflow},
-                {name:"outflow" , color:ColorsModel.colors.outflow}
-            ]
-        );
-
-        self.getModel().getLegendaModel().setSelectedEntries(["inflow"]);
 
         //Notifications
         self.getNotificationCenter().subscribe(self, self.onNoneStationSelected,

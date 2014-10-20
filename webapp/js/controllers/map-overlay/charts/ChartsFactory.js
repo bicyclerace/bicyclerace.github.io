@@ -30,6 +30,9 @@ function ChartsFactory() {
             case VisualizationType.STATION_FLOW_BALANCE:
 
                 break;
+            case VisualizationType.COMPARE:
+                chartsClasses.push(CompareFlowChartViewController);
+                break;
             case VisualizationType.DAY_PATTERNS:
 
         }
