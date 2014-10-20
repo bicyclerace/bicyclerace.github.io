@@ -437,13 +437,19 @@ function DBModel() {
 
 
     var cache = function(url, callback, fail) {
-        $.getJSON("resources/cache/"+url+".json")
+        $.getJSON(cacheName(url))
             .done(function(json){
                 console.log("Fetched cached version of " + url);
                 callback(json);
 
             })
             .fail(fail);
+    };
+
+    var cacheName = function(url){
+        var newUrl = url.replace(/=|&|\.|\?/g,"_");
+
+        return "resources/cache/"+newUrl+".json";
     };
 
 
