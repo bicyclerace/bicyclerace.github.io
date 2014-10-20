@@ -21,7 +21,7 @@ function BikesOutInPlayADayChartViewController(parentController) {
 
     // Padding
     var _padding = {left: 10, top: 20, right: 10, bottom: 10};
-    var _defaultViewBox = {x: 0, y: 0, width: 1000, height: 425};
+    var _defaultViewBox = {x: 0, y: 0, width: 500, height: 425};
 
     /////////////////////////// PUBLIC METHODS ///////////////////////////
     /**
@@ -42,10 +42,10 @@ function BikesOutInPlayADayChartViewController(parentController) {
         var heightParts = 6;
         var heightUnit = contentBox.height / heightParts;
 
-        var widthParts = 20;
+        var widthParts = 10;
         var widthUnit = contentBox.width / widthParts;
 
-        var chartHeight = 2;
+        var chartHeight = 4;
         var chartMarginBottom = 0.3 * heightUnit;
         
         // Update buttons
