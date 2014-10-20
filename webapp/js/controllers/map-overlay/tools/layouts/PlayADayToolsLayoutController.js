@@ -20,8 +20,9 @@ function PlayADayToolsLayoutController(parentController, svgContainer) {
     var _weatherViewController;
     var _stationSelectionToolController;
 
-    // Calendar sizes
+    var _dayCategoriesTool;
 
+    // Calendar sizes
     var _calendarPickerController;
 
 
@@ -36,9 +37,14 @@ function PlayADayToolsLayoutController(parentController, svgContainer) {
      */
     var superUpdateView = this.updateView;
     this.updateView = function() {
+        var playToolBox = {
+            width: 300,
+            height: 150
+        };
         var playToolWidth = 300;
         var height = 150;
-        _playTimeViewController.getView().setFrame(0, self.getView().getViewBoxHeight() - height, playToolWidth, height);
+        _playTimeViewController.getView()
+            .setFrame(0, self.getView().getViewBoxHeight() - playToolBox.height, playToolBox.width, playToolBox.height);
 
         _weatherViewController.getView().setFrame(self.getView().getViewBoxWidth() -300, 0, 300, 300);
         //_weatherViewController.getView().setFrame("70%", 0, 300, 300);
@@ -50,7 +56,19 @@ function PlayADayToolsLayoutController(parentController, svgContainer) {
         var stationSize = {width: 400, height: 100, marginLeft: 10};
 
         _stationSelectionToolController.getView()
-            .setFrame(playToolWidth + stationSize.marginLeft, self.getView().getViewBoxHeight() - stationSize.height, stationSize.width, stationSize.height);
+            .setFrame(self.getView().getViewBoxWidth() - stationSize.width,//playToolWidth + stationSize.marginLeft,
+                self.getView().getViewBoxHeight() - stationSize.height,
+            stationSize.width,
+            stationSize.height);
+
+        // Day categories tool
+        var margin = 10;
+        _dayCategoriesTool.getView().setFrame(
+                playToolBox.width + margin,
+            self.getView().getViewBoxHeight() - playToolBox.height,
+            playToolBox.height,
+            playToolBox.height);
+        _dayCategoriesTool.getView().setViewBox(0, 0, playToolBox.height, playToolBox.height);
 
         // Call super method (updates children)
         superUpdateView.call(self);
@@ -91,6 +109,10 @@ function PlayADayToolsLayoutController(parentController, svgContainer) {
         // Stations selection tool
         _stationSelectionToolController = new UIStationsSelectionViewController(self);
         self.add(_stationSelectionToolController);
+
+        // Add day categories tool
+        _dayCategoriesTool = new UIDayCategoriesViewController(self);
+        self.add(_dayCategoriesTool);
 
         draw();
 

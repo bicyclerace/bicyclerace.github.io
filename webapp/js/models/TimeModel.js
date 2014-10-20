@@ -66,6 +66,16 @@ function TimeModel(parentModel) {
                 TimeModel.DayCategories.SUNSET.end.hours = times["sunset"].getHours();
                 TimeModel.DayCategories.SUNSET.end.minutes = times["sunset"].getMinutes();
 
+                TimeModel.DayCategories.DAY_TIME.start.hours = times["sunrise"].getHours();
+                TimeModel.DayCategories.DAY_TIME.start.minutes = times["sunrise"].getMinutes();
+                TimeModel.DayCategories.DAY_TIME.end.hours = times["sunset"].getHours();
+                TimeModel.DayCategories.DAY_TIME.end.minutes = times["sunset"].getMinutes();
+
+                TimeModel.DayCategories.NIGHT_TIME.start.hours = times["sunset"].getHours();
+                TimeModel.DayCategories.NIGHT_TIME.start.minutes = times["sunset"].getMinutes();
+                TimeModel.DayCategories.NIGHT_TIME.end.hours = times["sunrise"].getHours();
+                TimeModel.DayCategories.NIGHT_TIME.end.minutes = times["sunrise"].getMinutes();
+
 
                 // Dispatch notification
                 parentModel.getNotificationCenter().dispatch(Notifications.time.DATE_CHANGED);
@@ -82,7 +92,7 @@ function TimeModel(parentModel) {
      */
     this.nextMonth = function() {
 
-            self.setDate(new Date(_date.getFullYear(), _date.getMonth()+1,1));
+        self.setDate(new Date(_date.getFullYear(), _date.getMonth()+1,1));
 
     };
 
@@ -187,13 +197,18 @@ function TimeModel(parentModel) {
      * @returns {boolean}
      */
     this.isCurrentCategory = function(dayCategory) {
-        var belongs;
-
         var hours = self.getDate().getHours();
         var minutes = self.getDate().getMinutes();
 
+
         return hours >= dayCategory.start.hours && hours <= dayCategory.end.hours
-            || (hours == dayCategory.end.hours && minutes <= dayCategory.end.minutes);
+            || (hours == dayCategory.end.hours && minutes <= dayCategory.end.minutes)
+            || (dayCategory.end.hours < dayCategory.start.hours && (
+                hours > dayCategory.start.hours
+                || hours < dayCategory.end.hours
+                || (hours == dayCategory.start.hours && minutes > dayCategory.start.minutes)
+                || (hours == dayCategory.end.hours && minutes < dayCategory.end.minutes)
+                ));
     };
 
     /**
@@ -294,12 +309,32 @@ TimeModel.DayCategories = {
     // UPDATE based on the date
     SUNSET: {
         start: {
+            hours: 19,
+            minutes: 0
+        },
+        end: {
+            hours: 19,
+            minutes: 3
+        }
+    },
+    DAY_TIME: {
+        start: {
             hours: 6,
             minutes: 0
         },
         end: {
-            hours: 6,
-            minutes: 3
+            hours: 18,
+            minutes: 59
+        }
+    },
+    NIGHT_TIME: {
+        start: {
+            hours: 19,
+            minutes: 4
+        },
+        end: {
+            hours: 5,
+            minutes: 59
         }
     }
 };
