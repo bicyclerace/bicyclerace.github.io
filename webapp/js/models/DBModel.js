@@ -185,6 +185,44 @@ function DBModel() {
 
 
     /**
+     * Already sorted by greatest difference,
+     *
+     * @param startDate
+     * @param endDate
+     * @param callback
+     */
+    self.getStationsInflowAndOutflowFilterByHour = function(startDate, endDate, callback) {
+        var start = (startDate).getTime()/1000;
+        var end = (endDate).getTime()/1000;
+        var url = _dbServer + "get_stations_inflow_and_outflow_select_by_hour.php?start_date=" + start + "&end_date=" + end;
+        logUrl(url);
+        $.getJSON(url)
+            .done(callback)
+            .fail(_failCallback);
+    };
+
+    /**
+     * overall flow
+     * START DATE and END DATE are taken in consideration only for the HOUR
+     * @param startDate
+     * @param endDate
+     * @param limit
+     * @param callback
+     */
+    self.getStationsFlowFilterByHour = function(startDate, endDate, limit, callback) {
+        var start = (startDate).getTime()/1000;
+        var end = (endDate).getTime()/1000;
+        var url = _dbServer + "get_stations_flow_select_by_hour.php?start_date=" + start + "&end_date=" + end + "&limit=" + limit;
+        logUrl(url);
+        $.getJSON(url)
+            .done(callback)
+            .fail(_failCallback);
+    };
+
+
+
+
+    /**
      * @param station_id
      * @param startDate
      * @param endDate
