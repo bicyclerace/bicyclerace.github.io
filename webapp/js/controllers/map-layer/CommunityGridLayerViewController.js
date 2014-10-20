@@ -31,7 +31,7 @@ function CommunityGridLayerViewController(parentController) {
             communityName;
         var chicagoGeoJson = topojson.feature(json, json.objects.chicago_health2);
 
-        console.log(chicagoGeoJson);
+        // console.log(chicagoGeoJson);
         chicagoGeoJson.features.forEach(function(feature) {
             var geoJson = {type: "FeatureCollection", features: [feature]};
             var chicagoLayer = L.geoJson(geoJson, {
@@ -48,11 +48,38 @@ function CommunityGridLayerViewController(parentController) {
             }).bindPopup(districtName + communityName);
             self.getLayerGroup().addLayer(chicagoLayer);
         });
+        
+        /* Programatticaly find which stations are in which communities */
+        var stations = self.getModel().getDBModel().getStations();
+        var stationsInCommunities = [];
+        
+        chicagoGeoJson.features.forEach(function(feature) {
+            var stationsInThis = [];
+            feature.geometry.coordinates.forEach(function(array) {
+                var geom;
+                if (array.every(function(element) { return element.length === 2; })) {
+                    geom = array;
+                } else {
+                    geom = array[0];
+                }
+                d3.values(stations).forEach(function(station) {
+                    var point = [station.station_longitude, station.station_latitude];
+                    var inStation = pointInPolygon( point, geom );
+                    if (inStation) {
+                        stationsInThis.push(station.station_id);
+                    }
+                })
+            })
+            stationsInCommunities.push({ community: feature.id, stations: stationsInThis });
+            
+        });
+        // console.log(JSON.stringify(stationsInCommunities));
     };
 
 
     var draw = function() {
         d3.json("resources/chi.json", renderMap);
+        
         /*
          var stations = self.getModel().getDBModel().getStations();
          for(var stationId in stations) {
@@ -66,6 +93,26 @@ function CommunityGridLayerViewController(parentController) {
     var init = function() {
         draw();
     } ();
+    
+    /* From: https://github.com/substack/point-in-polygon */
+    function pointInPolygon (point, vs) {
+        // ray-casting algorithm based on
+        // http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
+        
+        var x = point[0], y = point[1];
+        
+        var inside = false;
+        for (var i = 0, j = vs.length - 1; i < vs.length; j = i++) {
+            var xi = vs[i][0], yi = vs[i][1];
+            var xj = vs[j][0], yj = vs[j][1];
+            
+            var intersect = ((yi > y) != (yj > y))
+                && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+            if (intersect) inside = !inside;
+        }
+        
+        return inside;
+    };
 }
 
 Utils.extend(CommunityGridLayerViewController, MapLayerController);
