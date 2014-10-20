@@ -176,9 +176,9 @@ function FlowBalanceLayerViewController(parentController) {
                     name: stations[station["station_id"]]["station_name"],
                     latitude: parseFloat(stations[station["station_id"]]["station_latitude"]),
                     longitude: parseFloat(stations[station["station_id"]]["station_longitude"]),
-                    inflow: parseInt(station["inflow"]) / hours,
-                    outflow: parseInt(station["outflow"]) / hours,
-                    imbalance: (parseInt(station["inflow"]) / hours) - (parseInt(station["outflow"] / hours))
+                    inflow: parseFloat(station["inflow"]) / hours,
+                    outflow: parseFloat(station["outflow"]) / hours,
+                    imbalance: (parseFloat(station["inflow"]) / hours) - (parseFloat(station["outflow"] / hours))
                 };
             });
 
