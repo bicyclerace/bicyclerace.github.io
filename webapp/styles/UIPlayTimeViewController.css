@@ -8,7 +8,7 @@
 
 .ui-view.ui-play-time-view-controller .ui-label-view-controller .text {
     fill: rgba(41,36,33,1);
-    font-size: 70px;
+    font-size: 90px;
 }
 
 .ui-view.ui-play-time-view-controller .ui-button-view-controller .background {
@@ -16,7 +16,7 @@
 }
 
 .ui-view.ui-play-time-view-controller .ui-button-view-controller .title {
-    font-size: 40px;
+    font-size: 50px;
     fill: rgba(180,180,180,1);
 }
 

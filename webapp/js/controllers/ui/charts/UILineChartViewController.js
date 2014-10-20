@@ -10,13 +10,9 @@ function UILineChartViewController(parentController) {
     /////////////////////// PRIVATE ATTRIBUTES ///////////////////////
     var self = this;
 
-    //var _xValues;
-    //var _yValues;
-
     var _xAxisLabel;
     var _yAxisLabel;
 
-    //var _lineColor;
 
 
     // Holds data in d3 format

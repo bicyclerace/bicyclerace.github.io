@@ -72,10 +72,10 @@ function UIPlayTimeViewController(parentController) {
         _playButton.onClick(function() {
             if(self.getModel().getTimeModel().getPlayState() != AnimationState.PLAY) {
                 self.getModel().getTimeModel().setPlayState(AnimationState.PLAY);
-                _playButton.setTitle("PAUSE");
+                _playButton.setImage("img/play-day-tool/pause.svg");
             } else {
                 self.getModel().getTimeModel().setPlayState(AnimationState.PAUSE);
-                _playButton.setTitle("PLAY");
+                _playButton.setImage("img/play-day-tool/play.svg");
             }
         });
 
@@ -134,7 +134,8 @@ function UIPlayTimeViewController(parentController) {
                 (_defaultViewBox.width - _padding.left - _padding.right) / 4
             , _defaultViewBox.height - _padding.top - _padding.bottom);
         _playButton.getView().setViewBox(0, 0, _playButton.getView().getFrameWidth(), _playButton.getView().getFrameHeight());
-        _playButton.setTitle("PLAY");
+        _playButton.setImage("img/play-day-tool/play.svg");
+        //_playButton.setTitle("PLAY");
     };
 
     var drawHours = function() {
@@ -162,7 +163,8 @@ function UIPlayTimeViewController(parentController) {
             height
         );
         _hoursUpButton.getView().setViewBox(0, 0, width, height);
-        _hoursUpButton.setTitle("+");
+        //_hoursUpButton.setTitle("+");
+        _hoursUpButton.setImage("img/play-day-tool/arrow-up.svg");
 
 
         _hoursDownButton.getView().setFrame(
@@ -172,7 +174,8 @@ function UIPlayTimeViewController(parentController) {
             height
         );
         _hoursDownButton.getView().setViewBox(0, 0, width, height);
-        _hoursDownButton.setTitle("-");
+        //_hoursDownButton.setTitle("-");
+        _hoursDownButton.setImage("img/play-day-tool/arrow-down.svg");
     };
 
     var drawMinutes = function() {
@@ -192,7 +195,6 @@ function UIPlayTimeViewController(parentController) {
         );
         _minutesLabel.getView().setViewBox(0, 0, width, height * 2);
         _minutesLabel.setText(self.getModel().getTimeModel().getMinutes());
-        //self.getView().add(_minutesLabel.getView());
 
 
         // Setup minutes buttons
@@ -203,8 +205,8 @@ function UIPlayTimeViewController(parentController) {
             height
         );
         _minutesUpButton.getView().setViewBox(0, 0, width, height);
-        _minutesUpButton.setTitle("+");
-        //self.getView().add(_minutesUpButton.getView());
+        //_minutesUpButton.setTitle("+");
+        _minutesUpButton.setImage("img/play-day-tool/arrow-up.svg");
 
         _minutesDownButton.getView().setFrame(
                 _padding.left + width * 2,
@@ -213,8 +215,8 @@ function UIPlayTimeViewController(parentController) {
             height
         );
         _minutesDownButton.getView().setViewBox(0, 0, width, height);
-        _minutesDownButton.setTitle("-");
-        //self.getView().add(_minutesDownButton.getView());
+        //_minutesDownButton.setTitle("-");
+        _minutesDownButton.setImage("img/play-day-tool/arrow-down.svg");
     };
 
     var drawAMPM = function() {
@@ -231,7 +233,6 @@ function UIPlayTimeViewController(parentController) {
         );
         _amButton.getView().setViewBox(0, 0, width, height);
         _amButton.setTitle("AM");
-        //self.getView().add(_amButton.getView());
 
 
         _pmButton.getView().setFrame(
@@ -242,7 +243,6 @@ function UIPlayTimeViewController(parentController) {
         );
         _pmButton.getView().setViewBox(0, 0, width, height);
         _pmButton.setTitle("PM");
-        //self.getView().add(_pmButton.getView());
     };
 
     var init = function() {
