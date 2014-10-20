@@ -25,6 +25,11 @@ function MapOverlayController(parentController, svgContainer) {
     var _chartsContainerController;
     var _bottomBarController;
 
+    //Svgs
+    var _chartsSvg,
+        _toolsSvg,
+        _barSvg;
+
     //svg elements
     var _topLineRect;
 
@@ -33,12 +38,19 @@ function MapOverlayController(parentController, svgContainer) {
 
 
     // PUBLIC METHODS
+    this.setWidth = function(width, chartsPosition){
+        _viewBoxWidth = width;
+        _toolsWidth = 1800;
+        _toolsSvg.attr("width", _toolsWidth);
+        _chartsSvg.attr("width", _viewBoxWidth - _toolsWidth)
+                  .attr("x", chartsPosition);
 
+    };
 
     // PRIVATE METHODS
     var draw = function() {
 
-        var toolsSvg = _svgContainer.append("svg")
+        _toolsSvg = _svgContainer.append("svg")
             .classed("tools-container-controller", true)
             .attr("y", _topLineHeight)
             .attr("width", _toolsWidth)
@@ -47,21 +59,21 @@ function MapOverlayController(parentController, svgContainer) {
 
         );
 
-        var chartsSvg = _svgContainer.append("svg")
+        _chartsSvg = _svgContainer.append("svg")
             .classed("charts-container-controller", true)
             .attr("x", _toolsWidth)
             .attr("width", _viewBoxWidth - _toolsWidth)
             .attr("height", _viewBoxHeight - _bottomBarHeight);
 
-        var barSvg = _svgContainer.append("svg")
+        _barSvg = _svgContainer.append("svg")
             .classed("bottom-bar-controller", true)
             .attr("y", _viewBoxHeight - _bottomBarHeight)
             .attr("width", _viewBoxWidth)
             .attr("height", _bottomBarHeight);
 
-        _toolContainerController = new ToolsContainerController(self, toolsSvg);
-        _chartsContainerController = new ChartsContainerController(self, chartsSvg);
-        _bottomBarController = new BottomBarController(self, barSvg);
+        _toolContainerController = new ToolsContainerController(self, _toolsSvg);
+        _chartsContainerController = new ChartsContainerController(self, _chartsSvg);
+        _bottomBarController = new BottomBarController(self, _barSvg);
 
 
         //Draw Top Line
@@ -75,7 +87,7 @@ function MapOverlayController(parentController, svgContainer) {
     var init = function() {
         _svgContainer
             .attr("viewBox", "0 0 " + _viewBoxWidth + " " + _viewBoxHeight)
-            .attr("preserveAspectRatio", "xMinYMin meet");
+            .attr("preserveAspectRatio", "xMinYMin slice");
         draw();
     } ();
 }

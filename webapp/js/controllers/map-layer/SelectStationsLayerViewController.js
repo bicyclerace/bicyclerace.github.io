@@ -22,6 +22,8 @@ function SelectStationLayerViewController(parentController, layerGroup) {
 
     var _useLetterLabel = false;
 
+    var _selectableStations = true;
+
     //////////////////////////// PUBLIC METHODS ////////////////////////////
 
     this.dispose = function() {
@@ -92,8 +94,12 @@ function SelectStationLayerViewController(parentController, layerGroup) {
 
             stationButton.getView().setFrame(p.x - (_stationWidth/2), p.y - (_stationHeight/2), _stationWidth, _stationHeight);
             stationButton.getView().setViewBox(0,0, _stationWidth, _stationHeight);
-            stationButton.onClick(onStationClicked, station);
-            stationButton.onDoubleClick(onStationDoubleClicked, station);
+
+            if(_selectableStations){
+                stationButton.onClick(onStationClicked, station);
+                stationButton.onDoubleClick(onStationDoubleClicked, station);
+            }
+
 
             self.add(stationButton);
             _stationButtons[station.station_id] = stationButton;
@@ -110,7 +116,8 @@ function SelectStationLayerViewController(parentController, layerGroup) {
         var visualizationType = self.getModel().getVisualizationTypeModel().getCurrentVisualizationType();
 
         if(visualizationType == VisualizationType.PLAY_A_DAY ||
-            visualizationType == VisualizationType.COMPARE ) {
+            visualizationType == VisualizationType.COMPARE  ||
+            visualizationType == VisualizationType.DAY_PATTERNS ) {
 
             _stationHeight = 2;
             _stationWidth = 2;
@@ -128,9 +135,9 @@ function SelectStationLayerViewController(parentController, layerGroup) {
 
 
         //MORE SPECIFIC
-        /*if(visualizationType == VisualizationType.COMPARE ) {
-            _useLetterLabel = true;
-        }*/
+        if(visualizationType == VisualizationType.DAY_PATTERNS) {
+            _selectableStations = false;
+        }
 
         self.getNotificationCenter().subscribe(self, self.onStationSelectionChanged,
             Notifications.selections.STATIONS_SELECTED_CHANGED);

@@ -40,14 +40,11 @@ function VisualizationModuleController(htmlContainer) {
         return _model;
     };
 
-
     /**
-     * SHOWCASE
+     *
      */
-    this.stationSelectedHandler = function() {
-        _htmlContainer
-            .append("p")
-            .text("Station selected");
+    this.updateView = function() {
+
     };
 
 
@@ -65,9 +62,6 @@ function VisualizationModuleController(htmlContainer) {
     var init = function() {
         _model = new Model();
 
-        // Subscribe to the events I am interested in
-        self.getNotificationCenter()
-                .subscribe(self, self.stationSelectedHandler, Notifications.mapController.STATION_HAS_BEEN_SELECTED);
 
         draw();
     } ();

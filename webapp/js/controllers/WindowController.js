@@ -28,6 +28,11 @@ function WindowController(htmlContainer) {
 
         //dispatch an event that something has changed in the map configuration
         sharedNotificationCenter.dispatch(Notifications.mapContainerController.MAP_CONFIGURATION_CHANGED);
+
+        //Resize the visualizationModuleControllers
+        //_visualizationModulesControllers.forEach(function(visualizationController) {
+        //    visualizationController.
+        //});
     };
     this.getVisualizationModulesControllers = function() {
         return _visualizationModulesControllers.slice(0);
