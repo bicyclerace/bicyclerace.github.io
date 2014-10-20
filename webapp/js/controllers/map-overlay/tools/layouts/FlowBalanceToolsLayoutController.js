@@ -29,12 +29,6 @@ function FlowBalanceToolsLayoutController(parentController, svgContainer) {
         "Night" : TimeModel.DayCategories.NIGHT
     };
 
-    /*
-    var _titleForCategory = {};
-    d3.keys(_categoryForTitle).forEach(function(title) {
-        _titleForCategory[_categoryForTitle[title]] = title;
-    });*/
-
 
     ////////////////////////////// PUBLIC METHODS //////////////////////////////
     /**
@@ -82,7 +76,9 @@ function FlowBalanceToolsLayoutController(parentController, svgContainer) {
         _dayCategoriesMultiButton.selectButton(title);
     };
 
-    // PRIVATE METHODS
+    //////////////////////////// PRIVATE METHODS ////////////////////////////
+
+    // Given a category returns it title
     var titleForCategory = function(dayCategory) {
         var catTitle;
         d3.keys(_categoryForTitle).forEach(function(title) {
@@ -94,6 +90,8 @@ function FlowBalanceToolsLayoutController(parentController, svgContainer) {
         return catTitle;
     };
 
+
+    // Init
     var init = function() {
         self.getView().addClass("flow-balance-tool-layout-controller");
 

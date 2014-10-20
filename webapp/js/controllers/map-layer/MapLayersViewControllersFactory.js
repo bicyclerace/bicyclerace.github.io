@@ -38,8 +38,9 @@ function MapLayerViewControllersFactory() {
                 layersControllers.push(FlowBalanceLayerViewController);
                 break;
             case VisualizationType.DAY_PATTERNS:
-
-
+                layersControllers.push(SelectStationLayerViewController);
+                layersControllers.push(OverallFlorLayerViewController);
+                break;
         }
 
         return layersControllers;

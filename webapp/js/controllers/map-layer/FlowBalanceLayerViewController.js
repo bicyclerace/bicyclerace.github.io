@@ -21,6 +21,17 @@ function FlowBalanceLayerViewController(parentController) {
     //////////////////////////// PUBLIC METHODS ////////////////////////////
 
     /**
+     * @override
+     */
+    var super_dispose = this.dispose;
+    this.dispose = function() {
+        self.getNotificationCenter().unsuscribeFromAll(self);
+
+        // Call super
+        super_dispose.call(self);
+    };
+
+    /**
      * Handler for the TIME_OF_THE_DAY_CHANGED notification
      */
     this.timeChanged = function() {
