@@ -47,6 +47,15 @@ function ViewController(/**ViewController=*/parentController) {
     };
 
     /**
+     * Removes all children in the sub-hierarchy
+     */
+    this.removeAllChildren = function() {
+        for(var i = self.getChildren().length -1; i >= 0; i--) {
+            self.remove(self.getChildren()[i]);
+        }
+    };
+
+    /**
      * Add itself to a parent view controller
      * @param parentViewController
      */

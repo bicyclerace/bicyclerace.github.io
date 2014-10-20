@@ -4,7 +4,7 @@
  *
  * @param parentController
  */
-function FlowBalanceLayerViewController(parentController, layerGroup) {
+function FlowBalanceLayerViewController(parentController) {
     // Call the base class constructor
     MapLayerController.call(this, parentController);
 
@@ -20,109 +20,234 @@ function FlowBalanceLayerViewController(parentController, layerGroup) {
 
     //////////////////////////// PUBLIC METHODS ////////////////////////////
 
-    this.dispose = function() {
-
+    /**
+     * Handler for the TIME_OF_THE_DAY_CHANGED notification
+     */
+    this.timeChanged = function() {
+        draw();
     };
+
 
     ////////////// PRIVATE METHODS
 
+    var openPopup = function(station) {
+        var popup = new MapLayerPopupViewController(self);
 
-    this.drawInflowOutflow = function(flowJson) {
-        if(__debug)console.log(flowJson);
+        var contentBox = {
+            width: 20,
+            height: 15,
+            scale: 17
+        };
 
-        var maxFlow = _.max(flowJson,function(d){return Math.max(parseInt(d.inflow),parseInt(d.outflow));});
-
-        var maxFlowValue = Math.max(parseInt(maxFlow.inflow),parseInt(maxFlow.outflow));
-
-        for(var i in flowJson){
-            var flow = flowJson[i];
-            var inflow = flowJson[i].inflow;
-            var outflow = flowJson[i].outflow;
-            var coord = databaseModel.getStationCoordinates(flow.station_id);
-            var p = self.project(coord[0], coord[1]);
+        popup.setContentViewFrame(contentBox.width, contentBox.height);
 
 
-            var h_inflow = (parseInt(inflow)/ maxFlowValue) * _maxCircleRadius;
-            var h_outflow = (parseInt(outflow)/ maxFlowValue) * _maxCircleRadius;
-            //if(__debug)console.log("add inflow " + )
-            /*self.getView().getSvg().append("circle")
-                .classed("flow-balance-layer-circle-inflow",true)
-                .attr("cx", p.x)
-                .attr("cy", p.y)
-                .attr("r", r)
-                .attr("opacity", 0.7)
-                .attr("stroke",  "#3333FF")
-                .attr("fill", "none")
-                .attr("stroke-color",1);*/
 
-            self.getView().getSvg().append("rect")
-                .classed("flow-balance-layer-histogram-inflow",true)
-                .attr("x", p.x-_barWidth)
-                .attr("y", p.y-h_inflow)
-                .attr("width", _barWidth)
-                .attr("height", h_inflow)
-                .attr("fill", ColorsModel.colors.inflow)
+        // Setup container View Controller
+        var _containerVC = new ViewController(self);
+        _containerVC.getView().setFrame(0,0, contentBox.width, contentBox.height);
+        _containerVC.getView().setViewBox(0,0, contentBox.width * contentBox.scale, contentBox.height * contentBox.scale);
 
-                ;
-
-            self.getView().getSvg().append("rect")
-                    .classed("flow-balance-layer-histogram-outflow",true)
-                    .attr("x", p.x)
-                    .attr("y", p.y-h_outflow)
-                    .attr("width", _barWidth)
-                    .attr("height", h_outflow)
-                    .attr("fill", ColorsModel.colors.outflow)
-            ;
-
-        }
+        contentBox = {
+            width: contentBox.width * contentBox.scale,
+            height: contentBox.height * contentBox.scale,
+            padding: {
+                left: 20,
+                right: 20,
+                top: 10,
+                bottom: 10
+            }
+        };
 
 
+        // Station name label
+        var titleBox = {
+            x: contentBox.padding.left,
+            y: contentBox.padding.top,
+            width: contentBox.width - contentBox.padding.left - contentBox.padding.right,
+            height: (contentBox.height - contentBox.padding.top - contentBox.padding.bottom) / 3
+        };
+
+        var label = new UILabelViewController(self);
+        label.getView().setFrame(titleBox.x, titleBox.y, titleBox.width, titleBox.height);
+        label.getView().setViewBox(0, 0, titleBox.width, titleBox.height);
+        label.setText(station.name);
+
+        _containerVC.add(label);
+        
+        var infoBox = {
+            x: contentBox.padding.left,
+            y: contentBox.padding.top,
+            width: contentBox.width - contentBox.padding.left - contentBox.padding.right,
+            height: ((contentBox.height - contentBox.padding.top - contentBox.padding.bottom) / 3) *2
+        };
+
+        // inflow label
+        var flowWidth = infoBox.width / 3;
+        var labelHeight = infoBox.height / 3;
+        label = new UILabelViewController(self);
+        label.getView().setFrame(infoBox.x, contentBox.padding.top + titleBox.height, flowWidth, labelHeight);
+        label.getView().setViewBox(0, 0, flowWidth, labelHeight);
+        label.setText("Inflow:");
+
+        _containerVC.add(label);
+
+        // inflow value label
+        label = new UILabelViewController(self);
+        label.getView().setFrame(infoBox.x + flowWidth, contentBox.padding.top + titleBox.height, flowWidth *2, labelHeight);
+        label.getView().setViewBox(0, 0, flowWidth *2, labelHeight);
+        label.setText(parseInt(station.inflow) + " bikes/hour");
+
+        _containerVC.add(label);
+
+        // Outflow label
+        label = new UILabelViewController(self);
+        label.getView().setFrame(titleBox.x, contentBox.padding.top + titleBox.height + labelHeight, flowWidth, labelHeight);
+        label.getView().setViewBox(0, 0, flowWidth, labelHeight);
+        label.setText("Outflow:");
+
+        _containerVC.add(label);
+
+        // Outflow value label
+        label = new UILabelViewController(self);
+        label.getView()
+            .setFrame(titleBox.x + flowWidth, contentBox.padding.top + titleBox.height + labelHeight, flowWidth *2, labelHeight);
+        label.getView().setViewBox(0, 0, flowWidth *2, labelHeight);
+        label.setText(parseInt(station.outflow) + " bikes/hour");
+
+        _containerVC.add(label);
+
+        // Difference label
+        label = new UILabelViewController(self);
+        label.getView().setFrame(titleBox.x, contentBox.padding.top + titleBox.height + labelHeight *2, flowWidth, labelHeight);
+        label.getView().setViewBox(0, 0, flowWidth, labelHeight);
+        label.setText("Gap:");
+
+        _containerVC.add(label);
+
+        // Difference value label
+        label = new UILabelViewController(self);
+        label.getView()
+            .setFrame(titleBox.x + flowWidth, contentBox.padding.top + titleBox.height + labelHeight *2, flowWidth *2, labelHeight);
+        label.getView().setViewBox(0, 0, flowWidth *2, labelHeight);
+        label.setText(parseInt(Math.abs(station.imbalance)) + " bikes/hour");
+
+        _containerVC.add(label);
+
+
+
+        popup.getContentViewController().add(_containerVC);
+        popup.setLatLng(station.latitude, station.longitude);
+        self.add(popup);
     };
-
 
 
     var draw = function() {
 
         var stations = databaseModel.getStations();
 
-        //Baseline
-        for(var s in stations){
-            var station = stations[s];
-            var coord = databaseModel.getStationCoordinates(station.station_id);
-            var p = self.project(coord[0], coord[1]);
-            self.getView().getSvg()
-                .append("line")
-                .classed("flow-balance-layer-baseline",true)
-                .attr("x1", p.x + _barWidth + 0.2)
-                .attr("y1", p.y + 0.05)
-                .attr("x2", p.x - _barWidth - 0.2)
-                .attr("y2", p.y + 0.05)
+        var timeModel = self.getModel().getTimeModel();
 
-            ;
+        var category;
+
+        if(timeModel.isCurrentCategory(TimeModel.DayCategories.MORNING)) {
+            category = TimeModel.DayCategories.MORNING;
+        } else if(timeModel.isCurrentCategory(TimeModel.DayCategories.LUNCH_TIME)) {
+            category = TimeModel.DayCategories.LUNCH_TIME;
+        } else if(timeModel.isCurrentCategory(TimeModel.DayCategories.AFTER_WORK)) {
+            category = TimeModel.DayCategories.AFTER_WORK;
+        } else if(timeModel.isCurrentCategory(TimeModel.DayCategories.EVENING)) {
+            category = TimeModel.DayCategories.EVENING;
+        } else if(timeModel.isCurrentCategory(TimeModel.DayCategories.NIGHT)) {
+            category = TimeModel.DayCategories.NIGHT;
         }
+
+        var startDate = new Date(2013, 0, 1, category.start.hours, category.start.minutes);
+        var endDate = new Date(2013, 0, 1, category.end.hours, category.end.minutes);
+
+        self.removeAllChildren();
+
+        databaseModel.getStationsInflowAndOutflowFilterByHour(startDate, endDate, function(json) {
+            console.log("GOT DATA");
+
+            var hours = endDate.getHours() - startDate.getHours();
+            var difference = json.map(function(station) {
+                return {
+                    name: stations[station["station_id"]]["station_name"],
+                    latitude: parseFloat(stations[station["station_id"]]["station_latitude"]),
+                    longitude: parseFloat(stations[station["station_id"]]["station_longitude"]),
+                    inflow: parseInt(station["inflow"]) / hours,
+                    outflow: parseInt(station["outflow"]) / hours,
+                    imbalance: (parseInt(station["inflow"]) / hours) - (parseInt(station["outflow"] / hours))
+                };
+            });
+
+            difference.sort(function(a, b) {
+                return Math.abs(a.imbalance) - Math.abs(b.imbalance);
+            });
+
+            var min = d3.min(difference, function(station) {
+                return station.imbalance;
+            });
+
+            var max = d3.max(difference, function(station) {
+                return station.imbalance;
+            });
+
+            var imbalanceColor = d3.scale.linear();
+            imbalanceColor
+                .domain([min, 0, max])
+                .range([ColorsModel.colors.outflow,"#ffffff", ColorsModel.colors.inflow]);
+
+            var stationButton;
+            var stationBox = {
+                x: 0,
+                y:0,
+                width: 2,
+                height: 2,
+                margin:0.1
+            };
+
+            difference.forEach(function(station) {
+                var stationPoint = self.project(station.latitude, station.longitude);
+                stationBox.x = stationPoint.x;
+                stationBox.y = stationPoint.y;
+
+                stationButton = new UIButtonViewController(self);
+                stationButton.getView().setFrame(stationBox.x - (stationBox.width /2), stationBox.y - (stationBox.height /2), stationBox.width, stationBox.height);
+                stationButton.getView().setViewBox(0, 0, stationBox.width, stationBox.height);
+                stationButton.getView().addClass("station");
+
+                var circle = stationButton.getView().getSvg().append("circle");
+                circle
+                    .attr("cx", stationBox.width /2)
+                    .attr("cy", stationBox.height /2)
+                    .attr("r", (stationBox.height - stationBox.margin * 2) /2)
+                    .style("pointer-events", "none")
+                    .style("fill", imbalanceColor(station.imbalance))
+                    .style("stroke-width", stationBox.margin)
+                    .style("stroke", "#ffffff");
+
+                stationButton.onDoubleClick(openPopup, station);
+
+                self.add(stationButton);
+            });
+        });
     };
 
 
 
     var init = function() {
-        var timeModel = self.getModel().getTimeModel();
-        databaseModel.getStationsInflowAndOutflow(timeModel.getStartDate(),timeModel.getEndDate(),self.drawInflowOutflow);
-
         //Legenda
-        self.getModel().getLegendaModel().setEntries(
+        self.getModel().getLegendaModel().setStaticEntries(
             [
                 {name:"inflow" , color:ColorsModel.colors.inflow},
                 {name:"outflow" , color:ColorsModel.colors.outflow}
             ]
         );
 
-
-        draw();
-
-
-
-
-
+        //draw();
+        self.getNotificationCenter().subscribe(self, self.timeChanged, Notifications.time.TIME_OF_THE_DAY_CHANGED);
     } ();
 }
 

@@ -51,8 +51,6 @@ function UIMultiButtonViewController(parentController, buttonsTitles){
     };
 
     var onClick = function (button) {
-
-
         _callback(button.getTitle());
 
     };

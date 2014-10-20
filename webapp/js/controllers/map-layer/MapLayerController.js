@@ -30,7 +30,7 @@ function MapLayerController(parentController) {
      * Project the coordinate to a point coherent to the layer
      * @param lat
      * @param lng
-     * @returns {*}
+     * @returns {Object} x:.., y:..
      */
     this.project = function(lat, lng) {
         return self.getModel().getMapModel().projectAtDefaultZoom(lat,lng);
