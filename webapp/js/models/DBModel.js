@@ -186,7 +186,7 @@ function DBModel() {
 
     /**
      * Already sorted by greatest difference,
-     *
+     *START DATE and END DATE are taken in consideration only for the HOUR
      * @param startDate
      * @param endDate
      * @param callback
