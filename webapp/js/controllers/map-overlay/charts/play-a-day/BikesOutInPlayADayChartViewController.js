@@ -100,14 +100,18 @@ function BikesOutInPlayADayChartViewController(parentController) {
 
     this.updateData = function() {
         var playModel = self.getModel().getPlayADayModel();
+        var timeModel = self.getModel().getTimeModel();
 
         var activeTrips = playModel.getActiveTrips();
         var filteredTrips = playModel.getActiveFilteredTrips();
 
-        _playADayChart.setData(["Total active", "Filtered"],[activeTrips.length, filteredTrips.length],"", "BIKES",
-            [ColorsModel.colors.otherBikes,
-             ColorsModel.colors.filteredBikes
-            ]);
+        // _playADayChart.setData(["Total active", "Filtered"],[activeTrips.length, filteredTrips.length],"", "BIKES",
+        //     [ColorsModel.colors.otherBikes,
+        //      ColorsModel.colors.filteredBikes
+        //     ]);
+        _playADayChart.addData({ 
+            active: activeTrips.length, filtered: filteredTrips.length, date: timeModel.getDate()
+        })
     };
 
 
@@ -144,6 +148,7 @@ function BikesOutInPlayADayChartViewController(parentController) {
 
         // Add column chart
         _playADayChart = new  UIPlayADayChartViewController(self);
+        _playADayChart.setYAxisLabel("BIKES");
         self.add(_playADayChart);
 
 
@@ -163,8 +168,8 @@ function BikesOutInPlayADayChartViewController(parentController) {
         addBehaviors();
 
         self.getNotificationCenter().subscribe(self, self.onFilterChanged, Notifications.filter.ON_FILTER_CHANGED);
-        // self.getNotificationCenter().subscribe(self, self.updateData, Notifications.playADay.TRIPS_DATA_CHANGED);
-        self.getNotificationCenter().subscribe(self, self.updateData, Notifications.time.TIME_OF_THE_DAY_CHANGED);
+        self.getNotificationCenter().subscribe(self, self.updateData, Notifications.playADay.TRIPS_DATA_CHANGED);
+        // self.getNotificationCenter().subscribe(self, self.updateData, Notifications.time.TIME_OF_THE_DAY_CHANGED);
         self.onFilterChanged();
     } ();
 }
