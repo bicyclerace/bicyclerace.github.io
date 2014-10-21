@@ -13,7 +13,7 @@ $(window).on("hashchange", function() {
 
 function loadHash(hash) {
     selectNav(hash);
-    $("main").load(hash + ".html");
+    $("main").load("page/" + hash + ".html");
 }
 
 function selectNav(hash) {
