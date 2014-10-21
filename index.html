@@ -2,82 +2,109 @@
 <html>
 	<head>
 		<title>Bicycle Race!</title>
-		<link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+		<link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
 		<link rel="stylesheet" href="generics.css">
+		<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
 	</head>
 	<body>
-		<div class="wrapper">
-			<header>
-				<h1>Bycicle Race</h1>	
-				<h2>Data visualization project 2</h2>
-			</header>
-			<div class="content">
-				<p>
-                    In this project we are going to investigate divvy bike patterns from last year mapped onto an interactive map of the Chicago area.
-                    <a href="http://www.evl.uic.edu/aej/424/">read more..</a>
-
-                </p>
-
-                <ul class="list">
-                    <li><a href="webapp/index.html">Go to the application</a></li>
-                    <li>How to use</li>
-                    <li>Data sources and processing</li>
-                    <li>Install instructions</li>
-                    <li>Interesting findings</li>
-                    <li>Team</li>
-                </ul>
-
-                <br/><br/><br/><br/>
-                <h1>Friday Progress Updates</h1>
-                <div class="updates">
-                    <h2>October 10th, 2014</h2>
-
-                    <h3>Kyle</h3>
-                    <p>I worked on the leaflet Maps</p>
-
-                    <h3>Paul</h3>
-                    <p>I worked on the Chart development</p>
-
-                    <h3>Francesco</h3>
-                    <p>I worked on UI, Software Architecture, Popups, and Bike Animations</p>
-
-                    <h3>Massimo</h3>
-                    <ul>
-                        <li>Divided the app visualization requirements in different contexts (Implemented the model that
-                            handles the current context)
-                        </li>
-                        <li>Implemented the bottom bar that lets the user change visualization context</li>
-                        <li>Implemented the architecture infrastructure that changes the UI according to the visualization
-                            context (tools factory, map layers factory)
-                        </li>
-                        <li>Implemented the map layer that shows stations popularity</li>
-                    </ul>
-
-                </div>
-
-                <div class="updates">
-                    <h2>October 3rd, 2014</h2>
-
-                    <h3>Kyle</h3>
-                    <p>I worked on sketches and concepts</p>
-
-                    <h3>Paul</h3>
-                    <p>I worked on the Chart concepts</p>
-
-                    <h3>Francesco</h3>
-                    <p>I worked on database management interfaces</p>
-
-                    <h3>Massimo</h3>
-                    <ul>
-                        <li>Interactive concept mock-up</li>
-                        <li>Application skeleton design and implementation (ViewController hierarchy, Application event handling manager)</li>
-                    </ul>
-                </div>
-
-
+	    <nav>
+            <div class="navbar-header">
+                <a class="navbar-brand">Bicycle Race</a>
             </div>
-			<nav>
-			</nav>		
-		</div>
+	        <ul>
+	            <li><a href="#usage">Usage</a></li>
+	            <li><a href="#data">Data</a></li>
+	            <li><a href="#source">Source</a></li>
+	            <li><a href="#findings">Findings</a></li>
+	            <li><a href="#team">Team</a></li>
+	        </ul>
+	        <ul class="navbar-right">
+	            <li><a href="webapp/index.html">Go To The Application</a></li>
+            </ul>
+	    </nav>
+	    
+	    <main>
+
+	    </main>
+	    
+		<!--<div class="wrapper">-->
+		<!--	<header>-->
+		<!--		<h1>Bycicle Race</h1>	-->
+		<!--		<h2>Data visualization project 2</h2>-->
+		<!--	</header>-->
+		<!--	<div class="content">-->
+		<!--		<p>-->
+  <!--                  In this project we are going to investigate divvy bike patterns from last year mapped onto an interactive map of the Chicago area.-->
+  <!--                  <a href="http://www.evl.uic.edu/aej/424/">read more..</a>-->
+
+  <!--              </p>-->
+
+  <!--              <ul class="list">-->
+  <!--                  <li><a href="webapp/index.html">Go to the application</a></li>-->
+  <!--                  <li>How to use</li>-->
+  <!--                  <li>Data sources and processing</li>-->
+  <!--                  <li>Install instructions</li>-->
+  <!--                  <li>Interesting findings</li>-->
+  <!--                  <li>Team</li>-->
+  <!--              </ul>-->
+
+  <!--              <br/><br/><br/><br/>-->
+  <!--              <h1>Friday Progress Updates</h1>-->
+  <!--              <div class="updates">-->
+  <!--                  <h2>October 10th, 2014</h2>-->
+
+  <!--                  <h3>Kyle</h3>-->
+  <!--                  <p>I worked on the leaflet Maps</p>-->
+
+  <!--                  <h3>Paul</h3>-->
+  <!--                  <p>I worked on the Chart development</p>-->
+
+  <!--                  <h3>Francesco</h3>-->
+  <!--                  <p>I worked on UI, Software Architecture, Popups, and Bike Animations</p>-->
+
+  <!--                  <h3>Massimo</h3>-->
+  <!--                  <ul>-->
+  <!--                      <li>Divided the app visualization requirements in different contexts (Implemented the model that-->
+  <!--                          handles the current context)-->
+  <!--                      </li>-->
+  <!--                      <li>Implemented the bottom bar that lets the user change visualization context</li>-->
+  <!--                      <li>Implemented the architecture infrastructure that changes the UI according to the visualization-->
+  <!--                          context (tools factory, map layers factory)-->
+  <!--                      </li>-->
+  <!--                      <li>Implemented the map layer that shows stations popularity</li>-->
+  <!--                  </ul>-->
+
+  <!--              </div>-->
+
+  <!--              <div class="updates">-->
+  <!--                  <h2>October 3rd, 2014</h2>-->
+
+  <!--                  <h3>Kyle</h3>-->
+  <!--                  <p>I worked on sketches and concepts</p>-->
+
+  <!--                  <h3>Paul</h3>-->
+  <!--                  <p>I worked on the Chart concepts</p>-->
+
+  <!--                  <h3>Francesco</h3>-->
+  <!--                  <p>I worked on database management interfaces</p>-->
+
+  <!--                  <h3>Massimo</h3>-->
+  <!--                  <ul>-->
+  <!--                      <li>Interactive concept mock-up</li>-->
+  <!--                      <li>Application skeleton design and implementation (ViewController hierarchy, Application event handling manager)</li>-->
+  <!--                  </ul>-->
+  <!--              </div>-->
+
+
+  <!--          </div>-->
+		<!--	<nav>-->
+		<!--	</nav>		-->
+		<!--</div>-->
+		
+		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+		<script src="applyBootstrap.js"></script>
+		<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+		
+		
 	</body>
 </html>

@@ -1,90 +1,94 @@
-* {
-	margin: 0px;
-	padding: 0px;
-}
-
 body {
-	font-family: 'Open Sans', sans-serif;
-	font-weight: 300;
-	background-color: #ecf0f1;
-	color: #34495e;
+	padding-top: 50px;
 }
 
-header {
-}
+/** {*/
+/*	margin: 0px;*/
+/*	padding: 0px;*/
+/*}*/
 
-h1, h2, h3 {
-	font-weight: 400;
-}
+/*body {*/
+/*	font-family: 'Open Sans', sans-serif;*/
+/*	font-weight: 300;*/
+/*	background-color: #ecf0f1;*/
+/*	color: #34495e;*/
+/*}*/
 
-h2, h3 {
-	color: #16a085;
-}
+/*header {*/
+/*}*/
 
-a {
-	text-decoration: none;
-	color: #3498db;
-}
+/*h1, h2, h3 {*/
+/*	font-weight: 400;*/
+/*}*/
 
-a:hover {
-	text-decoration: underline;
-}
+/*h2, h3 {*/
+/*	color: #16a085;*/
+/*}*/
 
-ul {
-	list-style: none;
-}
+/*a {*/
+/*	text-decoration: none;*/
+/*	color: #3498db;*/
+/*}*/
 
-ul li {
-	display: inline;
-	padding-right: 5px;
-}
+/*a:hover {*/
+/*	text-decoration: underline;*/
+/*}*/
 
-.wrapper {
-	width: 600px;
+/*ul {*/
+/*	list-style: none;*/
+/*}*/
+
+/*ul li {*/
+/*	display: inline;*/
+/*	padding-right: 5px;*/
+/*}*/
+
+/*.wrapper {*/
+/*	width: 600px;*/
 	/*margin: 0 auto;*/
-	padding: 30px;
-}
+/*	padding: 30px;*/
+/*}*/
 
-.content {
-	margin-top: 30px;
-	margin-bottom: 30px;
-}
+/*.content {*/
+/*	margin-top: 30px;*/
+/*	margin-bottom: 30px;*/
+/*}*/
 
-.media-content {
-	margin-top: 10px;
-	margin-bottom: 10px;
-}
+/*.media-content {*/
+/*	margin-top: 10px;*/
+/*	margin-bottom: 10px;*/
+/*}*/
 
-.media-content img {
-	width: 100%;
-}
+/*.media-content img {*/
+/*	width: 100%;*/
+/*}*/
 
-.media-content iframe {
-	width: 100%;
-}
+/*.media-content iframe {*/
+/*	width: 100%;*/
+/*}*/
 
-.media-content .caption {
-	font-size: 12px;
-	font-weight: 400;
-}
+/*.media-content .caption {*/
+/*	font-size: 12px;*/
+/*	font-weight: 400;*/
+/*}*/
 
-.updates ul {
-    list-style: disc;
-}
+/*.updates ul {*/
+/*    list-style: disc;*/
+/*}*/
 
-.updates ul li {
-    display: list-item;
-    margin-left: 20px;
-}
+/*.updates ul li {*/
+/*    display: list-item;*/
+/*    margin-left: 20px;*/
+/*}*/
 
-ul.list {
-    list-style: disc;
-}
+/*ul.list {*/
+/*    list-style: disc;*/
+/*}*/
 
-ul.list li {
-    display: list-item;
-    margin-left: 20px;
-}
+/*ul.list li {*/
+/*    display: list-item;*/
+/*    margin-left: 20px;*/
+/*}*/
 
 
 
