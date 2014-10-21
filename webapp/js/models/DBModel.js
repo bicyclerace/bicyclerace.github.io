@@ -223,9 +223,16 @@ function DBModel() {
         var apiUrl = "get_stations_flow_select_by_hour.php?start_date=" + start + "&end_date=" + end + "&limit=" + limit;
         var url = _dbServer + apiUrl;
         logUrl(url);
-        $.getJSON(url)
-            .done(callback)
-            .fail(_failCallback);
+
+        cache(  apiUrl,
+            callback,
+            function(){
+                logUrl(url);
+                $.getJSON(url)
+                    .done(callback)
+                    .fail(_failCallback);
+            }
+        );
     };
 
     /**
@@ -266,16 +273,20 @@ function DBModel() {
      * @param callback
      */
     self.getStationsPopularity = function(callback) {
-        if(_stations_popularity)
-            callback(_stations_popularity);
-        else
-        {
-            var url = _dbServer + "get_stations_popularity.php";
+
+            var apiUrl = "get_stations_popularity.php";
+            var url = _dbServer + apiUrl;
             logUrl(url);
-            $.getJSON(url)
-                .done(function(json){_stations_popularity = json; callback(json);})
-                .fail(_failCallback);
-        }
+            cache(  apiUrl,
+                callback,
+                function(){
+                    logUrl(url);
+                    $.getJSON(url)
+                        .done(callback)
+                        .fail(_failCallback);
+                }
+            );
+
 
     };
 
