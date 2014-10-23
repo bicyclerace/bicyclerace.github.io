@@ -73,8 +73,18 @@ function UIPlayADayChartViewController(parentController) {
     this.addData = function(d) {
         _data.push(d);
         _data = _.unique( _data, false, function(d) { return d.date } );
+        
+        filterData(_data);
+
         updateChart();
     };
+    
+    function filterData(d) {
+        var tripFilter = self.getModel().getPlayADayModel().tripFilter;
+        d.forEach(function(tripsAtTime) {
+            tripsAtTime.filtered = tripsAtTime.active.filter(tripFilter);
+        })
+    }
 
     /**
      * Set the chart's title
@@ -104,7 +114,7 @@ function UIPlayADayChartViewController(parentController) {
         if (domain[0].getYear() === 69) _xScale.domain([day.floor(extent[0]), day.ceil(extent[0])]);
         if (extent[1] > domain[1]) _xScale.domain([extent[0], extent[1]]);
         
-        var maxActive = d3.max(_data, function(d) { return parseFloat(d.active); });
+        var maxActive = d3.max(_data, function(d) { return parseFloat(d.active.length); });
         var yMax = (maxActive === 0) ? 10 : maxActive;
         
         _yScale.domain([0, yMax]);
@@ -156,20 +166,34 @@ function UIPlayADayChartViewController(parentController) {
 
         var line = d3.svg.line()
             .x(function(d) { return _xScale(d.date) })
-            .y(function(d) { return _yScale(d.active) });
+            .y(function(d) { return _yScale(d.active.length) });
             
         var filterLine = d3.svg.line()
             .x(function(d) { return _xScale(d.date ) })
-            .y(function(d) { return _yScale(d.filtered)})
+            .y(function(d) { return _yScale(d.filtered.length)})
             
         var path = gLines.selectAll("path.active").data([_data]);
         
         path.enter().append("path").attr("class", "active");
         
-        path.attr("d", function(d) { return line(d) })
+        path
             .style({
-                fill: "none", stroke: "steelblue", "stroke-width": "3px"
-            });
+                fill: "none", stroke: ColorsModel.colors.otherBikes, "stroke-width": "3px"
+            })
+            .transition()
+            .attr("d", function(d) { return line(d) });
+
+
+        var filtered = gLines.selectAll("path.filtered").data([_data]);
+        
+        filtered.enter().append("path").attr("class", "filtered");
+        
+        filtered
+            .style({
+                fill: "none", stroke: ColorsModel.colors.filteredBikes, "stroke-width": "3px"
+            })
+            .transition()
+            .attr("d", function(d) { return filterLine(d) });
 
     };
 

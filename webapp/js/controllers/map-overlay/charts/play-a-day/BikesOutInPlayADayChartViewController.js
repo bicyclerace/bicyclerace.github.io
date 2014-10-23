@@ -103,14 +103,14 @@ function BikesOutInPlayADayChartViewController(parentController) {
         var timeModel = self.getModel().getTimeModel();
 
         var activeTrips = playModel.getActiveTrips();
-        var filteredTrips = playModel.getActiveFilteredTrips();
+        // var filteredTrips = playModel.getActiveFilteredTrips();
 
         // _playADayChart.setData(["Total active", "Filtered"],[activeTrips.length, filteredTrips.length],"", "BIKES",
         //     [ColorsModel.colors.otherBikes,
         //      ColorsModel.colors.filteredBikes
         //     ]);
         _playADayChart.addData({ 
-            active: activeTrips.length, filtered: filteredTrips.length, date: timeModel.getDate()
+            active: activeTrips, date: timeModel.getDate()
         })
     };
 
