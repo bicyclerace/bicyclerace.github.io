@@ -2,11 +2,6 @@ body {
 	padding-top: 50px;
 }
 
-p.span.highlightme {
-    background-image: linear-gradient(to right, yellow , red);
-}
-
-
 /** {*/
 /*	margin: 0px;*/
 /*	padding: 0px;*/
