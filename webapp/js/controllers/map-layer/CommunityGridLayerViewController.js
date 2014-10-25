@@ -9,14 +9,14 @@
  * @param layer
  * @constructor
  */
-function CommunityGridLayerViewController(parentController, layerGroup) {
-    ViewController.call(this, parentController);
+function CommunityGridLayerViewController(parentController) {
+    MapLayerController.call(this, parentController);
 
     ////////////////////////// PRIVATE ATTRIBUTES //////////////////////////
     var self = this;
 
     // Contains all the layers of the VC
-    var _layerGroup = layerGroup;
+//    var _layerGroup = layerGroup;
 
     //////////////////////////// PUBLIC METHODS ////////////////////////////
     /**
@@ -25,14 +25,20 @@ function CommunityGridLayerViewController(parentController, layerGroup) {
      * Note: MapViewController needs this getter in order to remove layers from the map
      * @returns {*}
      */
-    this.getLayerGroup = function() {
-        return _layerGroup;
-    };
+//    this.getLayerGroup = function() {
+//        return _layerGroup;
+//    };
 
 
     /////////////////////////// PRIVATE METHODS ////////////////////////////
 
     var communityColors = d3.scale.category10(); // Add some color to our lives...
+
+    var _map = new L.Map("map", {center: [37.8, -96.9], zoom: 4})
+        .addLayer(new L.TileLayer("http://{s}.tiles.mapbox.com/v3/examples.map-vyofok3q/{z}/{x}/{y}.png"));
+
+    var _svg = d3.select(_map.getPanes().overlayPane).append("svg");
+    var _g = _svg.append("g").attr("class", "leaflet-zoom-hide");
 
 
     var renderMap = function(json){
@@ -88,8 +94,39 @@ function CommunityGridLayerViewController(parentController, layerGroup) {
 
 
     var draw = function() {
-        d3.json("resources/chi.json", renderMap);
-        
+        var json = self.getModel().getDBModel().getChicagoJson();
+//            console.log("FrumpyPigSkin! geoJSON",json);
+        var chicagoGeoJson = topojson.feature(json, json.objects.chicago_health2);
+        var _transform = d3.geo.transform({point: projectPoints});
+        var _path = d3.geo.path().projection(_transform);
+
+        function projectPoints(x,y) {
+            var point = _map.latLngToLayerPoint(new L.LatLng(y,x));
+            this.stream.point(point.x, point.y);
+        }
+
+        function reset() {
+            var bounds = _path.bounds(chicagoGeoJson);
+            var topLeft = bounds[0];
+            var bottomRight = bounds[1];
+
+            _svg.attr("width", bottomRight[0] - topLeft[0])
+                .attr("height", bottomRight[1] - topLeft[1])
+                .style("left", topLeft[0] + "px")
+                .style("top", topLeft[1] + "px");
+
+            _g.attr("transform", "translate(" + -topLeft[0] + "," + -topLeft);
+
+            feature.attr("d", _path);
+        }
+
+        var _feature = g.selectAll("path")
+            .data(chicagoGeoJson.features)
+            .enter().append("path");
+
+        _map.on("viewreset", reset);
+        reset();
+
         /*
          var stations = self.getModel().getDBModel().getStations();
          for(var stationId in stations) {

@@ -18,7 +18,7 @@ function MapLayerViewControllersFactory() {
         var layersControllers = [];
         switch(visualizationType) {
             case VisualizationType.OVERALL_STATISTICS:
-
+//                layersControllers.push(CommunityGridLayerViewController);
                 break;
             case VisualizationType.COMPARE:
                 layersControllers.push(CompareLayerViewController);
