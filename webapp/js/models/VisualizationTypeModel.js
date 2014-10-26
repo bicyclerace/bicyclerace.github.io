@@ -47,8 +47,8 @@ function VisualizationTypeModel(parentModel) {
 var VisualizationType = {
     OVERALL_STATISTICS : "Overall",
     STATION_POPULARITY : "Popularity",
-    PLAY_A_DAY : "Play a day",
+    PLAY_A_DAY : "Play A Day",
     COMPARE : "Compare",
     DAY_PATTERNS : "Patterns",
-    STATION_FLOW_BALANCE : "Flow balance"
+    STATION_FLOW_BALANCE : "Flow Balance"
 };

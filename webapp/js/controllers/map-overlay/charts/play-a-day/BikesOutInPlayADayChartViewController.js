@@ -113,6 +113,10 @@ function BikesOutInPlayADayChartViewController(parentController) {
             active: activeTrips, date: timeModel.getDate()
         })
     };
+    
+    this.onDateChanged = function() {
+        _playADayChart.resetData();
+    }
 
 
     /////////////////////////// PRIVATE METHODS ///////////////////////////
@@ -169,6 +173,7 @@ function BikesOutInPlayADayChartViewController(parentController) {
 
         self.getNotificationCenter().subscribe(self, self.onFilterChanged, Notifications.filter.ON_FILTER_CHANGED);
         self.getNotificationCenter().subscribe(self, self.updateData, Notifications.playADay.TRIPS_DATA_CHANGED);
+        self.getNotificationCenter().subscribe(self, self.onDateChanged, Notifications.time.DATE_CHANGED);
         // self.getNotificationCenter().subscribe(self, self.updateData, Notifications.time.TIME_OF_THE_DAY_CHANGED);
         self.onFilterChanged();
     } ();
