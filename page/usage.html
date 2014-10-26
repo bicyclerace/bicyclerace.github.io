@@ -4,9 +4,11 @@
     <p>
         Station popularity can be visualized by selecting the "Popularity" icon at the bottom menu bar.
     </p>
-    <video autoplay="true" loop="true">
-        <source src="assets/displayPopularity.mp4" type='video/mp4'/>
-    </video>
+    <div class="images">
+        <video autoplay="true" loop="true">
+            <source src="assets/displayPopularity.mp4" type='video/mp4'/>
+        </video>
+    </div>
     <p>
         The level of Popularity is described by a color gradient ranging from
         <span class="highlightme" style="background-image: linear-gradient(to right, #FECC5C , #BD0026)">yellow to red</span>,
@@ -65,6 +67,7 @@
         bar-chart which displays the number of bikes out total for each day of the
         week.
     </p>
+    <p>
         Selecting the "Hours of day" button-icon displays a line graph of the peak
         hours of the day in which the most bikes were taken out. The time scale
         ranges from 03am to 09pm in increments of three hours along the x axis.
@@ -135,7 +138,10 @@
 <section>
     <h2>Community Layer [NEED TO DO]</h2>
     <p>Section text</p>
-    Kyle
+</section>
+<section>
+    <h2>Community Area Selection [NEED TO DO]</h2>
+    <p>Section text</p>
 </section>
 <section>
     <h2>Individual Station Inflow and Outflow</h2>
@@ -176,8 +182,7 @@
 </section>
 <section>
     <h2>Individual Station Overall Demographics [NOT DONE?]</h2>
-    <p>Section text</p>
-    Kyle
+    <p>Section text (Kyle)</p>
 </section>
 <section>
     <h2>Patterns Based on Time of Day</h2>
@@ -219,11 +224,6 @@
     </div>
 </section>
 <section>
-    <h2>Community Area Selection [NEED TO DO]</h2>
-    <p>Section text</p>
-    Paul
-</section>
-<section>
     <h2>Multiple Maps</h2>
     <p>At any time, you may bring up an additional map interface by selecting
         the circle near the bottom-left corner of the overview map. For each
@@ -243,3 +243,18 @@
     </div>
 
 </section>
+
+<script>
+    $("main").children().wrap('<div class="row" />');
+    $("section").each(function() {
+        var section = $(this);
+        var images = section.find(".images");
+        var other = section.children().not(images);
+        other.wrapAll('<div class="col-lg-6" />');
+        images.addClass("col-lg-6");
+        $("video").attr("preload", "true");
+        // console.log(images.get());
+        images.wrapAll('<div class="col-lg-6 />');
+        // console.log(other.get());
+    });
+</script>
