@@ -14,7 +14,7 @@ function DBModel() {
     var _stations = null;
     var _chicagoJson = null;
     var _stations_popularity = null;
-
+    var _stationsInCommunities = null;
 
 
     // PUBLIC METHODS
@@ -28,6 +28,7 @@ function DBModel() {
             //LOAD stations
             .defer(loadStations)
             .defer(loadChicagoJson)
+            .defer(loadStationsInCommunities)
             //TODO move to somewhere else
             .defer(weatherModel.loadData)
             .await(callback);
@@ -410,9 +411,21 @@ function DBModel() {
     };
 
 
+    self.getStationsInCommunities = function() {
+        return _stationsInCommunities.slice();
+    };
+
     // PRIVATE FUNCTIONS
 
     var loadChicagoJson = function(callback) {
+        d3.json("resources/StationsInCommunities.json", function(error, json) {
+            console.log("Stations in communities json loaded");
+            _stationsInCommunities = json;
+            callback(null,null);
+        });
+    };
+
+    var loadStationsInCommunities = function (callback) {
         d3.json("resources/chi.json", function(error, json) {
             console.log("Chicago json loaded");
             _chicagoJson = json;
