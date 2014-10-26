@@ -26,12 +26,12 @@ function SelectionModel(parentModel) {
 
 
   this.toggleStationSelection = function(station_id) {
+      _lastStationSelected = station_id;
       if(self.isStationSelected(station_id)) {
           _lastStationWasSelected = false;
           _selectedStationsId = _.without(_selectedStationsId, station_id);
       } else {
           _selectedStationsId.push(station_id);
-          _lastStationSelected = station_id;
           _lastStationWasSelected = true;
       }
 
@@ -54,8 +54,29 @@ function SelectionModel(parentModel) {
       }
 
       fireStationSelectedEvents();
+
   };
 
+  this.selectStationsList = function(stations) {
+      for(var i in stations){
+          var s = stations[i];
+          _selectedStationsId.push(s);
+      }
+
+      _lastStationWasSelected = false;
+      fireStationSelectedEvents();
+  };
+
+
+  this.deselectStationsList = function(stations) {
+        for(var i in stations){
+            var s = stations[i];
+            _selectedStationsId = _.without(_selectedStationsId,s);
+        }
+
+      _lastStationWasSelected = true;
+        fireStationSelectedEvents();
+  };
 
   this.deselectAllStations = function() {
       _selectedStationsId = [];
@@ -65,14 +86,22 @@ function SelectionModel(parentModel) {
 
 
   this.extendStationSelectionToCommunity = function() {
-      console.log("not implemented yet")
+      var id = _lastStationSelected;
+      if(id == null)
+        return;
+
+      var stationsInCommunities = databaseModel.getStationsInCommunities();
+
+      var stations = _.filter(stationsInCommunities, function(c){return _.contains(c.stations, id)})[0].stations;
+
+
+
       if(_lastStationWasSelected == true){
-
+        this.selectStationsList(stations);
       } else if(_lastStationWasSelected == false){
-
+        this.deselectStationsList(stations);
       }
 
-      fireStationSelectedEvents();
   };
 
 

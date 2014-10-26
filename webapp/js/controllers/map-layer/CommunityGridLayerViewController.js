@@ -6,7 +6,6 @@
  * @description
  *
  * @param parentController
- * @param layer
  * @constructor
  */
 function CommunityGridLayerViewController(parentController) {
@@ -15,83 +14,75 @@ function CommunityGridLayerViewController(parentController) {
     ////////////////////////// PRIVATE ATTRIBUTES //////////////////////////
     var self = this;
 
-
-
     //////////////////////////// PUBLIC METHODS ////////////////////////////
 
+    /**
+     * Handler for notification
+     */
+    this.communityGridVisibilityChanged = function() {
+        if(self.getModel().getMapModel().getGridStatus()) {
+            self.getView().show();
+        } else {
+            self.getView().hide();
+        }
+    };
 
     /////////////////////////// PRIVATE METHODS ////////////////////////////
 
-    var communityColors = d3.scale.category10(); // Add some color to our lives...
-
-
-    var renderMap = function(json){
-        console.log("chicago geoJSON",json);
-        var districtName,
-            communityName;
-        var chicagoGeoJson = topojson.feature(json, json.objects.chicago_health2);
-
-        // console.log(chicagoGeoJson);
-        chicagoGeoJson.features.forEach(function(feature) {
-            var geoJson = {type: "FeatureCollection", features: [feature]};
-            var chicagoLayer = L.geoJson(geoJson, {
-                style: function (feature) {
-                    '<p>Hello world!<br />This is a nice popup.</p>'
-                    districtName = "<p><strong>District:</strong> " + feature.properties.district.name + "</p>";
-                    communityName = "<p>&#10;<strong>Community:</strong> " + feature.properties.community.name + "</p>";
-//                console.log(feature.properties.community.name + " " + feature.properties.district.name + "\n")
-                    return {
-                        color: communityColors(feature.properties.district.name),
-                        fillOpacity: 0.25
-                    }
-                }
-            }).bindPopup(districtName + communityName);
-            self.getLayerGroup().addLayer(chicagoLayer);
-        });
-        
-        /* Programatticaly find which stations are in which communities */
-        var stations = self.getModel().getDBModel().getStations();
-        var stationsInCommunities = [];
-        
-        chicagoGeoJson.features.forEach(function(feature) {
-            var stationsInThis = [];
-            feature.geometry.coordinates.forEach(function(array) {
-                var geom;
-                if (array.every(function(element) { return element.length === 2; })) {
-                    geom = array;
-                } else {
-                    geom = array[0];
-                }
-                d3.values(stations).forEach(function(station) {
-                    var point = [station.station_longitude, station.station_latitude];
-                    var inStation = pointInPolygon( point, geom );
-                    if (inStation) {
-                        stationsInThis.push(station.station_id);
-                    }
-                })
-            })
-            stationsInCommunities.push({ community: feature.id, stations: stationsInThis });
-            
-        });
-        // console.log(JSON.stringify(stationsInCommunities));
-    };
-
-
     var draw = function() {
-        d3.json("resources/chi.json", renderMap);
-        
-        /*
-         var stations = self.getModel().getDBModel().getStations();
-         for(var stationId in stations) {
-         var latitude = stations[stationId].station_latitude;
-         var longitude = stations[stationId].station_longitude;
-         _layerGroup.addLayer(L.marker([latitude, longitude], {icon: mapPin}));
-         }*/
+        console.log("Drawing community");
+        var json = databaseModel.getChicagoJson();
+        var features = topojson.feature(json, json["objects"]["chicago_health2"]).features;
+
+
+        var projection = self.d3projection;
+
+        // Create a path generator.
+        var path = d3.geo.path()
+            .projection(projection);
+
+        // Paths
+        self.getView().getSvg().append("g").selectAll("path")
+            .data(features)
+            .enter()
+            .append("path")
+            .attr("d", path)
+            .classed("ciao", true)
+            .style("fill", "rgba(0,0,0,0)")
+            .style("stroke", "#ef3b2c")
+            .style("stroke-width", "0.5")
+            .style("stroke-dasharray", "2,2");
+
+        // Community names
+        self.getView().getSvg().append("g").selectAll("text")
+            .data(features)
+            .enter()
+            .append("text")
+            .attr("x", function(d) {
+                var coord = d3.geo.centroid(d);
+                var point = self.project(coord[1], coord[0]);
+                return point.x;
+            })
+            .attr("y", function(d) {
+                var coord = d3.geo.centroid(d);
+                var point = self.project(coord[1], coord[0]);
+                return point.y;
+            })
+            .style("text-anchor", "middle")
+            .style("font-size", "3px")
+            .text(function(d) {
+                return d["properties"]["community"]["name"];
+            });
+
 
     };
 
     var init = function() {
+        self.getView().addClass("community-grid-layer-view-controller");
         draw();
+        self.getNotificationCenter()
+            .subscribe(self, self.communityGridVisibilityChanged, Notifications.mapController.COMMUNITY_GRID_STATUS_CHANGED);
+        self.communityGridVisibilityChanged();
     } ();
     
     /* From: https://github.com/substack/point-in-polygon */

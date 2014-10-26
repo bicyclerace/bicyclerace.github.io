@@ -1,7 +1,7 @@
 /**
  * @class: NotificationCenter
  * @description Implements a publish subscribe pattern.
- * @author: Massimo De Marchi, Francesco Paduano
+ * @author: Massimo De Marchi, Francesco
  */
 function NotificationCenter () {
     // PRIVATE ATTRIBUTES

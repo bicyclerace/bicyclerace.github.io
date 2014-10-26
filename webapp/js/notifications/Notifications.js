@@ -14,7 +14,9 @@ Notifications.mapController = {
     STATION_HAS_BEEN_SELECTED : "com.divvy.mapController.stationSelected",
     //whenever a map change its position / zoom
     MAP_POSITION_OR_ZOOM_CHANGED : "com.divvy.mapContainerController.mapPositionOrZoomChanged",
-    ZOOM_CHANGED : "com.divvy.mapContainerController.mapZoomChanged"
+    ZOOM_CHANGED : "com.divvy.mapContainerController.mapZoomChanged",
+
+    COMMUNITY_GRID_STATUS_CHANGED : "com.divvy.mapContainerController.communityGridStatusChanged"
 };
 
 Notifications.mapContainerController = {

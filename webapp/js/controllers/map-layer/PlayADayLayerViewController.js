@@ -60,8 +60,7 @@ function PlayADayLayerViewController(parentController, layerGroup) {
 
 
         } else if(playState == AnimationState.PAUSE) {
-            //TODO PAUSE
-            clearInterval(_animationIntervalObject);
+           self.clearAnimation();
         }
     };
 
