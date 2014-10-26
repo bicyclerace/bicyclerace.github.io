@@ -235,62 +235,87 @@ function CompareFlowChartViewController(parentController) {
 
 
     var updateStationDemographicData = function() {
+
+        var stationId = _selectionModel.getSelectedStations()[0];
+
         var startDate = self.getModel().getTimeModel().getStartDate();
         var endDate = self.getModel().getTimeModel().getEndDate();
         var xValues;
         var yValues;
 
+        var updateGender = function(json) {
+            xValues = ["Male", "Female", "Unknown"];
+            yValues = [];
+            yValues.push(parseInt(json["Male"]));
+            yValues.push(parseInt(json["Female"]));
+            yValues.push(parseInt(json["Unknown"]));
+
+            _columnChart.setTitle("TRIPS COUNT BY GENDER");
+            _columnChart.setData(xValues, yValues, "GENDER", "TRIPS COUNT", ["#67A9CF", "#E9A3C9", "#bababa"]);
+        };
+
+        var updateAge = function(json) {
+            xValues = [];
+            yValues = [];
+
+            var age;
+            json.forEach(function(year) {
+                age = endDate.getFullYear() - parseInt(year["birthyear"]);
+                xValues.push(age);
+                yValues.push(parseInt(year["count"]));
+            });
+
+            xValues.reverse();
+            _lineChart.setXTickAlignment(TickAlignment.MIDDLE);
+            _lineChart.removeAllLines();
+            _lineChart.setTitle("TRIPS COUNT BY AGE");
+            _lineChart.setXAxisLabel("AGE");
+            _lineChart.setYAxisLabel("TRIPS COUNT");
+            _lineChart.addLine(xValues, yValues, "#3182bd");
+        };
+
+        var updateUserType = function(json) {
+            xValues = ["Subscriber", "Customer"];
+            yValues = [];
+            yValues.push(parseInt(json["Subscriber"]));
+            yValues.push(parseInt(json["Customer"]));
+
+            _columnChart.getView().show();
+            _lineChart.getView().hide();
+            _columnChart.setTitle("TRIPS COUNT BY USER TYPE");
+            _columnChart.setData(xValues, yValues, "USER TYPE", "TRIPS COUNT", ["#8dd3c7", "#fb8072"]);
+        };
+
+
         switch(_chartType) {
             case RiderDemographics.GENDER:
-                self.getModel().getDBModel().getRidersGender(function(json) {
-                    xValues = ["Male", "Female", "Unknown"];
-                    yValues = [];
-                    yValues.push(parseInt(json["Male"]));
-                    yValues.push(parseInt(json["Female"]));
-                    yValues.push(parseInt(json["Unknown"]));
 
-                    _columnChart.setTitle("TRIPS COUNT BY GENDER");
-                    _columnChart.setData(xValues, yValues, "GENDER", "TRIPS COUNT", ["#67A9CF", "#E9A3C9", "#bababa"]);
-                });
+                if(_arrivingLeaving == ArrivingLeaving.ARRIVING)
+                    databaseModel.getRidersGenderArrivingByStation(stationId, updateGender);
+                else
+                    databaseModel.getRidersGenderLeavingByStation(stationId, updateGender);
+
                 _columnChart.getView().show();
                 _lineChart.getView().hide();
                 break;
+
             case RiderDemographics.AGE:
-                self.getModel().getDBModel().getRidersAge(function(json) {
-                    xValues = [];
-                    yValues = [];
 
-                    var age;
-                    json.forEach(function(year) {
-                        age = endDate.getFullYear() - parseInt(year["birthyear"]);
-                        xValues.push(age);
-                        yValues.push(parseInt(year["count"]));
-                    });
-
-                    xValues.reverse();
-                    _lineChart.setXTickAlignment(TickAlignment.MIDDLE);
-                    _lineChart.removeAllLines();
-                    _lineChart.setTitle("TRIPS COUNT BY AGE");
-                    _lineChart.setXAxisLabel("AGE");
-                    _lineChart.setYAxisLabel("TRIPS COUNT");
-                    _lineChart.addLine(xValues, yValues, "#3182bd");
-                });
+                if(_arrivingLeaving == ArrivingLeaving.ARRIVING)
+                    databaseModel.getRidersAgeArrivingByStation(stationId, updateAge);
+                else
+                    databaseModel.getRidersAgeLeavingByStation(stationId, updateAge);
 
                 _columnChart.getView().hide();
                 _lineChart.getView().show();
                 break;
-            case RiderDemographics.USER_TYPE:
-                self.getModel().getDBModel().getRidersUsertype(function(json) {
-                    xValues = ["Subscriber", "Customer"];
-                    yValues = [];
-                    yValues.push(parseInt(json["Subscriber"]));
-                    yValues.push(parseInt(json["Customer"]));
 
-                    _columnChart.getView().show();
-                    _lineChart.getView().hide();
-                    _columnChart.setTitle("TRIPS COUNT BY USER TYPE");
-                    _columnChart.setData(xValues, yValues, "USER TYPE", "TRIPS COUNT", ["#8dd3c7", "#fb8072"]);
-                });
+            case RiderDemographics.USER_TYPE:
+
+                if(_arrivingLeaving == ArrivingLeaving.ARRIVING)
+                    databaseModel.getRidersUsertypeArrivingByStation(stationId, updateUserType);
+                else
+                    databaseModel.getRidersUsertypeLeavingByStation(stationId, updateUserType);
                 break;
         }
     };
