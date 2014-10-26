@@ -26,8 +26,8 @@ function MapLayerViewControllersFactory() {
                 layersControllers.push(CompareTwoStationsLayerViewController);
                 break;
             case VisualizationType.STATION_POPULARITY:
-                layersControllers.push(StationsPopularityLayerViewController);
                 layersControllers.push(CommunityGridLayerViewController);
+                layersControllers.push(StationsPopularityLayerViewController);
                 break;
             case VisualizationType.PLAY_A_DAY:
                 layersControllers.push(SelectStationLayerViewController);

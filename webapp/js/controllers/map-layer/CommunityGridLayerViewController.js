@@ -6,7 +6,6 @@
  * @description
  *
  * @param parentController
- * @param layer
  * @constructor
  */
 function CommunityGridLayerViewController(parentController) {
@@ -16,6 +15,17 @@ function CommunityGridLayerViewController(parentController) {
     var self = this;
 
     //////////////////////////// PUBLIC METHODS ////////////////////////////
+
+    /**
+     * Handler for notification
+     */
+    this.communityGridVisibilityChanged = function() {
+        if(self.getModel().getMapModel().getGridStatus()) {
+            self.getView().show();
+        } else {
+            self.getView().hide();
+        }
+    };
 
     /////////////////////////// PRIVATE METHODS ////////////////////////////
 
@@ -70,6 +80,9 @@ function CommunityGridLayerViewController(parentController) {
     var init = function() {
         self.getView().addClass("community-grid-layer-view-controller");
         draw();
+        self.getNotificationCenter()
+            .subscribe(self, self.communityGridVisibilityChanged, Notifications.mapController.COMMUNITY_GRID_STATUS_CHANGED);
+        self.communityGridVisibilityChanged();
     } ();
     
     /* From: https://github.com/substack/point-in-polygon */

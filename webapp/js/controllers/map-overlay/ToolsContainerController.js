@@ -97,6 +97,8 @@ function ToolsContainerController(parentController, svgContainer) {
 
         self.getNotificationCenter()
             .subscribe(self, self.visualizationTypeChanged, Notifications.visualizationTypeStatus.VISUALIZATION_TYPE_CHANGED);
+
+        self.visualizationTypeChanged();
     } ();
 }
 

@@ -190,8 +190,6 @@ function MapViewController(parentController, htmlContainer) {
         };
 
         // Add the base map layer to the map container box
-        //_mapContainer.addLayer(_mapTilesLayer);
-        _mapContainer.addLayer(tileLayers.aerial);
         _mapContainer.addLayer(tileLayers.map);
 
         L.control.layers(tileLayers,[], {position: "topleft"}).addTo(_mapContainer);
