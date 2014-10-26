@@ -26,12 +26,12 @@ function SelectionModel(parentModel) {
 
 
   this.toggleStationSelection = function(station_id) {
+      _lastStationSelected = station_id;
       if(self.isStationSelected(station_id)) {
           _lastStationWasSelected = false;
           _selectedStationsId = _.without(_selectedStationsId, station_id);
       } else {
           _selectedStationsId.push(station_id);
-          _lastStationSelected = station_id;
           _lastStationWasSelected = true;
       }
 
@@ -102,7 +102,6 @@ function SelectionModel(parentModel) {
         this.deselectStationsList(stations);
       }
 
-      fireStationSelectedEvents();
   };
 
 
