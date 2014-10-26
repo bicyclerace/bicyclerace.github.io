@@ -10,7 +10,7 @@
         </video>
     </div>
     <p>
-        The level of Popularity is described by a color gradient ranging from
+        The level of popularity is described by a color gradient ranging from
         <span class="highlightme" style="background-image: linear-gradient(to right, #FECC5C , #BD0026)">yellow to red</span>,
         with <span style="background-color: #BD0026">red</span> denoting the most popular station, while
         <span style="background-color: #FECC5C">yellow</span> identifies the least popular stations.
@@ -38,7 +38,7 @@
         about the divvy bike data.
     </p>
 
-    <h4>Divvy Bike Rider Demographics</h4>
+    <h4>Divvy rider demographics</h4>
     <p>
         The first of these charts (in the top-left corner) focuses on the Divvy
         Bike Rider Demographics, describing their Age, Gender, and how many are regular
@@ -56,7 +56,7 @@
         service compared to one time use customers.
     </p>
 
-    <h4>Number of Bikes by Day of Week, Hours of day, and Day of year</h4>
+    <h4>Number of bikes by day of week, <br>hour of day, and day of year</h4>
     <p>
         The next set of charts (top-right) examines the temporal aspects of the
         Divvy bike data by comparing the peak day of the week in terms of number
@@ -72,7 +72,7 @@
         hours of the day in which the most bikes were taken out. The time scale
         ranges from 03am to 09pm in increments of three hours along the x axis.
     </p>
-    <h4>Distribution of ride by distance, time, and distance traveled for each bike</h4>
+    <h4>Distribution of rides by distance, time, <br>and distance traveled for each bike</h4>
     <p>
         Each type of distribution can be examined by simply selecting the
         appropriate button-icon. When selecting the "Trip Distance" button, the
@@ -84,12 +84,13 @@
         view displays a bar chart with the duration of trips on the x axis and the
         number of trips as the y axis.
     </p>
-
-
+</section>
+<section>
+    <h2>Individual Station Overall Demographics [TODO]</h2>
+    <p>Section text (Kyle)</p>
 </section>
 <section>
     <h2>Play A Day</h2>
-    <p>Mention sunrise / sunset and weather.</p>
     <p>The "Play A Day" section of the application allows for a minute-by-minute
     view of Divvy bike usage across Chicago. To switch to this mode, select 
     <strong>"Play A Day"</strong> from the bottom menu. Several features are 
@@ -136,11 +137,11 @@
     </div>
 </section>
 <section>
-    <h2>Community Layer [NEED TO DO]</h2>
+    <h2>Community Layer [TODO]</h2>
     <p>Section text</p>
 </section>
 <section>
-    <h2>Community Area Selection [NEED TO DO]</h2>
+    <h2>Community Area Selection [TODO]</h2>
     <p>Section text</p>
 </section>
 <section>
@@ -159,7 +160,7 @@
         please.
 
     </p>
-    
+    <h4>Inflow and outflow for two stations</h4>
     <p>
         In this same <strong>"Compare"</strong> view, any pair of stations can
         be selected by clicking on each station. When exactly two stations are 
@@ -181,27 +182,8 @@
     </div>
 </section>
 <section>
-    <h2>Individual Station Overall Demographics [NOT DONE?]</h2>
-    <p>Section text (Kyle)</p>
-</section>
-<section>
-    <h2>Patterns Based on Time of Day</h2>
-    <div class="images">
-        <video autoplay="true" loop="true">
-            <source src="assets/timeOfDatPatterns.mp4" type='video/mp4'/>
-        </video>
-    </div>
-    <p>
-        To view patterns of movement based on the time of day, the user simply
-        selects the "Patterns" button-icon on the bottom menu. Immediately a
-        second menu appears listing typical periods of movement throughout the day.
-        For example, to see what the morning commute around the city looks like,
-        select <b>"Morning"</b>.
-    </p>
-</section>
-<section>
-    <h2>Flow Balance - Inflow and Outflow Differences</h2>
-    <p>By selecting "Flow Balance" from the bottom menu, you may view the 
+    <h2>Inflow and Outflow Differences</h2>
+    <p>By selecting <strong>"Flow Balance"</strong> from the bottom menu, you may view the 
     <strong>inflow and outflow difference</strong> for each station. Inflow and 
         outflow are measured as the number of Divvy bikes entering or exiting
         a station per hour. 
@@ -224,6 +206,21 @@
     </div>
 </section>
 <section>
+    <h2>Patterns Based on the Time of Day</h2>
+    <div class="images">
+        <video autoplay="true" loop="true">
+            <source src="assets/timeOfDatPatterns.mp4" type='video/mp4'/>
+        </video>
+    </div>
+    <p>
+        To view patterns of movement based on the time of day, the user simply
+        selects the <strong>"Patterns"</strong> button-icon on the bottom menu. Immediately a
+        second menu appears listing typical periods of movement throughout the day.
+        For example, to see what the morning commute around the city looks like,
+        select <b>"Morning"</b>.
+    </p>
+</section>
+<section>
     <h2>Multiple Maps</h2>
     <p>At any time, you may bring up an additional map interface by selecting
         the circle near the bottom-left corner of the overview map. For each
@@ -241,20 +238,24 @@
             <source src="assets/twoMaps02.mp4" type='video/mp4'/>
         </video>
     </div>
-
 </section>
 
 <script>
     $("main").children().wrap('<div class="row" />');
+            
     $("section").each(function() {
         var section = $(this);
         var images = section.find(".images");
         var other = section.children().not(images);
         other.wrapAll('<div class="col-lg-6" />');
         images.addClass("col-lg-6");
-        $("video").attr("preload", "true");
+        var videoWrap = $('<div>')
+            .addClass('embed-responsive embed-responsive-16by9 img-thumbnail');
+        section.find("video").addClass("embed-responsive-item")
+            .wrap(videoWrap);
         // console.log(images.get());
         images.wrapAll('<div class="col-lg-6 />');
         // console.log(other.get());
     });
+    $("video").each(function() { this.load(); });
 </script>
