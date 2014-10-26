@@ -92,6 +92,7 @@ function CompareFlowChartViewController(parentController) {
      */
     this.onManyStationSelected = function() {
         showHideComponents();
+        updateGroupOfStationsData();
     } ;
 
     ///////////////////
@@ -321,6 +322,36 @@ function CompareFlowChartViewController(parentController) {
     };
 
 
+    var updateGroupOfStationsData = function() {
+        var selectedStations = _selectionModel.getSelectedStations();
+
+        var data = {internal:0, external:0};
+
+        databaseModel.getStationsFlow(20000,function(json){
+
+            for(var i in json) {
+                var result = json[i];
+                if(_.contains(selectedStations, result.from_station_id)
+                    && _.contains(selectedStations, result.to_station_id)) {
+                    data.internal += parseInt(result.flow);
+                } else if(_.contains(selectedStations, result.from_station_id)
+                    || _.contains(selectedStations, result.to_station_id)) {
+                    data.external += parseInt(result.flow);
+                }
+            }
+
+            xValues = ["Internal", "External"];
+            yValues = [];
+            yValues.push(data.internal);
+            yValues.push(data.external);
+
+            _columnChart.getView().show();
+            _lineChart.getView().hide();
+            _columnChart.setTitle("TRIPS COUNT");
+            _columnChart.setData(xValues, yValues, "TRIPS TYPE", "TRIPS COUNT", ["#8dd3c7", "#fb8072"]);
+        });
+    };
+
     var addBehaviors = function() {
 
             _genderButton.onClick(function() {
@@ -391,7 +422,12 @@ function CompareFlowChartViewController(parentController) {
                 _compareTwoLineChart.getView().show();
                 showPopup();
                 break;
-            default :
+            //Many mode
+            default:
+                demographicsComponents.forEach(function(c){c.getView().hide()});
+                _compareTwoLineChart.getView().hide();
+                _columnChart.getView().show();
+                showPopup();
         }
 
     };

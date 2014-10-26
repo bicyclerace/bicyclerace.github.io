@@ -236,6 +236,29 @@ function DBModel() {
         );
     };
 
+
+    /**
+     * overall flow
+     * @param limit
+     * @param callback
+     */
+    self.getStationsFlow = function(limit, callback) {
+
+        var apiUrl = "get_stations_flow.php?limit=" + limit;
+        var url = _dbServer + apiUrl;
+        logUrl(url);
+
+        cache(  apiUrl,
+            callback,
+            function(){
+                logUrl(url);
+                $.getJSON(url)
+                    .done(callback)
+                    .fail(_failCallback);
+            }
+        );
+    };
+
     /**
      *
      * @param callback
