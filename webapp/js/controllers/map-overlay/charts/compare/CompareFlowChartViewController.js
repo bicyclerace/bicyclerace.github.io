@@ -340,7 +340,7 @@ function CompareFlowChartViewController(parentController) {
                 }
             }
 
-            xValues = ["Internal", "External"];
+            xValues = ["Selected", "Deselected"];
             yValues = [];
             yValues.push(data.internal);
             yValues.push(data.external);
@@ -348,7 +348,7 @@ function CompareFlowChartViewController(parentController) {
             _columnChart.getView().show();
             _lineChart.getView().hide();
             _columnChart.setTitle("TRIPS COUNT");
-            _columnChart.setData(xValues, yValues, "TRIPS TYPE", "TRIPS COUNT", ["#8dd3c7", "#fb8072"]);
+            _columnChart.setData(xValues, yValues, "TRIP TYPE", "TRIPS", ["#8dd3c7", "#fb8072"]);
         });
     };
 
@@ -480,7 +480,7 @@ function CompareFlowChartViewController(parentController) {
 
         _arrivingLeaving = ArrivingLeaving.ARRIVING;
         
-        self.setSize(PopupController.SIZE.DOUBLE);
+        self.setSize(PopupController.SIZE.SINGLE);
 
         //Notifications
         self.getNotificationCenter().subscribe(self, self.onNoneStationSelected,
