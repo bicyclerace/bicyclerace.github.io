@@ -3,7 +3,7 @@ $(window).load(function() {
     $("nav ul").addClass("nav navbar-nav");
     $("nav").addClass("container")
         .wrap('<div class="navbar navbar-inverse navbar-fixed-top" role="navigation"></div>');
-    loadHash("usage");
+    loadHash("home");
 })
 
 $(window).on("hashchange", function() {
