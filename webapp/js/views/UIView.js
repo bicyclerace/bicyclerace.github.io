@@ -37,7 +37,7 @@ function UIView() {
         try {
             _svg.node().removeChild(subview.getSvg().node());
         } catch (error) {
-            console.log("No such a child");
+            // console.log("No such a child");
         }
     };
 
