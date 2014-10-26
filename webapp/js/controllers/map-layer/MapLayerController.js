@@ -36,6 +36,14 @@ function MapLayerController(parentController) {
         return self.getModel().getMapModel().projectAtDefaultZoom(lat,lng);
     };
 
+    /**
+     * Wrapper for the standard d3 projection
+     */
+    this.d3projection = function(latLng) {
+       var point = self.project(latLng[0], latLng[1]);
+       return [point.x, point.y];
+    } ;
+
 
     /**
      * Called when the view is detached
