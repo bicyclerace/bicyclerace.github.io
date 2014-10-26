@@ -14,8 +14,8 @@ function MapModel(parentModel) {
 
 //    latitude:41.869912359714654, longitude:-87.64772415161133
   var  _focusPoint = { latitude:41.876320, longitude:-87.572841 };
-  var _topLeftCoord = new L.latLng(41.978353, -87.707857);
-  var _bottomRightCoord = new L.latLng(41.788746, -87.580715);
+  var _topLeftCoord = new L.latLng(/*41.978353*/42.1, /*-87.707857*/-88.0);
+  var _bottomRightCoord = new L.latLng(/*41.788746*/41.1, /*-87.580715*/-87.0);
   var _defaultZoomForProjecting = 10;
   // PUBLIC METHODS
   

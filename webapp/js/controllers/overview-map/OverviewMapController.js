@@ -66,7 +66,7 @@ function OverviewMapController(htmlContainer) {
 
 
     var drawMap = function() {
-         var json = databaseModel.getChicagoJson();
+        var json = databaseModel.getChicagoJson();
         var features = topojson.feature(json, json.objects.chicago_health2).features;
 
         // Create a unit projection.

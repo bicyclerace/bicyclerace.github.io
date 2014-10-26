@@ -40,7 +40,7 @@ function MapLayerController(parentController) {
      * Wrapper for the standard d3 projection
      */
     this.d3projection = function(latLng) {
-       var point = self.project(latLng[0], latLng[1]);
+       var point = self.project(latLng[1], latLng[0]);
        return [point.x, point.y];
     } ;
 
