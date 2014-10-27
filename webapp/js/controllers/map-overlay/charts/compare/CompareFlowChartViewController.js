@@ -258,8 +258,11 @@ function CompareFlowChartViewController(parentController) {
             _columnChart.setTitle("TRIPS COUNT BY GENDER");
             _columnChart.setData(xValues, yValues, "GENDER", "TRIPS COUNT", ["#67A9CF", "#E9A3C9", "#bababa"]);
         };
-
+        
         var updateAge = function(json) {
+
+            // console.log("update age", json);
+            
             xValues = [];
             yValues = [];
 
@@ -278,6 +281,7 @@ function CompareFlowChartViewController(parentController) {
             _lineChart.setXAxisLabel("AGE");
             _lineChart.setYAxisLabel("TRIPS COUNT");
             _lineChart.addLine(xValues, yValues, "#3182bd");
+
         };
 
         var updateUserType = function(json) {
@@ -491,7 +495,7 @@ function CompareFlowChartViewController(parentController) {
         self.add(_columnChart);
 
         // Add line chart
-        _lineChart = new UILineChartViewController(self);
+        _lineChart = new UILineChartViewController2(self);
         self.add(_lineChart);
 
         // Add buttons
@@ -523,7 +527,7 @@ function CompareFlowChartViewController(parentController) {
 
         _arrivingLeaving = ArrivingLeaving.ARRIVING;
         
-        self.setSize(PopupController.SIZE.SINGLE);
+        self.setSize(PopupController.SIZE.DOUBLE);
 
         //Notifications
         self.getNotificationCenter().subscribe(self, self.onNoneStationSelected,
