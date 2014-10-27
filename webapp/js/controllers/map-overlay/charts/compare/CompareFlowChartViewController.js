@@ -261,7 +261,7 @@ function CompareFlowChartViewController(parentController) {
         
         var updateAge = function(json) {
 
-            console.log("update age", json);
+            // console.log("update age", json);
             
             xValues = [];
             yValues = [];
@@ -527,7 +527,7 @@ function CompareFlowChartViewController(parentController) {
 
         _arrivingLeaving = ArrivingLeaving.ARRIVING;
         
-        self.setSize(PopupController.SIZE.SINGLE);
+        self.setSize(PopupController.SIZE.DOUBLE);
 
         //Notifications
         self.getNotificationCenter().subscribe(self, self.onNoneStationSelected,
