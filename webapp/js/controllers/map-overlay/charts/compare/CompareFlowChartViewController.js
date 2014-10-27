@@ -244,7 +244,7 @@ function CompareFlowChartViewController(parentController) {
         var endDate = self.getModel().getTimeModel().getEndDate();
         var xValues;
         var yValues;
-        var _data = [];
+        var _data;
         var _count = 0;
         var total = stationIds.length;
 
@@ -285,35 +285,21 @@ function CompareFlowChartViewController(parentController) {
             yValues.push(parseInt(json["Subscriber"]));
             yValues.push(parseInt(json["Customer"]));
 
-            // _columnChart.getView().show();
-            // _lineChart.getView().hide();
             _columnChart.setTitle("TRIPS COUNT BY USER TYPE");
             _columnChart.setData(xValues, yValues, "USER TYPE", "TRIPS COUNT", ["#8dd3c7", "#fb8072"]);
         };
         
-        // var updateData = function(json) {
-        //     console.log("bag", json);
-        //     updateGender(json);
-        //     updateAge(json);
-        //     updateUserType(json);
-        // };
-        
         var updateDataThen = function(func, combine) {
-            // console.log("bap");
-            // _count++;
             return function(json) {
-                console.log("shop", json);
                 if (combine) {
-                    if (! _data.length) _data = json;
-                    else _data = combine(_data, json);
-                    console.log("_data", _data);
+                    _data = combine(_data, json);
                 }
-                if (_count == total) func(json);
-                // func(json);
+                if (_count == total) func(_data);
             }
         }
         
         var ageCombine = function(a, b) {
+            if (! a) return b;
             var zipped = d3.zip(a, b);
             var summed = zipped.map(function(array) { 
                 var sum = d3.sum(array, function(d) { return d.count; });
@@ -324,57 +310,57 @@ function CompareFlowChartViewController(parentController) {
             return summed;
         }
         
-        var genderCombine = function(a, b) {
+        var objectCombine = function(a, b) {
+            if (! a) return b;
             for (var key in a) {
-                a[key] += b[key];
+                a[key] = parseInt(a[key]) + parseInt(b[key]);
             }
-        }
-        
-        var userTypeCombine = function(a, b) {
-            
+            return a;
         }
         
         stationIds.forEach(function(stationId) {
+            
             _count++;
-            if(_arrivingLeaving == ArrivingLeaving.ARRIVING) {
-                databaseModel.getRidersGenderArrivingByStation(stationId, updateDataThen(updateGender, genderCombine));
-                databaseModel.getRidersAgeArrivingByStation(stationId, updateDataThen(updateAge, ageCombine));
-                databaseModel.getRidersUsertypeArrivingByStation(stationId, updateDataThen(updateUserType));
-            } else {
-                databaseModel.getRidersGenderLeavingByStation(stationId, updateDataThen(updateGender, genderCombine));
-                databaseModel.getRidersAgeLeavingByStation(stationId, updateDataThen(updateAge, ageCombine));
-                databaseModel.getRidersUsertypeLeavingByStation(stationId, updateDataThen(updateUserType));
-            }
-        })
-        // if(_arrivingLeaving == ArrivingLeaving.ARRIVING) {
-        //     databaseModel.getRidersGenderArrivingByStation(stationId, updateDataThen(updateGender));
-        //     databaseModel.getRidersAgeArrivingByStation(stationId, updateDataThen(updateAge, ageCombine));
-        //     databaseModel.getRidersUsertypeArrivingByStation(stationId, updateDataThen(updateUserType));
-        // } else {
-        //     databaseModel.getRidersGenderLeavingByStation(stationId, updateDataThen(updateGender));
-        //     databaseModel.getRidersAgeLeavingByStation(stationId, updateDataThen(updateAge));
-        //     databaseModel.getRidersUsertypeLeavingByStation(stationId, updateDataThen(updateUserType));
-        // }
 
-        switch(_chartType) {
-            case RiderDemographics.GENDER:
-
-                _columnChart.getView().show();
-                _lineChart.getView().hide();
-                break;
-
-            case RiderDemographics.AGE:
-
-                _columnChart.getView().hide();
-                _lineChart.getView().show();
-                break;
-
-            case RiderDemographics.USER_TYPE:
+            switch(_chartType) {
+                case RiderDemographics.GENDER:
                     
-                _columnChart.getView().show();
-                _lineChart.getView().hide();
-                break;
-        }
+                    if(_arrivingLeaving == ArrivingLeaving.ARRIVING) {
+                        databaseModel.getRidersGenderArrivingByStation(stationId, updateDataThen(updateGender, objectCombine));
+                    } else {
+                        databaseModel.getRidersGenderLeavingByStation(stationId, updateDataThen(updateGender, objectCombine));
+                    }
+    
+                    _columnChart.getView().show();
+                    _lineChart.getView().hide();
+                    break;
+    
+                case RiderDemographics.AGE:
+                    
+                    if(_arrivingLeaving == ArrivingLeaving.ARRIVING) {
+                        databaseModel.getRidersAgeArrivingByStation(stationId, updateDataThen(updateAge, ageCombine));
+                    } else {
+                        databaseModel.getRidersAgeLeavingByStation(stationId, updateDataThen(updateAge, ageCombine));
+                    }
+    
+                    _columnChart.getView().hide();
+                    _lineChart.getView().show();
+                    break;
+    
+                case RiderDemographics.USER_TYPE:
+                    
+                    if(_arrivingLeaving == ArrivingLeaving.ARRIVING) {
+                        databaseModel.getRidersUsertypeArrivingByStation(stationId, updateDataThen(updateUserType, objectCombine));
+                    } else {
+                        databaseModel.getRidersUsertypeLeavingByStation(stationId, updateDataThen(updateUserType, objectCombine));
+                    }
+                    
+                    _columnChart.getView().show();
+                    _lineChart.getView().hide();
+                    break;
+            }
+        
+        });
     };
 
 
