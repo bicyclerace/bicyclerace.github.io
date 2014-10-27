@@ -122,6 +122,7 @@ function RiderDemographicsChartViewController(parentController) {
                     });
 
                     xValues.reverse();
+                    yValues.reverse();
                     _lineChart.setXTickAlignment(TickAlignment.MIDDLE);
                     _lineChart.removeAllLines();
                     _lineChart.setTitle("TRIPS COUNT BY AGE");
