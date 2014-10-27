@@ -352,7 +352,7 @@ function CompareFlowChartViewController(parentController) {
                 case RiderDemographics.AGE:
                     
                     if(_arrivingLeaving == ArrivingLeaving.ARRIVING) {
-                        databaseModel.getRidersAgeArrivingByStationsArray(stationIds,updateAge);
+                        databaseModel.getRidersAgeArrivingByStationsArray(stationIds, updateAge);
                     } else {
                         databaseModel.getRidersAgeLeavingByStationsArray(stationIds, updateAge);
                     }
