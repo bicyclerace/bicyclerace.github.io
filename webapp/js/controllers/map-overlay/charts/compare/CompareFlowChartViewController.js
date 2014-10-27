@@ -260,34 +260,29 @@ function CompareFlowChartViewController(parentController) {
         };
         
         var updateAge = function(json) {
+
             console.log("update age", json);
             
+            xValues = [];
+            yValues = [];
+
+            var age;
+            json.forEach(function(year) {
+                age = endDate.getFullYear() - parseInt(year["birthyear"]);
+                xValues.push(age);
+                yValues.push(parseInt(year["count"]));
+            });
+
+            xValues.reverse();
+            yValues.reverse();
+            _lineChart.setXTickAlignment(TickAlignment.MIDDLE);
+            _lineChart.removeAllLines();
+            _lineChart.setTitle("TRIPS COUNT BY AGE");
+            _lineChart.setXAxisLabel("AGE");
+            _lineChart.setYAxisLabel("TRIPS COUNT");
+            _lineChart.addLine(xValues, yValues, "#3182bd");
+
         };
-
-        // var updateAge = function(json) {
-        //     xValues = [];
-        //     yValues = [];
-
-        //     var age;
-        //     json.forEach(function(year) {
-        //         age = endDate.getFullYear() - parseInt(year["birthyear"]);
-        //         // console.log(age, parseInt(year["count"]));
-        //         xValues.push(age);
-        //         yValues.push(parseInt(year["count"]));
-        //     });
-        //     console.log("-----");
-        //     xValues.forEach(function(d, i) {
-        //         console.log("beh", xValues[i], yValues[i]);
-        //     })
-
-        //     xValues.reverse();
-        //     _lineChart.setXTickAlignment(TickAlignment.MIDDLE);
-        //     _lineChart.removeAllLines();
-        //     _lineChart.setTitle("TRIPS COUNT BY AGE");
-        //     _lineChart.setXAxisLabel("AGE");
-        //     _lineChart.setYAxisLabel("TRIPS COUNT");
-        //     _lineChart.addLine(xValues, yValues, "#3182bd");
-        // };
 
         var updateUserType = function(json) {
             xValues = ["Subscriber", "Customer"];
