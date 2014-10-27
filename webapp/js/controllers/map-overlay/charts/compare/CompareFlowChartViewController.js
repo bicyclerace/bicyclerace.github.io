@@ -197,6 +197,11 @@ function CompareFlowChartViewController(parentController) {
         var stationA = selectedStations[0],
             stationB = selectedStations[1];
 
+        //Is no more two selected stations
+        if(_selectionModel.getSelectedStations().length != 2){
+            console.log("NO MORE TWO STATION SELECTED");
+            return;
+        }
 
         //CHART FOR TWO STATION
 
@@ -268,10 +273,14 @@ function CompareFlowChartViewController(parentController) {
 
             var age;
             json.forEach(function(year) {
-                age = endDate.getFullYear() - parseInt(year["birthyear"]);
-                xValues.push(age);
-                yValues.push(parseInt(year["count"]));
+                if(parseInt(year["birthyear"]) != 0){
+                    age = endDate.getFullYear() - parseInt(year["birthyear"]);
+                    xValues.push(age);
+                    yValues.push(parseInt(year["count"]));
+                }
+
             });
+
 
             xValues.reverse();
             yValues.reverse();
@@ -323,17 +332,17 @@ function CompareFlowChartViewController(parentController) {
             return a;
         }
         
-        stationIds.forEach(function(stationId) {
+        //stationIds.forEach(function(stationId) {
             
-            _count++;
+        //    _count++;
 
             switch(_chartType) {
                 case RiderDemographics.GENDER:
                     
                     if(_arrivingLeaving == ArrivingLeaving.ARRIVING) {
-                        databaseModel.getRidersGenderArrivingByStation(stationId, updateDataThen(updateGender, objectCombine));
+                        databaseModel.getRidersGenderArrivingByStationsArray(stationIds, updateGender);
                     } else {
-                        databaseModel.getRidersGenderLeavingByStation(stationId, updateDataThen(updateGender, objectCombine));
+                        databaseModel.getRidersGenderLeavingByStationsArray(stationIds, updateGender);
                     }
     
                     _columnChart.getView().show();
@@ -343,9 +352,9 @@ function CompareFlowChartViewController(parentController) {
                 case RiderDemographics.AGE:
                     
                     if(_arrivingLeaving == ArrivingLeaving.ARRIVING) {
-                        databaseModel.getRidersAgeArrivingByStation(stationId, updateDataThen(updateAge, ageCombine));
+                        databaseModel.getRidersAgeArrivingByStationsArray(stationIds,updateAge);
                     } else {
-                        databaseModel.getRidersAgeLeavingByStation(stationId, updateDataThen(updateAge, ageCombine));
+                        databaseModel.getRidersAgeLeavingByStationsArray(stationIds, updateAge);
                     }
     
                     _columnChart.getView().hide();
@@ -355,9 +364,9 @@ function CompareFlowChartViewController(parentController) {
                 case RiderDemographics.USER_TYPE:
                     
                     if(_arrivingLeaving == ArrivingLeaving.ARRIVING) {
-                        databaseModel.getRidersUsertypeArrivingByStation(stationId, updateDataThen(updateUserType, objectCombine));
+                        databaseModel.getRidersUsertypeArrivingByStationsArray(stationIds, updateUserType);
                     } else {
-                        databaseModel.getRidersUsertypeLeavingByStation(stationId, updateDataThen(updateUserType, objectCombine));
+                        databaseModel.getRidersUsertypeLeavingByStationsArray(stationIds, updateUserType);
                     }
                     
                     _columnChart.getView().show();
@@ -365,7 +374,7 @@ function CompareFlowChartViewController(parentController) {
                     break;
             }
         
-        });
+        //});
     };
 
 

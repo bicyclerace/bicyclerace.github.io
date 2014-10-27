@@ -1,10 +1,10 @@
 /**
- * @class: CompareLayerViewController
+ * @class: CompareLayerPopupsViewController
  * @description template class
  *
  * @param parentController
  */
-function CompareLayerViewController(parentController) {
+function CompareLayerPopupsViewController(parentController) {
     // Call the base class constructor
     MapLayerController.call(this, parentController);
 
@@ -19,8 +19,7 @@ function CompareLayerViewController(parentController) {
 
     var _legendaModel = self.getModel().getLegendaModel();
 
-    //cached
-    var _flowData = null;
+
 
     //////////////////////////// PUBLIC METHODS ////////////////////////////
 
@@ -31,10 +30,12 @@ function CompareLayerViewController(parentController) {
 
     /**
      * Double click
-     *//*
+     */
     this.onDoubleClickOnStation = function() {
-        if(_selectionModel.getSelectedStations().length == 1 && _flowData) {
+        if(_selectionModel.getSelectedStations().length == 1) {
             var id = _selectionModel.getDoubleClickStation();
+
+            var _flowData = self.getModel().getFlowData();
 
             var data = {};
 
@@ -62,7 +63,7 @@ function CompareLayerViewController(parentController) {
 
         }
 
-    };*/
+    };
 
 
 
@@ -81,27 +82,7 @@ function CompareLayerViewController(parentController) {
      *  SINGLE
      */
     this.onSingleStationSelected = function() {
-        if(__debug)console.log("SINGLE MODE");
 
-        var station_id = _selectionModel.getSelectedStations()[0];
-
-        var timeModel = self.getModel().getTimeModel();
-        databaseModel.getSingleStationInflowAndOutflow(
-                        station_id,
-                        timeModel.getStartDate(),timeModel.getEndDate(),
-                        self.drawSingleStationFlow);
-
-
-        //Legenda
-        self.getModel().getLegendaModel().clearEntries();
-        self.getModel().getLegendaModel().setEntries(
-            [
-                {name:"inflow" , color:ColorsModel.colors.inflow},
-                {name:"outflow" , color:ColorsModel.colors.outflow}
-            ]
-        );
-
-        self.getModel().getLegendaModel().setSelectedEntries(["inflow"]);
     } ;
 
     ////////////////////
@@ -110,13 +91,7 @@ function CompareLayerViewController(parentController) {
      *  TWO
      */
     this.onTwoStationSelected = function() {
-        if(__debug)console.log("TWO MODE");
-        //CLEAN UP
-        self.getView().getSvg().html("");
 
-        self.getModel().getLegendaModel().clearEntries();
-
-        //MOVED IN CompareTwoStationsLayerViewController
     } ;
 
     ////////////////////
@@ -125,11 +100,7 @@ function CompareLayerViewController(parentController) {
      *  MANY
      */
     this.onManyStationSelected = function() {
-        if(__debug)console.log("MANY MODE");
-        //CLEAN UP
-        self.getView().getSvg().html("");
 
-        self.getModel().getLegendaModel().clearEntries();
     } ;
 
     ///////////////////
@@ -138,8 +109,7 @@ function CompareLayerViewController(parentController) {
      * LEGENDA SELECTION CHANGED
      */
     this.onLegendaSelectedEntriesChanged = function() {
-        if(__debug)console.log("LEGENDA CHANGED");
-        redrawCurrentMode();
+
     };
 
 
@@ -147,73 +117,7 @@ function CompareLayerViewController(parentController) {
 
     this.drawSingleStationFlow = function(flowData) {
 
-        _flowData = flowData;
-        self.getModel().setFlowData(_flowData);
 
-        //CLEAN UP
-        self.getView().getSvg().html("");
-        if(__debug)console.log("Flow Data: " + flowData);
-
-        if(_selectionModel.getSelectedStations().length != 1){
-            if(__debug)console.log("NO MORE SINGLE STATION SELECTED");
-            return;
-        }
-
-        var station_id = _selectionModel.getSelectedStations()[0];
-
-        var startPointCoords = databaseModel.getStationCoordinates(station_id);
-        var startPoint = self.project(startPointCoords[0],startPointCoords[1]);
-
-        //Calculate max flow value
-        var maxFlowObject = _.max(flowData, function(d){return Math.max(parseInt(d.inflow),parseInt(d.outflow));});
-        var maxFlowValue = Math.max(parseInt(maxFlowObject.inflow),parseInt(maxFlowObject.outflow));
-        if(__debug)console.log("MAX FLOW " + maxFlowValue);
-
-        var lineColor = ColorsModel.colors.inflow;
-
-        for(var f in flowData){
-
-            var flow = flowData[f];
-            var endPointCoords = databaseModel.getStationCoordinates(flow.station_id);
-            var endPoint = self.project(endPointCoords[0],endPointCoords[1]);
-
-            //INFLOW
-
-            if(_legendaModel.isEntrySelected("inflow")){
-                var perc = (flow.inflow/maxFlowValue);
-
-
-                self.getView().getSvg()
-                    .append("line")
-                    .classed("compare-layer-flow-line",true)
-                    .attr("x1",startPoint.x)
-                    .attr("y1",startPoint.y)
-                    .attr("x2",endPoint.x)
-                    .attr("y2",endPoint.y)
-                    .attr("opacity",_baseOpacity + (1-_baseOpacity)*perc)
-                    .attr("stroke-width", _maxFlowStroke*perc)
-                    .attr("stroke", lineColor);
-            }
-
-
-
-            //OUTFLOW
-            if(_legendaModel.isEntrySelected("outflow")) {
-                var perc = (flow.outflow / maxFlowValue);
-
-                self.getView().getSvg()
-                    .append("line")
-                    .classed("compare-layer-flow-line", true)
-                    .attr("x1", startPoint.x)
-                    .attr("y1", startPoint.y)
-                    .attr("x2", endPoint.x)
-                    .attr("y2", endPoint.y)
-                    .attr("opacity", _baseOpacity + (1 - _baseOpacity) * perc)
-                    .attr("stroke-width", _maxFlowStroke * perc)
-                    .attr("stroke", ColorsModel.colors.outflow);
-            }
-
-        }
     };
 
 
@@ -339,8 +243,8 @@ function CompareLayerViewController(parentController) {
 
 
 
-        //self.getNotificationCenter().subscribe(self, self.onDoubleClickOnStation,
-        //    Notifications.selections.DOUBLE_CLICK_ON_STATION);
+        self.getNotificationCenter().subscribe(self, self.onDoubleClickOnStation,
+            Notifications.selections.DOUBLE_CLICK_ON_STATION);
 
 
 
@@ -348,4 +252,4 @@ function CompareLayerViewController(parentController) {
 }
 
 // Inheritance
-Utils.extend(CompareLayerViewController, MapLayerController);
+Utils.extend(CompareLayerPopupsViewController, MapLayerController);

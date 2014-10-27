@@ -451,6 +451,98 @@ function DBModel() {
     };
 
 
+    //ARRAY REQUESTS
+    /**
+     * @param stationId
+     * @param callback
+     */
+    self.getRidersGenderArrivingByStationsArray = function(stationId, callback) {
+
+        var url = _dbServer + "get_riders_gender_arriving_by_station.php?station_id=" + buildSqlInjection("from_station_id",stationId);
+        logUrl(url);
+        $.getJSON(url)
+            .done(function(j){return callback(j[0]);})
+            .fail(_failCallback);
+
+    }
+
+    /**
+     * @param stationId
+     * @param callback
+     */
+    self.getRidersGenderLeavingByStationsArray = function(stationId, callback) {
+
+        var url = _dbServer + "get_riders_gender_leaving_by_station.php?station_id=" + buildSqlInjection("to_station_id",stationId);
+        logUrl(url);
+        $.getJSON(url)
+            .done(function(j){return callback(j[0]);})
+            .fail(_failCallback);
+
+    };
+
+
+    /**
+     * @param stationId
+     * @param callback
+     */
+    self.getRidersAgeArrivingByStationsArray = function(stationId, callback) {
+
+        var url = _dbServer + "get_riders_age_arriving_by_station.php?station_id=" + buildSqlInjection("from_station_id",stationId);
+        logUrl(url);
+        $.getJSON(url)
+            .done(callback)
+            .fail(_failCallback);
+
+
+    };
+
+
+    /**
+     * @param stationId
+     * @param callback
+     */
+    self.getRidersAgeLeavingByStationsArray = function(stationId, callback) {
+
+        var url = _dbServer + "get_riders_age_leaving_by_station.php?station_id=" + buildSqlInjection("to_station_id",stationId);
+        logUrl(url);
+        $.getJSON(url)
+            .done(callback)
+            .fail(_failCallback);
+
+
+    };
+
+
+    /**
+     * @param stationId
+     * @param callback
+     */
+    self.getRidersUsertypeArrivingByStationsArray = function(stationId, callback) {
+
+        var url = _dbServer + "get_riders_usertype_arriving_by_station.php?station_id=" + buildSqlInjection("from_station_id",stationId);
+        logUrl(url);
+        $.getJSON(url)
+            .done(function(j){return callback(j[0]);})
+            .fail(_failCallback);
+
+    };
+
+
+    /**
+     * @param stationId
+     * @param callback
+     */
+    self.getRidersUsertypeLeavingByStationsArray = function(stationId, callback) {
+
+        var url = _dbServer + "get_riders_usertype_leaving_by_station.php?station_id=" + buildSqlInjection("to_station_id",stationId);
+        logUrl(url);
+        $.getJSON(url)
+            .done(function(j){return callback(j[0]);})
+            .fail(_failCallback);
+
+    };
+
+
     /**
      *
      * @param callback
@@ -591,6 +683,20 @@ function DBModel() {
         return "resources/cache/"+newUrl+".json";
     };
 
+
+    var buildSqlInjection = function(selector, stations) {
+      var string = "";
+      for(var s in stations){
+          var id = stations[s];
+          if(s == 0){
+              string += id;
+          } else {
+              string += "%20OR%20" + selector + "=" + id;
+          }
+
+      }
+      return string;
+    };
 
     /**
      * Initialization stuffs
