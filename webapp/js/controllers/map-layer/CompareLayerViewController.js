@@ -12,7 +12,7 @@ function CompareLayerViewController(parentController) {
     var self = this;
 
 
-    var __debug = true;
+    var __debug = false; // true;
     var _selectionModel = self.getModel().getSelectionModel();
     var _maxFlowStroke = 2;
     var _baseOpacity = 0.15;
@@ -31,7 +31,7 @@ function CompareLayerViewController(parentController) {
 
     /**
      * Double click
-     */
+     *//*
     this.onDoubleClickOnStation = function() {
         if(_selectionModel.getSelectedStations().length == 1 && _flowData) {
             var id = _selectionModel.getDoubleClickStation();
@@ -62,7 +62,7 @@ function CompareLayerViewController(parentController) {
 
         }
 
-    };
+    };*/
 
 
 
@@ -148,6 +148,7 @@ function CompareLayerViewController(parentController) {
     this.drawSingleStationFlow = function(flowData) {
 
         _flowData = flowData;
+        self.getModel().setFlowData(_flowData);
 
         //CLEAN UP
         self.getView().getSvg().html("");
@@ -338,8 +339,8 @@ function CompareLayerViewController(parentController) {
 
 
 
-        self.getNotificationCenter().subscribe(self, self.onDoubleClickOnStation,
-            Notifications.selections.DOUBLE_CLICK_ON_STATION);
+        //self.getNotificationCenter().subscribe(self, self.onDoubleClickOnStation,
+        //    Notifications.selections.DOUBLE_CLICK_ON_STATION);
 
 
 

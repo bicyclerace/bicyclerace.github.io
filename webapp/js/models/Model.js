@@ -23,6 +23,8 @@ function Model() {
     var _playADayModel;
     var _filterModel;
 
+
+
     // Hold the status of the current visualization context
     var _visualizationTypeModel;
 
@@ -31,8 +33,17 @@ function Model() {
 
     // Holds historical weather data of Chicago
     var _weatherModel;
-    
 
+
+    var _flowData;
+
+    this.setFlowData = function(flowData) {
+        _flowData = flowData;
+    };
+
+    this.getFlowData = function() {
+        return _flowData;
+    };
     // PUBLIC METHODS
     /**
      * get notification center associated to this model

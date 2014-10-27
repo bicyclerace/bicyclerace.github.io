@@ -92,7 +92,8 @@ function CompareFlowChartViewController(parentController) {
      */
     this.onManyStationSelected = function() {
         showHideComponents();
-        updateGroupOfStationsData();
+        // updateGroupOfStationsData();
+        updateStationDemographicData();
     } ;
 
     ///////////////////
@@ -196,6 +197,11 @@ function CompareFlowChartViewController(parentController) {
         var stationA = selectedStations[0],
             stationB = selectedStations[1];
 
+        //Is no more two selected stations
+        if(_selectionModel.getSelectedStations().length != 2){
+            console.log("NO MORE TWO STATION SELECTED");
+            return;
+        }
 
         //CHART FOR TWO STATION
 
@@ -237,12 +243,15 @@ function CompareFlowChartViewController(parentController) {
 
     var updateStationDemographicData = function() {
 
-        var stationId = _selectionModel.getSelectedStations()[0];
+        var stationIds = _selectionModel.getSelectedStations();
 
         var startDate = self.getModel().getTimeModel().getStartDate();
         var endDate = self.getModel().getTimeModel().getEndDate();
         var xValues;
         var yValues;
+        var _data;
+        var _count = 0;
+        var total = stationIds.length;
 
         var updateGender = function(json) {
             xValues = ["Male", "Female", "Unknown"];
@@ -254,25 +263,34 @@ function CompareFlowChartViewController(parentController) {
             _columnChart.setTitle("TRIPS COUNT BY GENDER");
             _columnChart.setData(xValues, yValues, "GENDER", "TRIPS COUNT", ["#67A9CF", "#E9A3C9", "#bababa"]);
         };
-
+        
         var updateAge = function(json) {
+
+            // console.log("update age", json);
+            
             xValues = [];
             yValues = [];
 
             var age;
             json.forEach(function(year) {
-                age = endDate.getFullYear() - parseInt(year["birthyear"]);
-                xValues.push(age);
-                yValues.push(parseInt(year["count"]));
+                if(parseInt(year["birthyear"]) != 0){
+                    age = endDate.getFullYear() - parseInt(year["birthyear"]);
+                    xValues.push(age);
+                    yValues.push(parseInt(year["count"]));
+                }
+
             });
 
+
             xValues.reverse();
+            yValues.reverse();
             _lineChart.setXTickAlignment(TickAlignment.MIDDLE);
             _lineChart.removeAllLines();
             _lineChart.setTitle("TRIPS COUNT BY AGE");
             _lineChart.setXAxisLabel("AGE");
             _lineChart.setYAxisLabel("TRIPS COUNT");
             _lineChart.addLine(xValues, yValues, "#3182bd");
+
         };
 
         var updateUserType = function(json) {
@@ -281,44 +299,82 @@ function CompareFlowChartViewController(parentController) {
             yValues.push(parseInt(json["Subscriber"]));
             yValues.push(parseInt(json["Customer"]));
 
-            _columnChart.getView().show();
-            _lineChart.getView().hide();
             _columnChart.setTitle("TRIPS COUNT BY USER TYPE");
             _columnChart.setData(xValues, yValues, "USER TYPE", "TRIPS COUNT", ["#8dd3c7", "#fb8072"]);
         };
-
-
-        switch(_chartType) {
-            case RiderDemographics.GENDER:
-
-                if(_arrivingLeaving == ArrivingLeaving.ARRIVING)
-                    databaseModel.getRidersGenderArrivingByStation(stationId, updateGender);
-                else
-                    databaseModel.getRidersGenderLeavingByStation(stationId, updateGender);
-
-                _columnChart.getView().show();
-                _lineChart.getView().hide();
-                break;
-
-            case RiderDemographics.AGE:
-
-                if(_arrivingLeaving == ArrivingLeaving.ARRIVING)
-                    databaseModel.getRidersAgeArrivingByStation(stationId, updateAge);
-                else
-                    databaseModel.getRidersAgeLeavingByStation(stationId, updateAge);
-
-                _columnChart.getView().hide();
-                _lineChart.getView().show();
-                break;
-
-            case RiderDemographics.USER_TYPE:
-
-                if(_arrivingLeaving == ArrivingLeaving.ARRIVING)
-                    databaseModel.getRidersUsertypeArrivingByStation(stationId, updateUserType);
-                else
-                    databaseModel.getRidersUsertypeLeavingByStation(stationId, updateUserType);
-                break;
+        
+        var updateDataThen = function(func, combine) {
+            return function(json) {
+                if (combine) {
+                    _data = combine(_data, json);
+                }
+                if (_count == total) func(_data);
+            }
         }
+        
+        var ageCombine = function(a, b) {
+            if (! a) return b;
+            var zipped = d3.zip(a, b);
+            var summed = zipped.map(function(array) { 
+                var sum = d3.sum(array, function(d) { return d.count; });
+                var ret = array[0];
+                ret.count = sum;
+                return ret;
+            });
+            return summed;
+        }
+        
+        var objectCombine = function(a, b) {
+            if (! a) return b;
+            for (var key in a) {
+                a[key] = parseInt(a[key]) + parseInt(b[key]);
+            }
+            return a;
+        }
+        
+        //stationIds.forEach(function(stationId) {
+            
+        //    _count++;
+
+            switch(_chartType) {
+                case RiderDemographics.GENDER:
+                    
+                    if(_arrivingLeaving == ArrivingLeaving.ARRIVING) {
+                        databaseModel.getRidersGenderArrivingByStationsArray(stationIds, updateGender);
+                    } else {
+                        databaseModel.getRidersGenderLeavingByStationsArray(stationIds, updateGender);
+                    }
+    
+                    _columnChart.getView().show();
+                    _lineChart.getView().hide();
+                    break;
+    
+                case RiderDemographics.AGE:
+                    
+                    if(_arrivingLeaving == ArrivingLeaving.ARRIVING) {
+                        databaseModel.getRidersAgeArrivingByStationsArray(stationIds, updateAge);
+                    } else {
+                        databaseModel.getRidersAgeLeavingByStationsArray(stationIds, updateAge);
+                    }
+    
+                    _columnChart.getView().hide();
+                    _lineChart.getView().show();
+                    break;
+    
+                case RiderDemographics.USER_TYPE:
+                    
+                    if(_arrivingLeaving == ArrivingLeaving.ARRIVING) {
+                        databaseModel.getRidersUsertypeArrivingByStationsArray(stationIds, updateUserType);
+                    } else {
+                        databaseModel.getRidersUsertypeLeavingByStationsArray(stationIds, updateUserType);
+                    }
+                    
+                    _columnChart.getView().show();
+                    _lineChart.getView().hide();
+                    break;
+            }
+        
+        //});
     };
 
 
@@ -424,9 +480,9 @@ function CompareFlowChartViewController(parentController) {
                 break;
             //Many mode
             default:
-                demographicsComponents.forEach(function(c){c.getView().hide()});
+                demographicsComponents.forEach(function(c){c.getView().show()}); // hide()});
                 _compareTwoLineChart.getView().hide();
-                _columnChart.getView().show();
+                // _columnChart.getView().show();
                 showPopup();
         }
 
@@ -448,7 +504,7 @@ function CompareFlowChartViewController(parentController) {
         self.add(_columnChart);
 
         // Add line chart
-        _lineChart = new UILineChartViewController(self);
+        _lineChart = new UILineChartViewController2(self);
         self.add(_lineChart);
 
         // Add buttons
@@ -480,7 +536,7 @@ function CompareFlowChartViewController(parentController) {
 
         _arrivingLeaving = ArrivingLeaving.ARRIVING;
         
-        self.setSize(PopupController.SIZE.SINGLE);
+        self.setSize(PopupController.SIZE.DOUBLE);
 
         //Notifications
         self.getNotificationCenter().subscribe(self, self.onNoneStationSelected,

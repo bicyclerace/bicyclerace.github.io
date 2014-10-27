@@ -116,7 +116,8 @@ function UIPlayADayChartViewController(parentController) {
         var day = d3.time.day;
         
         if (domain[0].getYear() === 69) _xScale.domain([day.floor(extent[0]), day.ceil(extent[0])]);
-        if (extent[1] > domain[1]) _xScale.domain([extent[0], extent[1]]);
+        // if (extent[1] > domain[1]) _xScale.domain([extent[0], extent[1]]);
+        _xScale.domain([extent[0], extent[1]]);
         
         var maxActive = d3.max(_data, function(d) { return parseFloat(d.active.length); });
         var yMax = (maxActive === 0) ? 10 : maxActive;
