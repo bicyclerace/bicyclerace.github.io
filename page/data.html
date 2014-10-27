@@ -1,53 +1,69 @@
 <h1>Data</h1>
 <section>
-    
+
     <p>The data used for this project comes from a cleaned up version of the original Divvy data.
-        It can be downloaded from this link https://bikesharingdata.hackpad.com/Chicago-data-experiences-f1ym6mXft2d
+        It can be downloaded from this link <a href="https://bikesharingdata.hackpad.com/Chicago-data-experiences-f1ym6mXft2d">https://bikesharingdata.hackpad.com/Chicago-data-experiences-f1ym6mXft2d</a>
         <br/>
         The data store information about all the Divvy trips that has been taken from 26 Jun 2013 to 31 Dec 2013.
         Must be highlighted that at the time the Divvy service was just started and plenty of stations weren't open yet.
         <br/>
-        The data downloadable from that link is quite clean, and just some minor preprocessing has been necessary.
-
-
-
-        <h2>0 Meters trips</h2>
-        Some trips start and end on the same trip. We excluded trips last less than ~5 minutes, because are probably people who get a bike and returned it because it was broken.
-
-        <br/>
-
-        <h2>Hosting</h2>
-        The data are stored on a mysql database hosted on people.uic.edu. For accessing the database a set of PHP api has been developed.
-
-
-        <h2>Structure</h2>
-
-        The data has been reorganized in two tables
-        <br/>
-        <b>table divvy_trips_distances</b><br/>
-
-        trip_id(trip identifier)
-        bikeid(bike identifier)
-        from_station_id(station_id)
-        to_station_id(station_id)
-        usertype(Subscriber / Costumer)
-        gender(Male / Female)
-        meters(trip distance in meters)
-        seconds(trip duration in seconds)
-        starttime(datetime)
-        stoptime(datetime)
-        birthyear(user birthyear, 0 if not set)
-
-        <br/>
-
-        <b>table stations</b><br/>
-        station_id(station identifier)
-        station_name(station full name)
-        station_launch_date(date)
-        station_latitude(decimal)
-        station_longitude(decimal)
-
-        <br/>
-
+        The data downloadable from that link is quite clean, and just some minor pre-processing has been necessary.
     </p>
+
+
+    <h2>0 Meters trips</h2>
+    Some trips start and end on the same trip. We excluded trips last less than ~5 minutes, because are probably people who get a bike and returned it because it was broken.
+
+    <br/>
+
+    <h2>Hosting</h2>
+    The data are stored on a mysql database hosted on people.uic.edu. For accessing the database a set of PHP api has been developed.
+
+
+    <h2>Structure</h2>
+
+    The data has been reorganized in two tables
+    <br/>
+    <b>table divvy_trips_distances</b><br/>
+
+    trip_id(trip identifier)
+    bikeid(bike identifier)
+    from_station_id(station_id)
+    to_station_id(station_id)
+    usertype(Subscriber / Costumer)
+    gender(Male / Female)
+    meters(trip distance in meters)
+    seconds(trip duration in seconds)
+    starttime(datetime)
+    stoptime(datetime)
+    birthyear(user birthyear, 0 if not set)
+
+    <br/>
+
+    <b>table stations</b><br/>
+    station_id(station identifier)
+    station_name(station full name)
+    station_launch_date(date)
+    station_latitude(decimal)
+    station_longitude(decimal)
+
+    <br/>
+
+    <h2>Weather data</h2>
+    <p>Historical weather data about Chicago has been retrieved from <a href="http://www.wunderground.com/">Wunderground</a>
+        website. Wunderground returns tons of weather data from the 1st of July to December 31, and since most of that data was
+        not useful for the project purposes it was filtered. In particular for our project was interesting to keep data about the various
+        observations along the day with information about the time of the observation, the conditions ("Clear", "Cloudy", ..) and the
+        temperature both fahrenheit and celsius.
+        We also kept the information about daily summaries about min and max temperature, and boolean values that indicates
+        whether certain conditions (fog, rain, ..) have occurred during the day. The latter information though have not been
+        used for the project.
+    </p>
+
+    <h2>Sunrise and sunset</h2>
+    <p>Sunrise and sunset are computed using <a href="https://github.com/mourner/suncalc">SunCalc</a>, a tiny JavaScript
+        library for calculating sun/moon positions and phases.
+    </p>
+
+    <br/><br/><br/>
 </section>
