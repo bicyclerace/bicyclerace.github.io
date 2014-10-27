@@ -39,7 +39,7 @@ function UIPlayTimeViewController(parentController) {
     this.timeChanged = function() {
         var currentHours = self.getModel().getTimeModel().getHours();
 
-        if(currentHours > 0 && currentHours <= 12) {
+        if(currentHours >= 0 && currentHours < 12) {
             _amButton.select();
             _pmButton.deselect();
         } else {
@@ -283,6 +283,7 @@ function UIPlayTimeViewController(parentController) {
         // Subscribe
         self.getNotificationCenter()
             .subscribe(self, self.timeChanged, Notifications.time.TIME_OF_THE_DAY_CHANGED);
+
 
         addBehaviours();
     } ();
