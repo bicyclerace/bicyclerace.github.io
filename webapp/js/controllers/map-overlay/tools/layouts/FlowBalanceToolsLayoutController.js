@@ -19,6 +19,9 @@ function FlowBalanceToolsLayoutController(parentController, svgContainer) {
 
     var _dayCategoriesMultiButton;
 
+    // Community grid
+    var _gridShowButton;
+
 
     // Categories titles
     var _categoryForTitle = {
@@ -37,6 +40,9 @@ function FlowBalanceToolsLayoutController(parentController, svgContainer) {
     var _superUpdateView = this.updateView;
     this.updateView = function() {
         // Put your code here..
+        _gridShowButton.getView().setFrame(0, 150, 100, 100);
+        _gridShowButton.getView().setViewBox(0, 0, 100, 100);
+
         var contentBox = self.getView().getViewBox();
 
         //Legend tool
@@ -90,6 +96,14 @@ function FlowBalanceToolsLayoutController(parentController, svgContainer) {
         return catTitle;
     };
 
+    // PRIVATE METHODS
+    var addBehaviors = function() {
+        _gridShowButton.onClick(function() {
+            var status = self.getModel().getMapModel().getGridStatus();
+            self.getModel().getMapModel().setGridStatus(!status);
+        });
+    };
+
 
     // Init
     var init = function() {
@@ -104,6 +118,13 @@ function FlowBalanceToolsLayoutController(parentController, svgContainer) {
         _dayCategoriesMultiButton.getView().addClass("day-categories");
         _dayCategoriesMultiButton.onButtonSelected(self.changeTime);
         self.add(_dayCategoriesMultiButton);
+
+        _gridShowButton = new UIButtonViewController(self);
+        _gridShowButton.getView().addClass("community-grid-button");
+        _gridShowButton.setImage("img/community-grid-icon.svg");
+        self.add(_gridShowButton);
+
+        addBehaviors();
 
         self.changeTime(titleForCategory(TimeModel.DayCategories.MORNING));
 

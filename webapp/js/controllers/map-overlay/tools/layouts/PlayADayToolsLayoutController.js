@@ -25,10 +25,10 @@ function PlayADayToolsLayoutController(parentController, svgContainer) {
     // Calendar sizes
     var _calendarPickerController;
 
-
     var _calendarToolController;
 
-
+    // Community grid
+    var _gridShowButton;
 
 
     ////////////////////////////// PUBLIC METHODS //////////////////////////////
@@ -37,6 +37,10 @@ function PlayADayToolsLayoutController(parentController, svgContainer) {
      */
     var superUpdateView = this.updateView;
     this.updateView = function() {
+
+        _gridShowButton.getView().setFrame(0, 150, 100, 100);
+        _gridShowButton.getView().setViewBox(0, 0, 100, 100);
+
         var playToolBox = {
             width: 300,
             height: 150
@@ -84,6 +88,15 @@ function PlayADayToolsLayoutController(parentController, svgContainer) {
 
     };
 
+    // PRIVATE METHODS
+    var addBehaviors = function() {
+        _gridShowButton.onClick(function() {
+            var status = self.getModel().getMapModel().getGridStatus();
+            self.getModel().getMapModel().setGridStatus(!status);
+        });
+    };
+
+
     var init = function() {
         self.getView().addClass("play-day-tools-layout-view-controller");
 
@@ -113,6 +126,13 @@ function PlayADayToolsLayoutController(parentController, svgContainer) {
         // Add day categories tool
         _dayCategoriesTool = new UIDayCategoriesViewController(self);
         self.add(_dayCategoriesTool);
+
+        _gridShowButton = new UIButtonViewController(self);
+        _gridShowButton.getView().addClass("community-grid-button");
+        _gridShowButton.setImage("img/community-grid-icon.svg");
+        self.add(_gridShowButton);
+
+        addBehaviors();
 
         draw();
 
