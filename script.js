@@ -43,5 +43,5 @@ function addBootstrap() {
         images.wrapAll('<div class="col-lg-6 />');
     });
     $("video").each(function() { this.load(); });
-    $("img").addClass("img-responsive");
+    $("img").addClass("img-responsive img-thumbnail");
 }
