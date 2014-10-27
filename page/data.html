@@ -1,69 +1,127 @@
 <h1>Data</h1>
 <section>
 
-    <p>The data used for this project comes from a cleaned up version of the original Divvy data.
-        It can be downloaded from this link <a href="https://bikesharingdata.hackpad.com/Chicago-data-experiences-f1ym6mXft2d">https://bikesharingdata.hackpad.com/Chicago-data-experiences-f1ym6mXft2d</a>
-        <br/>
-        The data store information about all the Divvy trips that has been taken from 26 Jun 2013 to 31 Dec 2013.
-        Must be highlighted that at the time the Divvy service was just started and plenty of stations weren't open yet.
-        <br/>
-        The data downloadable from that link is quite clean, and just some minor pre-processing has been necessary.
-    </p>
+    <p>The data used for this project comes from 
+    <a href="https://bikesharingdata.hackpad.com/Chicago-data-experiences-f1ym6mXft2d">a "cleaned up" version of the original Divvy data</a>
+    made available by Steven Yance.</p>
+    <p>The data includes information about all the Divvy trips that were taken 
+        between 26 Jun 2013 to 31 Dec 2013.</p>
+    <p>Importantly, Divvy data collection began when the Divvy service was just 
+    started and plenty of stations weren't open yet.</p>
+    <p>As downloaded, the data was quite clean, and only minor pre-processing 
+    was necessary.</p>
 
 
-    <h2>0 Meters trips</h2>
-    Some trips start and end on the same trip. We excluded trips last less than ~5 minutes, because are probably people who get a bike and returned it because it was broken.
-
-    <br/>
+    <h3>Trips with Zero Distance</h3>
+    <p>Some trips start and end on the same trip. We excluded trips last less 
+    than ~5 minutes – we assumed that these represented instances of people who 
+    got a bike and 
+    returned it because it was broken.</p>
 
     <h2>Hosting</h2>
-    The data are stored on a mysql database hosted on people.uic.edu. For accessing the database a set of PHP api has been developed.
-
-
+    <p>The data are stored on a MySQL database hosted on UIC's personal web hosting
+    service. To access the database, a set of PHP API calls were developed.</p>
+    
     <h2>Structure</h2>
 
-    The data has been reorganized in two tables
-    <br/>
-    <b>table divvy_trips_distances</b><br/>
+    <p>The data was organized in two relational tables, with the following fields:</p>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Table: divvy_trips_distances</th>
+            </tr>
+            <tr>
+                <th>Field Name</th>
+                <th>Contents</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>trip_id</td><td>trip identifier</td>
+            </tr>
+            <tr>
+                <td>bikeid</td><td>bike identifier</td>
+            </tr>
+            <tr>
+                <td>from_station_id</td> <td>station_id</td>
+            </tr>
+            <tr>
+                <td>to_station_id</td> <td>station_id</td>
+            </tr>
+            <tr>
+                <td>usertype</td> <td>"Subscriber" / "Customer"</td>
+            </tr>
+            <tr>
+                <td>gender</td> <td>"Male" / "Female"</td>
+            </tr>
+            <tr>
+                <td>meters</td> <td>trip distance in meters</td>
+            </tr>
+            <tr>
+                <td>seconds</td> <td>trip duration in seconds</td>
+            </tr>
+            <tr>
+                <td>starttime</td> <td>datetime</td>
+            </tr>
+            <tr>
+                <td>stoptime</td> <td>datetime</td>
+            </tr>
+            <tr>
+                <td>birthyear</td> <td>user birthyear, 0 if not set</td>
+            </tr>
+        </tbody>
+        <thead>
+            <tr>
+                <th>Table: stations</th>
+            </tr>
+            <tr>
+                <th>Field Name</th>
+                <th>Contents</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>station_id</td><td>station identifier</td>
+            </tr>
+            <tr>
+                <td>station_name</td><td>station full name</td>
+            </tr>
+            <tr>
+                <td>station_launch_date</td> <td>date</td>
+            </tr>
+            <tr>
+                <td>station_latitude</td> <td>floating point number</td>
+            </tr>
+            <tr>
+                <td>station_longitude</td> <td>floating point number</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
 
-    trip_id(trip identifier)
-    bikeid(bike identifier)
-    from_station_id(station_id)
-    to_station_id(station_id)
-    usertype(Subscriber / Costumer)
-    gender(Male / Female)
-    meters(trip distance in meters)
-    seconds(trip duration in seconds)
-    starttime(datetime)
-    stoptime(datetime)
-    birthyear(user birthyear, 0 if not set)
 
-    <br/>
-
-    <b>table stations</b><br/>
-    station_id(station identifier)
-    station_name(station full name)
-    station_launch_date(date)
-    station_latitude(decimal)
-    station_longitude(decimal)
-
-    <br/>
-
+<section>
     <h2>Weather data</h2>
-    <p>Historical weather data about Chicago has been retrieved from <a href="http://www.wunderground.com/">Wunderground</a>
-        website. Wunderground returns tons of weather data from the 1st of July to December 31, and since most of that data was
-        not useful for the project purposes it was filtered. In particular for our project was interesting to keep data about the various
-        observations along the day with information about the time of the observation, the conditions ("Clear", "Cloudy", ..) and the
-        temperature both fahrenheit and celsius.
+    <p>Historical weather data about Chicago was retrieved from <a href="http://www.wunderground.com/">Weather Underground</a>. 
+        Weather Underground returns a huge amount of weather data for the period of the 1st of July to December 31, and since most of that data was
+        not useful for the project purposes it was filtered. In particular, our project used weather observations
+        at particular intervals throughout the day, with information about the time of the observation, the conditions ("Clear", "Cloudy", ..) and the
+        temperature in both fahrenheit and celsius.</p>
+            
+    <p>
         We also kept the information about daily summaries about min and max temperature, and boolean values that indicates
-        whether certain conditions (fog, rain, ..) have occurred during the day. The latter information though have not been
-        used for the project.
+        whether certain conditions (fog, rain, ..) have occurred during the day. The latter information, though, has not been
+        yet been used for the project.
     </p>
+</section>
 
+<section>
     <h2>Sunrise and sunset</h2>
+    
     <p>Sunrise and sunset are computed using <a href="https://github.com/mourner/suncalc">SunCalc</a>, a tiny JavaScript
         library for calculating sun/moon positions and phases.
     </p>
-
-    <br/><br/><br/>
 </section>
+
+<script>addBootstrap();</script>

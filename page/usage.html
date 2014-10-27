@@ -240,22 +240,21 @@
     </div>
 </section>
 
+<script>addBootstrap();</script>
 <script>
-    $("main").children().wrap('<div class="row" />');
+    // $("main").children().wrap('<div class="row" />');
             
-    $("section").each(function() {
-        var section = $(this);
-        var images = section.find(".images");
-        var other = section.children().not(images);
-        other.wrapAll('<div class="col-lg-6" />');
-        images.addClass("col-lg-6");
-        var videoWrap = $('<div>')
-            .addClass('embed-responsive embed-responsive-16by9 img-thumbnail');
-        section.find("video").addClass("embed-responsive-item")
-            .wrap(videoWrap);
-        // console.log(images.get());
-        images.wrapAll('<div class="col-lg-6 />');
-        // console.log(other.get());
-    });
-    $("video").each(function() { this.load(); });
+    // $("section").each(function() {
+    //     var section = $(this);
+    //     var images = section.find(".images");
+    //     var other = section.children().not(images);
+    //     other.wrapAll('<div class="col-lg-6" />');
+    //     images.addClass("col-lg-6");
+    //     var videoWrap = $('<div>')
+    //         .addClass('embed-responsive embed-responsive-16by9 img-thumbnail');
+    //     section.find("video").addClass("embed-responsive-item")
+    //         .wrap(videoWrap);
+    //     images.wrapAll('<div class="col-lg-6 />');
+    // });
+    // $("video").each(function() { this.load(); });
 </script>
