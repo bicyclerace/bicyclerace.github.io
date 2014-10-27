@@ -266,9 +266,14 @@ function CompareFlowChartViewController(parentController) {
             var age;
             json.forEach(function(year) {
                 age = endDate.getFullYear() - parseInt(year["birthyear"]);
+                // console.log(age, parseInt(year["count"]));
                 xValues.push(age);
                 yValues.push(parseInt(year["count"]));
             });
+            console.log("-----");
+            xValues.forEach(function(d, i) {
+                console.log("beh", xValues[i], yValues[i]);
+            })
 
             xValues.reverse();
             _lineChart.setXTickAlignment(TickAlignment.MIDDLE);
@@ -490,7 +495,7 @@ function CompareFlowChartViewController(parentController) {
         self.add(_columnChart);
 
         // Add line chart
-        _lineChart = new UILineChartViewController(self);
+        _lineChart = new UILineChartViewController2(self);
         self.add(_lineChart);
 
         // Add buttons
