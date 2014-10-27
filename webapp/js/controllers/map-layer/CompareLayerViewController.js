@@ -12,7 +12,7 @@ function CompareLayerViewController(parentController) {
     var self = this;
 
 
-    var __debug = true;
+    var __debug = false; // true;
     var _selectionModel = self.getModel().getSelectionModel();
     var _maxFlowStroke = 2;
     var _baseOpacity = 0.15;

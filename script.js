@@ -14,6 +14,7 @@ $(window).on("hashchange", function() {
 function loadHash(hash) {
     selectNav(hash);
     $("main").load("page/" + hash + ".html");
+    history.pushState(null, null, '#' + hash);
 }
 
 function selectNav(hash) {

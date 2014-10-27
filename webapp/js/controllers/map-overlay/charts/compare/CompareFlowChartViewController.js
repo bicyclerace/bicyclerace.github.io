@@ -92,7 +92,8 @@ function CompareFlowChartViewController(parentController) {
      */
     this.onManyStationSelected = function() {
         showHideComponents();
-        updateGroupOfStationsData();
+        // updateGroupOfStationsData();
+        updateStationDemographicData();
     } ;
 
     ///////////////////
@@ -237,12 +238,15 @@ function CompareFlowChartViewController(parentController) {
 
     var updateStationDemographicData = function() {
 
-        var stationId = _selectionModel.getSelectedStations()[0];
+        var stationIds = _selectionModel.getSelectedStations();
 
         var startDate = self.getModel().getTimeModel().getStartDate();
         var endDate = self.getModel().getTimeModel().getEndDate();
         var xValues;
         var yValues;
+        var _data = [];
+        var _count = 0;
+        var total = stationIds.length;
 
         var updateGender = function(json) {
             xValues = ["Male", "Female", "Unknown"];
@@ -281,20 +285,79 @@ function CompareFlowChartViewController(parentController) {
             yValues.push(parseInt(json["Subscriber"]));
             yValues.push(parseInt(json["Customer"]));
 
-            _columnChart.getView().show();
-            _lineChart.getView().hide();
+            // _columnChart.getView().show();
+            // _lineChart.getView().hide();
             _columnChart.setTitle("TRIPS COUNT BY USER TYPE");
             _columnChart.setData(xValues, yValues, "USER TYPE", "TRIPS COUNT", ["#8dd3c7", "#fb8072"]);
         };
-
+        
+        // var updateData = function(json) {
+        //     console.log("bag", json);
+        //     updateGender(json);
+        //     updateAge(json);
+        //     updateUserType(json);
+        // };
+        
+        var updateDataThen = function(func, combine) {
+            // console.log("bap");
+            // _count++;
+            return function(json) {
+                console.log("shop", json);
+                if (combine) {
+                    if (! _data.length) _data = json;
+                    else _data = combine(_data, json);
+                    console.log("_data", _data);
+                }
+                if (_count == total) func(json);
+                // func(json);
+            }
+        }
+        
+        var ageCombine = function(a, b) {
+            var zipped = d3.zip(a, b);
+            var summed = zipped.map(function(array) { 
+                var sum = d3.sum(array, function(d) { return d.count; });
+                var ret = array[0];
+                ret.count = sum;
+                return ret;
+            });
+            return summed;
+        }
+        
+        var genderCombine = function(a, b) {
+            for (var key in a) {
+                a[key] += b[key];
+            }
+        }
+        
+        var userTypeCombine = function(a, b) {
+            
+        }
+        
+        stationIds.forEach(function(stationId) {
+            _count++;
+            if(_arrivingLeaving == ArrivingLeaving.ARRIVING) {
+                databaseModel.getRidersGenderArrivingByStation(stationId, updateDataThen(updateGender, genderCombine));
+                databaseModel.getRidersAgeArrivingByStation(stationId, updateDataThen(updateAge, ageCombine));
+                databaseModel.getRidersUsertypeArrivingByStation(stationId, updateDataThen(updateUserType));
+            } else {
+                databaseModel.getRidersGenderLeavingByStation(stationId, updateDataThen(updateGender, genderCombine));
+                databaseModel.getRidersAgeLeavingByStation(stationId, updateDataThen(updateAge, ageCombine));
+                databaseModel.getRidersUsertypeLeavingByStation(stationId, updateDataThen(updateUserType));
+            }
+        })
+        // if(_arrivingLeaving == ArrivingLeaving.ARRIVING) {
+        //     databaseModel.getRidersGenderArrivingByStation(stationId, updateDataThen(updateGender));
+        //     databaseModel.getRidersAgeArrivingByStation(stationId, updateDataThen(updateAge, ageCombine));
+        //     databaseModel.getRidersUsertypeArrivingByStation(stationId, updateDataThen(updateUserType));
+        // } else {
+        //     databaseModel.getRidersGenderLeavingByStation(stationId, updateDataThen(updateGender));
+        //     databaseModel.getRidersAgeLeavingByStation(stationId, updateDataThen(updateAge));
+        //     databaseModel.getRidersUsertypeLeavingByStation(stationId, updateDataThen(updateUserType));
+        // }
 
         switch(_chartType) {
             case RiderDemographics.GENDER:
-
-                if(_arrivingLeaving == ArrivingLeaving.ARRIVING)
-                    databaseModel.getRidersGenderArrivingByStation(stationId, updateGender);
-                else
-                    databaseModel.getRidersGenderLeavingByStation(stationId, updateGender);
 
                 _columnChart.getView().show();
                 _lineChart.getView().hide();
@@ -302,21 +365,14 @@ function CompareFlowChartViewController(parentController) {
 
             case RiderDemographics.AGE:
 
-                if(_arrivingLeaving == ArrivingLeaving.ARRIVING)
-                    databaseModel.getRidersAgeArrivingByStation(stationId, updateAge);
-                else
-                    databaseModel.getRidersAgeLeavingByStation(stationId, updateAge);
-
                 _columnChart.getView().hide();
                 _lineChart.getView().show();
                 break;
 
             case RiderDemographics.USER_TYPE:
-
-                if(_arrivingLeaving == ArrivingLeaving.ARRIVING)
-                    databaseModel.getRidersUsertypeArrivingByStation(stationId, updateUserType);
-                else
-                    databaseModel.getRidersUsertypeLeavingByStation(stationId, updateUserType);
+                    
+                _columnChart.getView().show();
+                _lineChart.getView().hide();
                 break;
         }
     };
@@ -424,9 +480,9 @@ function CompareFlowChartViewController(parentController) {
                 break;
             //Many mode
             default:
-                demographicsComponents.forEach(function(c){c.getView().hide()});
+                demographicsComponents.forEach(function(c){c.getView().show()}); // hide()});
                 _compareTwoLineChart.getView().hide();
-                _columnChart.getView().show();
+                // _columnChart.getView().show();
                 showPopup();
         }
 
