@@ -258,31 +258,36 @@ function CompareFlowChartViewController(parentController) {
             _columnChart.setTitle("TRIPS COUNT BY GENDER");
             _columnChart.setData(xValues, yValues, "GENDER", "TRIPS COUNT", ["#67A9CF", "#E9A3C9", "#bababa"]);
         };
-
+        
         var updateAge = function(json) {
-            xValues = [];
-            yValues = [];
-
-            var age;
-            json.forEach(function(year) {
-                age = endDate.getFullYear() - parseInt(year["birthyear"]);
-                // console.log(age, parseInt(year["count"]));
-                xValues.push(age);
-                yValues.push(parseInt(year["count"]));
-            });
-            console.log("-----");
-            xValues.forEach(function(d, i) {
-                console.log("beh", xValues[i], yValues[i]);
-            })
-
-            xValues.reverse();
-            _lineChart.setXTickAlignment(TickAlignment.MIDDLE);
-            _lineChart.removeAllLines();
-            _lineChart.setTitle("TRIPS COUNT BY AGE");
-            _lineChart.setXAxisLabel("AGE");
-            _lineChart.setYAxisLabel("TRIPS COUNT");
-            _lineChart.addLine(xValues, yValues, "#3182bd");
+            console.log("update age", json);
+            
         };
+
+        // var updateAge = function(json) {
+        //     xValues = [];
+        //     yValues = [];
+
+        //     var age;
+        //     json.forEach(function(year) {
+        //         age = endDate.getFullYear() - parseInt(year["birthyear"]);
+        //         // console.log(age, parseInt(year["count"]));
+        //         xValues.push(age);
+        //         yValues.push(parseInt(year["count"]));
+        //     });
+        //     console.log("-----");
+        //     xValues.forEach(function(d, i) {
+        //         console.log("beh", xValues[i], yValues[i]);
+        //     })
+
+        //     xValues.reverse();
+        //     _lineChart.setXTickAlignment(TickAlignment.MIDDLE);
+        //     _lineChart.removeAllLines();
+        //     _lineChart.setTitle("TRIPS COUNT BY AGE");
+        //     _lineChart.setXAxisLabel("AGE");
+        //     _lineChart.setYAxisLabel("TRIPS COUNT");
+        //     _lineChart.addLine(xValues, yValues, "#3182bd");
+        // };
 
         var updateUserType = function(json) {
             xValues = ["Subscriber", "Customer"];

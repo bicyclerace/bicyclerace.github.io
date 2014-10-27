@@ -8,6 +8,7 @@
  */
 function UILineChartViewController2(parentController) {
     ViewController.call(this, parentController);
+    
     /////////////////////// PRIVATE ATTRIBUTES ///////////////////////
     var self = this;
 
@@ -17,10 +18,8 @@ function UILineChartViewController2(parentController) {
     var _xAxisLabel;
     var _yAxisLabel;
 
-
     // Holds data in d3 format
     var _data = [];
-
 
     // Scales
     var _xDomain = {min: null, max: null};
