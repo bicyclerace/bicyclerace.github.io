@@ -4,4 +4,5 @@
 
 .ui-view.view-controller.ui-weather-view-controller .ui-label-view-controller .text {
     font-size: 40px;
+    fill: rgba(255,255,255,1.0);
 }
