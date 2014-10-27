@@ -70,6 +70,10 @@ function UIPlayADayChartViewController(parentController) {
         updateChart();
     };
     
+    this.resetData = function() {
+        _data = [];
+    }
+    
     this.addData = function(d) {
         _data.push(d);
         _data = _.unique( _data, false, function(d) { return d.date } );
@@ -210,7 +214,8 @@ function UIPlayADayChartViewController(parentController) {
         _xAxis = d3.svg.axis()
             .scale(_xScale)
             .orient("bottom")
-            .outerTickSize(1);
+            .outerTickSize(1)
+            .ticks(4);
 
         // Setup y axis
         _yAxis = d3.svg.axis()

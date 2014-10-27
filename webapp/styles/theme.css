@@ -27,3 +27,7 @@ button:hover {
 .clickable-item {
     cursor: pointer;
 }
+
+.tools-container-controller .community-grid-button > .background {
+    fill: rgba(41,36,33,0.9);
+}

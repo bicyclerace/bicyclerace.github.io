@@ -4,11 +4,13 @@
     <p>
         Station popularity can be visualized by selecting the "Popularity" icon at the bottom menu bar.
     </p>
-    <video autoplay="true" loop="true">
-        <source src="assets/displayPopularity.mp4" type='video/mp4'/>
-    </video>
+    <div class="images">
+        <video autoplay="true" loop="true">
+            <source src="assets/displayPopularity.mp4" type='video/mp4'/>
+        </video>
+    </div>
     <p>
-        The level of Popularity is described by a color gradient ranging from
+        The level of popularity is described by a color gradient ranging from
         <span class="highlightme" style="background-image: linear-gradient(to right, #FECC5C , #BD0026)">yellow to red</span>,
         with <span style="background-color: #BD0026">red</span> denoting the most popular station, while
         <span style="background-color: #FECC5C">yellow</span> identifies the least popular stations.
@@ -26,15 +28,17 @@
 </section>
 <section>
     <h2>Viewing Overall Statistics</h2>
-    <video autoplay="true" loop="true">
-        <source src="assets/overallStatistics.mp4" type='video/mp4'/>
-    </video>
+    <div class="images">
+        <video autoplay="true" loop="true">
+            <source src="assets/overallStatistics.mp4" type='video/mp4'/>
+        </video>
+    </div>
     <p>
         There are three charts, each highlighting a different type of information
         about the divvy bike data.
     </p>
 
-    <h4>Divvy Bike Rider Demographics</h4>
+    <h4>Divvy rider demographics</h4>
     <p>
         The first of these charts (in the top-left corner) focuses on the Divvy
         Bike Rider Demographics, describing their Age, Gender, and how many are regular
@@ -52,7 +56,7 @@
         service compared to one time use customers.
     </p>
 
-    <h4>Number of Bikes by Day of Week, Hours of day, and Day of year</h4>
+    <h4>Number of bikes by day of week, <br>hour of day, and day of year</h4>
     <p>
         The next set of charts (top-right) examines the temporal aspects of the
         Divvy bike data by comparing the peak day of the week in terms of number
@@ -63,11 +67,12 @@
         bar-chart which displays the number of bikes out total for each day of the
         week.
     </p>
+    <p>
         Selecting the "Hours of day" button-icon displays a line graph of the peak
         hours of the day in which the most bikes were taken out. The time scale
         ranges from 03am to 09pm in increments of three hours along the x axis.
     </p>
-    <h4>Distribution of ride by distance, time, and distance traveled for each bike</h4>
+    <h4>Distribution of rides by distance, time, <br>and distance traveled for each bike</h4>
     <p>
         Each type of distribution can be examined by simply selecting the
         appropriate button-icon. When selecting the "Trip Distance" button, the
@@ -79,36 +84,83 @@
         view displays a bar chart with the duration of trips on the x axis and the
         number of trips as the y axis.
     </p>
-
-
+</section>
+<section>
+    <h2>Individual Station Overall Demographics [TODO]</h2>
+    <p>Section text (Kyle)</p>
 </section>
 <section>
     <h2>Play A Day</h2>
-    <video autoplay="true" loop="true">
-        <source src="assets/playADay01.mp4" type='video/mp4'/>
-    </video>
-    <p>Mention sunrise / sunset and weather.</p>
-    <p>And filtering</p>
-    <p>Section text</p>
-    Paul
+    <p>The "Play A Day" section of the application allows for a minute-by-minute
+    view of Divvy bike usage across Chicago. To switch to this mode, select
+    <strong>"Play A Day"</strong> from the bottom menu. Several features are
+    available:</p>
+    <ul>
+        <li>By clicking the calendar icon, you can select a specific month and day.</li>
+        <li>A specific time of day can be chosen by increasing or decreasing
+            hours and minutes, and selecting "AM" or "PM."
+        </li>
+        <li>Click the play button to begin animated Divvy bike usage for the
+            selected date. Divvy bikes are displayed as triangles that move
+            across the map from their departure station to their arrival station.
+        </li>
+        <li>
+            Divvy bikes will be shown travelling between selected stations.
+            Initially, all stations will be selected. You may select individual
+            stations by first clicking "None," to clear the selection, and then
+            clicking on particular stations of interest.
+        </li>
+        <li>After selecting a station, you may click "Community" to select
+            all stations in the most recently selected station's community.
+        </li>
+        <li>For a given time of day, the a sun/moon icon to the right of the
+            current time will indicate when the sun was rising or setting for
+            a given date and time.
+        </li>
+        <li>A box towards the upper right displays the weather conditions for the
+            selected date and time.
+        </li>
+        <li>To the right, a chart will continuously update as the day progresses,
+            showing the number of active Divvy bikes at each time of day. At any
+            time, you may select several filters – below the chart – to filter
+            the Divvy bike data. Filtering the data will also change the color
+            of active bikes shown on the map, with filtered bikes shown in blue.
+        </li>
+    </ul>
+    <div class="images">
+        <video autoplay="true" loop="true">
+            <source src="assets/playADay02.mp4" type='video/mp4'/>
+        </video>
+        <video autoplay="true" loop="true">
+            <source src="assets/playADay03.mp4" type='video/mp4'/>
+        </video>
+    </div>
 </section>
 <section>
-    <h2>Community Layer [NEED TO DO]</h2>
+    <h2>Community Layer</h2>
+    <p>
+        To see the boundaries of the iconic Chicagoan communities, click on the
+        map boundary button under the <strong>"Overall"</strong> view. The boundaries
+        are highlighted in a red, dashed line so that they stand out to the viewer,
+        without occluding ones view of the rest of the map. Each community area
+        conveniently carries a label with the community name centered within the
+        communities boundary, so it is easily identified from its neighbors. To
+        turn off the community areas, simply click on the map boundary button again.
+    </p>
+</section>
+<section>
+    <h2>Community Area Selection [TODO]</h2>
     <p>Section text</p>
-    Kyle
 </section>
 <section>
     <h2>Individual Station Inflow and Outflow</h2>
-    <video autoplay="true" loop="true">
-        <source src="assets/indivInflowOutflow.mp4" type='video/mp4'/>
-    </video>assassin
     <p>
         To examine the Individual Station Inflow and Outflow, select the
         <b>"Compare"</b> button-icon on the bottom menu bar. Grey, circular icons
         will appear where the stations are located on the map. When the user selects
         a station, it will turn orange to indicate that it has been selected, and
         a series of blue lines will appear extending from the selected station to
-        stations surrounding it. If the User selects <b>"outflow"</b> from the popup
+        stations surrounding it. If the User selects <b>"outflow"</b> from the pop up
         menu, a series of red lines will appear extending from the selected station to
         stations surrounding it on top of the blue lines. When the User selects "inflow"
         the blue lines are removed, showing only the red outflow lines. The User
@@ -116,40 +168,105 @@
         please.
 
     </p>
+    <h4>Inflow and outflow for two stations</h4>
+    <p>
+        In this same <strong>"Compare"</strong> view, any pair of stations can
+        be selected by clicking on each station. When exactly two stations are
+        selected, the flow balance between these two stations is shown with two
+        arrows. The width of each arrow corresponds to the relative flow of bikes
+        to and from each station.
+    </p>
+    <p>
+        When two stations are selected, a line chart is also displayed, showing
+        the number of rides between the two selected stations by time of day.
+    </p>
+    <div class="images">
+        <video autoplay="true" loop="true">
+            <source src="assets/CommunityLayer.mp4" type='video/mp4'/>
+        </video>
+        <video autoplay="true" loop="true">
+            <source src="assets/indivInflowOutflow.mp4" type='video/mp4'/>
+        </video>
+        <video autoplay="true" loop="true">
+            <source src="assets/compareInflowOutflow.mp4" type='video/mp4'/>
+        </video>
+    </div>
 </section>
 <section>
-    <h2>Individual Station Overall Demographics [NOT DONE?]</h2>
-    <p>Section text</p>
-    Kyle
+    <h2>Inflow and Outflow Differences</h2>
+    <p>By selecting <strong>"Flow Balance"</strong> from the bottom menu, you may view the
+    <strong>inflow and outflow difference</strong> for each station. Inflow and
+        outflow are measured as the number of Divvy bikes entering or exiting
+        a station per hour.
+        <ul><li>
+            Stations are colored according to their relative inflow and outflow
+            – stations with high outflow are red, and stations
+        with high inflow are blue.
+        </li>
+            <li>A specific station's inflow and outflow can be seen by
+            double-clicking
+                on that station.
+            </li>
+        </ul>
+
+    </p>
+    <div class="images">
+        <video autoplay="true" loop="true">
+            <source src="assets/flowBalance01.mp4" type='video/mp4'/>
+        </video>
+    </div>
 </section>
 <section>
-    <h2>Patterns Based on Time of Day</h2>
-    <video autoplay="true" loop="true">
-        <source src="assets/timeOfDatPatterns.mp4" type='video/mp4'/>
-    </video>
+    <h2>Patterns Based on the Time of Day</h2>
+    <div class="images">
+        <video autoplay="true" loop="true">
+            <source src="assets/timeOfDatPatterns.mp4" type='video/mp4'/>
+        </video>
+    </div>
     <p>
         To view patterns of movement based on the time of day, the user simply
-        selects the "Patterns" button-icon on the bottom menu. Immediately a
+        selects the <strong>"Patterns"</strong> button-icon on the bottom menu. Immediately a
         second menu appears listing typical periods of movement throughout the day.
         For example, to see what the morning commute around the city looks like,
         select <b>"Morning"</b>.
     </p>
 </section>
 <section>
-    <h2>Flow Balance - Inflow and Outflow Differences</h2>
-    <p>Section text</p>
-    Paul
-</section>
-<section>
-    <h2>Community Area Selection [NEED TO DO]</h2>
-    <p>Section text</p>
-    Paul
-</section>
-<section>
-    <h2>Compare Two Stations</h2>
-    Paul
-</section>
-<section>
     <h2>Multiple Maps</h2>
-    Paul
+    <p>At any time, you may bring up an additional map interface by selecting
+        the circle near the bottom-left corner of the overview map. For each
+        map, a bounding box is shown, and each box is colored green or orange,
+        which corresponds to the color of the bar at the top of each map display.
+    </p>
+    <p>Each map contains a fully independent interface, and any of the views
+        described above can be accessed within each map.
+    </p>
+    <div class="images">
+        <video autoplay="true" loop="true">
+            <source src="assets/twoMaps01.mp4" type='video/mp4'/>
+        </video>
+        <video autoplay="true" loop="true">
+            <source src="assets/twoMaps02.mp4" type='video/mp4'/>
+        </video>
+    </div>
 </section>
+
+<script>
+    $("main").children().wrap('<div class="row" />');
+
+    $("section").each(function() {
+        var section = $(this);
+        var images = section.find(".images");
+        var other = section.children().not(images);
+        other.wrapAll('<div class="col-lg-6" />');
+        images.addClass("col-lg-6");
+        var videoWrap = $('<div>')
+            .addClass('embed-responsive embed-responsive-16by9 img-thumbnail');
+        section.find("video").addClass("embed-responsive-item")
+            .wrap(videoWrap);
+        // console.log(images.get());
+        images.wrapAll('<div class="col-lg-6 />');
+        // console.log(other.get());
+    });
+    $("video").each(function() { this.load(); });
+</script>

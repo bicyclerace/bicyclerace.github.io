@@ -236,6 +236,29 @@ function DBModel() {
         );
     };
 
+
+    /**
+     * overall flow
+     * @param limit
+     * @param callback
+     */
+    self.getStationsFlow = function(limit, callback) {
+
+        var apiUrl = "get_stations_flow.php?limit=" + limit;
+        var url = _dbServer + apiUrl;
+        logUrl(url);
+
+        cache(  apiUrl,
+            callback,
+            function(){
+                logUrl(url);
+                $.getJSON(url)
+                    .done(callback)
+                    .fail(_failCallback);
+            }
+        );
+    };
+
     /**
      *
      * @param callback
@@ -303,8 +326,9 @@ function DBModel() {
                 .done(function(j){return callback(j[0]);})
                 .fail(_failCallback);
 
-
     };
+
+
 
     /**
      *
@@ -335,6 +359,97 @@ function DBModel() {
                 .fail(_failCallback);
 
     };
+
+    /**
+     * @param stationId
+     * @param callback
+     */
+    self.getRidersGenderArrivingByStation = function(stationId, callback) {
+
+        var url = _dbServer + "get_riders_gender_arriving_by_station.php?station_id=" + stationId;
+        logUrl(url);
+        $.getJSON(url)
+            .done(function(j){return callback(j[0]);})
+            .fail(_failCallback);
+
+    }
+
+    /**
+     * @param stationId
+     * @param callback
+     */
+    self.getRidersGenderLeavingByStation = function(stationId, callback) {
+
+        var url = _dbServer + "get_riders_gender_leaving_by_station.php?station_id=" + stationId;
+        logUrl(url);
+        $.getJSON(url)
+            .done(function(j){return callback(j[0]);})
+            .fail(_failCallback);
+
+    };
+
+
+    /**
+     * @param stationId
+     * @param callback
+     */
+    self.getRidersAgeArrivingByStation = function(stationId, callback) {
+
+        var url = _dbServer + "get_riders_age_arriving_by_station.php?station_id=" + stationId;
+        logUrl(url);
+        $.getJSON(url)
+            .done(callback)
+            .fail(_failCallback);
+
+
+    };
+
+
+    /**
+     * @param stationId
+     * @param callback
+     */
+    self.getRidersAgeLeavingByStation = function(stationId, callback) {
+
+        var url = _dbServer + "get_riders_age_leaving_by_station.php?station_id=" + stationId;
+        logUrl(url);
+        $.getJSON(url)
+            .done(callback)
+            .fail(_failCallback);
+
+
+    };
+
+
+    /**
+     * @param stationId
+     * @param callback
+     */
+    self.getRidersUsertypeArrivingByStation = function(stationId, callback) {
+
+        var url = _dbServer + "get_riders_usertype_arriving_by_station.php?station_id=" + stationId;
+        logUrl(url);
+        $.getJSON(url)
+            .done(function(j){return callback(j[0]);})
+            .fail(_failCallback);
+
+    };
+
+
+    /**
+     * @param stationId
+     * @param callback
+     */
+    self.getRidersUsertypeLeavingByStation = function(stationId, callback) {
+
+        var url = _dbServer + "get_riders_usertype_leaving_by_station.php?station_id=" + stationId;
+        logUrl(url);
+        $.getJSON(url)
+            .done(function(j){return callback(j[0]);})
+            .fail(_failCallback);
+
+    };
+
 
     /**
      *

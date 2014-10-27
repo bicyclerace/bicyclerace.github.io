@@ -18,7 +18,10 @@ function MapViewController(parentController, htmlContainer) {
     var _mapContainer;
     var _defaultZoom = 13;
     
-    var _mapID = 'krbalmryde.jk1dm68f';
+    var _mapID = {
+        aerial: 'macs91.k25dm9i2',
+        map: 'krbalmryde.jk1dm68f'
+    };
     var _mapURL = 'https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png';
     var _mapAttribution = 'Map data &copy; ' +
         '<a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
@@ -164,12 +167,36 @@ function MapViewController(parentController, htmlContainer) {
 
         // Initializing the _mapTilesLayer
         _mapTilesLayer = L.tileLayer(_mapURL, {
-            id: _mapID, 
+            id: _mapID.map,
             maxZoom: 20,
             attribution: _mapAttribution
         });
 
-        draw();
+        // Draw the map container box
+        _mapContainer = L.map(_htmlContainer.node());
+        _mapContainer.setView(self.getModel().getMapModel().getDefaultFocusPoint(), _defaultZoom);
+
+        var tileLayers = {
+            aerial: L.tileLayer(_mapURL, {
+                id: _mapID.aerial,
+                maxZoom: 20,
+                attribution: _mapAttribution
+            }),
+            map: L.tileLayer(_mapURL, {
+                id: _mapID.map,
+                maxZoom: 20,
+                attribution: _mapAttribution
+            })
+        };
+
+        // Add the base map layer to the map container box
+        _mapContainer.addLayer(tileLayers.map);
+
+        L.control.layers(tileLayers,[], {position: "topleft"}).addTo(_mapContainer);
+
+
+        _svgLayerGroup = self.getView().getSvg().append("g");
+        //draw();
 
         self.getModel().getMapModel().setMap(_mapContainer);
 

@@ -18,7 +18,7 @@ function MapLayerViewControllersFactory() {
         var layersControllers = [];
         switch(visualizationType) {
             case VisualizationType.OVERALL_STATISTICS:
-//                layersControllers.push(CommunityGridLayerViewController);
+                layersControllers.push(CommunityGridLayerViewController);
                 break;
             case VisualizationType.COMPARE:
                 layersControllers.push(CompareLayerViewController);
@@ -26,8 +26,8 @@ function MapLayerViewControllersFactory() {
                 layersControllers.push(CompareTwoStationsLayerViewController);
                 break;
             case VisualizationType.STATION_POPULARITY:
+                layersControllers.push(CommunityGridLayerViewController);
                 layersControllers.push(StationsPopularityLayerViewController);
-                //layersControllers.push(CommunityGridLayerViewController);
                 break;
             case VisualizationType.PLAY_A_DAY:
                 layersControllers.push(SelectStationLayerViewController);
