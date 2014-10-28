@@ -261,7 +261,7 @@ function CompareFlowChartViewController(parentController) {
             yValues.push(parseInt(json["Unknown"]));
 
             _columnChart.setTitle("TRIPS COUNT BY GENDER");
-            _columnChart.setData(xValues, yValues, "GENDER", "TRIPS COUNT", ["#67A9CF", "#E9A3C9", "#bababa"]);
+            _columnChart.setData(xValues, yValues, "GENDER", "TRIPS", ["#67A9CF", "#E9A3C9", "#bababa"]);
         };
         
         var updateAge = function(json) {
@@ -288,7 +288,7 @@ function CompareFlowChartViewController(parentController) {
             _lineChart.removeAllLines();
             _lineChart.setTitle("TRIPS COUNT BY AGE");
             _lineChart.setXAxisLabel("AGE");
-            _lineChart.setYAxisLabel("TRIPS COUNT");
+            _lineChart.setYAxisLabel("TRIPS");
             _lineChart.addLine(xValues, yValues, "#3182bd");
 
         };
@@ -300,7 +300,7 @@ function CompareFlowChartViewController(parentController) {
             yValues.push(parseInt(json["Customer"]));
 
             _columnChart.setTitle("TRIPS COUNT BY USER TYPE");
-            _columnChart.setData(xValues, yValues, "USER TYPE", "TRIPS COUNT", ["#8dd3c7", "#fb8072"]);
+            _columnChart.setData(xValues, yValues, "USER TYPE", "TRIPS", ["#8dd3c7", "#fb8072"]);
         };
         
         var updateDataThen = function(func, combine) {
@@ -403,7 +403,7 @@ function CompareFlowChartViewController(parentController) {
 
             _columnChart.getView().show();
             _lineChart.getView().hide();
-            _columnChart.setTitle("TRIPS COUNT");
+            _columnChart.setTitle("TRIPS");
             _columnChart.setData(xValues, yValues, "TRIP TYPE", "TRIPS", ["#8dd3c7", "#fb8072"]);
         });
     };

@@ -143,7 +143,7 @@ function RidesDistributionChartViewController(parentController) {
                     _lineChart.removeAllLines();
                     _lineChart.setTitle("TRIPS COUNT BY DISTANCE");
                     _lineChart.setXAxisLabel("DISTANCE");
-                    _lineChart.setYAxisLabel("TRIPS COUNT");
+                    _lineChart.setYAxisLabel("TRIPS");
                     _lineChart.removeAllLines();
                     _lineChart.addLine(xValues, yValues, "#3182bd");
                 });
@@ -170,7 +170,7 @@ function RidesDistributionChartViewController(parentController) {
                     yValues.push(aggregateCount);
 
                     _columnChart.setTitle("TRIPS COUNT BY TIME");
-                    _columnChart.setData(xValues, yValues, "TIME", "TRIPS COUNT", ["#3182bd"]);
+                    _columnChart.setData(xValues, yValues, "TIME", "TRIPS", ["#3182bd"]);
                 });
 
                 _columnChart.getView().show();
@@ -197,7 +197,7 @@ function RidesDistributionChartViewController(parentController) {
                     _lineChart.removeAllLines();
                     _lineChart.setTitle("BIKES COUNT BY DISTANCE");
                     _lineChart.setXAxisLabel("DISTANCE");
-                    _lineChart.setYAxisLabel("BIKES COUNT");
+                    _lineChart.setYAxisLabel("BIKES");
                     _lineChart.removeAllLines();
                     _lineChart.addLine(xValues, yValues, "#3182bd");
                 });
