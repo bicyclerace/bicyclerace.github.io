@@ -496,7 +496,7 @@ function CompareFlowChartViewController(parentController) {
 
         // Add line chart
         _compareTwoLineChart = new  UILineChartViewController(self);
-        _compareTwoLineChart.setTitle("Overall number of rides from  27 Jun 2013 to  31 Dec 2013");
+        _compareTwoLineChart.setTitle("Cumulative number of rides from  27 Jun 2013 to  31 Dec 2013");
         self.add(_compareTwoLineChart);
 
         // Add column chart
