@@ -92,8 +92,8 @@
 <section>
     <h2>Play A Day</h2>
     <p>The "Play A Day" section of the application allows for a minute-by-minute
-    view of Divvy bike usage across Chicago. To switch to this mode, select 
-    <strong>"Play A Day"</strong> from the bottom menu. Several features are 
+    view of Divvy bike usage across Chicago. To switch to this mode, select
+    <strong>"Play A Day"</strong> from the bottom menu. Several features are
     available:</p>
     <ul>
         <li>By clicking the calendar icon, you can select a specific month and day.</li>
@@ -105,7 +105,7 @@
             across the map from their departure station to their arrival station.
         </li>
         <li>
-            Divvy bikes will be shown travelling between selected stations. 
+            Divvy bikes will be shown travelling between selected stations.
             Initially, all stations will be selected. You may select individual
             stations by first clicking "None," to clear the selection, and then
             clicking on particular stations of interest.
@@ -137,12 +137,46 @@
     </div>
 </section>
 <section>
-    <h2>Community Layer [TODO]</h2>
-    <p>Section text</p>
-</section>
-<section>
-    <h2>Community Area Selection [TODO]</h2>
-    <p>Section text</p>
+    <h2>Community Layer</h2>
+    <p>
+        To see the boundaries of the iconic Chicagoan communities, click on the
+        map boundary button under the <strong>"Overall"</strong> view. The boundaries
+        are highlighted in a red, dashed line so that they stand out to the viewer,
+        without occluding ones view of the rest of the map. Each community area
+        conveniently carries a label with the community name centered within the
+        communities boundary, so it is easily identified from its neighbors. To
+        turn off the community areas, simply click on the map boundary button again.
+    </p>
+
+    <h2>Community Area Selection</h2>
+    <p>
+        To select an entire community area, first select a station in a region of
+        interest. Then, select the <strong>COMMUNITY</strong> button-icon near the
+        bottom menu. You will notice immediately that all stations within that
+        community are selected. To add additional community areas, simply select
+        a station in a community area of interest, and click the <strong>COMMUNITY</strong>
+        button-icon again.
+        </br>
+        To deselect a community area, deselect a station within a selected region,
+        and (you guessed it) select the <strong>COMMUNITY</strong> button-icon.
+        This will result in all the stations within the community area being deselected.
+        </br>
+        To select <strong>All</strong> community areas, click on the <strong>ALL</strong>
+        button-icon near the bottom menu. This will select every station in every
+        community.
+        </br>
+        To deselect all community areas, click on the <strong>NONE</strong> button-icon
+        near the bottom menu. This will remove all selected stations.
+    </p>
+    <div class="images">
+        <video autoplay="true" loop="true">
+            <source src="assets/CommunityLayer.mp4" type='video/mp4'/>
+        </video>
+        <video autoplay="true" loop="true">
+            <source src="assets/CommunitySelection.mp4" type='video/mp4'/>
+        </video>
+    </div>
+
 </section>
 <section>
     <h2>Individual Station Inflow and Outflow</h2>
@@ -163,12 +197,12 @@
     <h4>Inflow and outflow for two stations</h4>
     <p>
         In this same <strong>"Compare"</strong> view, any pair of stations can
-        be selected by clicking on each station. When exactly two stations are 
+        be selected by clicking on each station. When exactly two stations are
         selected, the flow balance between these two stations is shown with two
         arrows. The width of each arrow corresponds to the relative flow of bikes
         to and from each station.
     </p>
-    <p> 
+    <p>
         When two stations are selected, a line chart is also displayed, showing
         the number of rides between the two selected stations by time of day.
     </p>
@@ -183,21 +217,21 @@
 </section>
 <section>
     <h2>Inflow and Outflow Differences</h2>
-    <p>By selecting <strong>"Flow Balance"</strong> from the bottom menu, you may view the 
-    <strong>inflow and outflow difference</strong> for each station. Inflow and 
+    <p>By selecting <strong>"Flow Balance"</strong> from the bottom menu, you may view the
+    <strong>inflow and outflow difference</strong> for each station. Inflow and
         outflow are measured as the number of Divvy bikes entering or exiting
-        a station per hour. 
+        a station per hour.
         <ul><li>
-            Stations are colored according to their relative inflow and outflow 
+            Stations are colored according to their relative inflow and outflow
             – stations with high outflow are red, and stations
         with high inflow are blue.
         </li>
-            <li>A specific station's inflow and outflow can be seen by 
+            <li>A specific station's inflow and outflow can be seen by
             double-clicking
                 on that station.
             </li>
         </ul>
-        
+
     </p>
     <div class="images">
         <video autoplay="true" loop="true">
@@ -243,7 +277,7 @@
 <script>addBootstrap();</script>
 <script>
     // $("main").children().wrap('<div class="row" />');
-            
+
     // $("section").each(function() {
     //     var section = $(this);
     //     var images = section.find(".images");

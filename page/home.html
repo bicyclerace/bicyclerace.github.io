@@ -4,20 +4,21 @@
 </section>
 <section>
     <video autoplay="true" loop="true">
-        <source src="assets/home02.mp4" type='video/mp4'/>
+        <source src="assets/VideoDemo.mp4" type='video/mp4'/>
+        <!-- <source src="assets/home02.mp4" type='video/mp4'/> -->
     </video>
 </section>
 
 <script>
     $("main").children().wrap('<div class="row" />');
-            
+
     $("section").each(function() {
         var section = $(this);
         section.wrapAll('<div class="col-xs-12" />');
-        
+
         var videoWrap = $('<div>')
             .addClass('embed-responsive embed-responsive-16by9');
-            
+
         section.find("video").addClass("embed-responsive-item")
             .wrap(videoWrap).css("height", "50%");
     });
