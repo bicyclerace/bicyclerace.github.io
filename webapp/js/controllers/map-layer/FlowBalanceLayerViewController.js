@@ -46,7 +46,7 @@ function FlowBalanceLayerViewController(parentController) {
         var popup = new MapLayerPopupViewController(self);
 
         var contentBox = {
-            width: 20,
+            width: 22,
             height: 15,
             scale: 17
         };
@@ -108,7 +108,7 @@ function FlowBalanceLayerViewController(parentController) {
         label = new UILabelViewController(self);
         label.getView().setFrame(infoBox.x + flowWidth, contentBox.padding.top + titleBox.height, flowWidth *2, labelHeight);
         label.getView().setViewBox(0, 0, flowWidth *2, labelHeight);
-        label.setText(parseInt(station.inflow) + " bikes/hour");
+        label.setText(Math.round(station.inflow) + " bikes/hour");
 
         _containerVC.add(label);
 
@@ -125,7 +125,7 @@ function FlowBalanceLayerViewController(parentController) {
         label.getView()
             .setFrame(titleBox.x + flowWidth, contentBox.padding.top + titleBox.height + labelHeight, flowWidth *2, labelHeight);
         label.getView().setViewBox(0, 0, flowWidth *2, labelHeight);
-        label.setText(parseInt(station.outflow) + " bikes/hour");
+        label.setText(Math.round(station.outflow) + " bikes/hour");
 
         _containerVC.add(label);
 
@@ -142,7 +142,7 @@ function FlowBalanceLayerViewController(parentController) {
         label.getView()
             .setFrame(titleBox.x + flowWidth, contentBox.padding.top + titleBox.height + labelHeight *2, flowWidth *2, labelHeight);
         label.getView().setViewBox(0, 0, flowWidth *2, labelHeight);
-        label.setText(parseInt(Math.abs(station.imbalance)) + " bikes/hour");
+        label.setText(Math.round(Math.abs(Math.round(station.inflow) - Math.round(station.outflow))) + " bikes/hour");
 
         _containerVC.add(label);
 
