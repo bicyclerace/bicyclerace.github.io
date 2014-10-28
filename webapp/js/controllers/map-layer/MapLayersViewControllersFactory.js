@@ -18,28 +18,32 @@ function MapLayerViewControllersFactory() {
         var layersControllers = [];
         switch(visualizationType) {
             case VisualizationType.COMPARE:
+                layersControllers.push(CommunityGridLayerViewController);
                 layersControllers.push(CompareLayerViewController);
                 layersControllers.push(SelectStationLayerViewController);
                 layersControllers.push(CompareTwoStationsLayerViewController);
                 layersControllers.push(CompareLayerPopupsViewController);
                 break;
             case VisualizationType.STATION_POPULARITY:
+                layersControllers.push(CommunityGridLayerViewController);
                 layersControllers.push(StationsPopularityLayerViewController);
                 break;
             case VisualizationType.PLAY_A_DAY:
+                layersControllers.push(CommunityGridLayerViewController);
                 layersControllers.push(SelectStationLayerViewController);
                 layersControllers.push(PlayADayLayerViewController);
                 layersControllers.push(PlayADayPopupsViewController);
                 break;
             case VisualizationType.STATION_FLOW_BALANCE:
+                layersControllers.push(CommunityGridLayerViewController);
                 layersControllers.push(FlowBalanceLayerViewController);
                 break;
             case VisualizationType.DAY_PATTERNS:
+                layersControllers.push(CommunityGridLayerViewController);
                 layersControllers.push(SelectStationLayerViewController);
                 layersControllers.push(OverallFlorLayerViewController);
                 break;
         }
-        layersControllers.push(CommunityGridLayerViewController);
         return layersControllers;
     };
 
