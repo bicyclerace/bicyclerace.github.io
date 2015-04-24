@@ -108,6 +108,8 @@ function MapViewController(parentController, htmlContainer) {
 
     this.onMapReset = function() {
 
+
+
         var topLeftCoord = self.getModel().getMapModel().getTopLeftCoordOfInterest();
         var bottomRightCoord = self.getModel().getMapModel().getBottomRightCoordOfInterest();
 
