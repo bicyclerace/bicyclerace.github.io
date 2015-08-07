@@ -231,7 +231,8 @@ function UILineChartViewController(parentController) {
         var xAxis = d3.svg.axis()
             .scale(_xScale)
             .orient("bottom")
-            .outerTickSize(1);
+            .outerTickSize(1)
+            .ticks(6)
 
         if(_xTickFormat != null) {
             xAxis.tickFormat(_xTickFormat);
