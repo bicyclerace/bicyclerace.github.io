@@ -3,6 +3,7 @@
  * @type {Utils|*|{}}
  */
 var Utils = Utils || {} ;
+
  Utils.extend = function (superclass, base) {
     // Avoid instantiating the base class just to setup inheritance
     // See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create
